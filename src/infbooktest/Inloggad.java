@@ -5,16 +5,20 @@
  */
 package infbooktest;
 
+import java.sql.Connection;
+
 /**
  *
  * @author Henrik
  */
 public class Inloggad extends javax.swing.JFrame {
 
+    private Connection connection;
     /**
      * Creates new form Inloggad
      */
-    public Inloggad() {
+    public Inloggad(Connection connection) {
+        this.connection = connection;
         initComponents();
     }
 
@@ -133,7 +137,7 @@ public class Inloggad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-        // TODO add your handling code here:
+        new SkapaInlagg(connection).setVisible(true);
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
