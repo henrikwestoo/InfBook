@@ -40,8 +40,9 @@ public class Inloggad extends javax.swing.JFrame {
         pnlInformell = new javax.swing.JPanel();
         lblFloden = new javax.swing.JLabel();
         btnSkapaInlagg = new javax.swing.JButton();
+        btnSkapaUnderkategori = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         txaUtbildning.setColumns(20);
         txaUtbildning.setRows(5);
@@ -53,14 +54,14 @@ public class Inloggad extends javax.swing.JFrame {
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUtbildningLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlUtbildningLayout.setVerticalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUtbildningLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -72,11 +73,11 @@ public class Inloggad extends javax.swing.JFrame {
         pnlForskning.setLayout(pnlForskningLayout);
         pnlForskningLayout.setHorizontalGroup(
             pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+            .addGap(0, 717, Short.MAX_VALUE)
         );
         pnlForskningLayout.setVerticalGroup(
             pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 296, Short.MAX_VALUE)
+            .addGap(0, 549, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Forskning", pnlForskning);
@@ -87,11 +88,11 @@ public class Inloggad extends javax.swing.JFrame {
         pnlInformell.setLayout(pnlInformellLayout);
         pnlInformellLayout.setHorizontalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+            .addGap(0, 717, Short.MAX_VALUE)
         );
         pnlInformellLayout.setVerticalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 296, Short.MAX_VALUE)
+            .addGap(0, 549, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Informell", pnlInformell);
@@ -105,18 +106,27 @@ public class Inloggad extends javax.swing.JFrame {
             }
         });
 
+        btnSkapaUnderkategori.setText("Skapa underkategori");
+        btnSkapaUnderkategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSkapaUnderkategoriActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(71, 71, 71)
-                .addComponent(btnSkapaInlagg)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSkapaInlagg)
+                    .addComponent(btnSkapaUnderkategori))
                 .addGap(175, 175, 175)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFloden)
-                    .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,12 +135,14 @@ public class Inloggad extends javax.swing.JFrame {
                 .addComponent(lblFloden)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(btnSkapaInlagg)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(btnSkapaInlagg)
+                        .addGap(46, 46, 46)
+                        .addComponent(btnSkapaUnderkategori))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,8 +152,13 @@ public class Inloggad extends javax.swing.JFrame {
         new SkapaInlagg(connection).setVisible(true);
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
+    private void btnSkapaUnderkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaUnderkategoriActionPerformed
+new SkapaKategori(connection).setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_btnSkapaUnderkategoriActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSkapaInlagg;
+    private javax.swing.JButton btnSkapaUnderkategori;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFloden;
