@@ -41,12 +41,12 @@ public class Profil extends javax.swing.JFrame {
         btnRedigeraInfo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblFornamnDB = new javax.swing.JLabel();
+        lblEfternamnDB = new javax.swing.JLabel();
+        lblAnvandarstatusDB = new javax.swing.JLabel();
+        lblTlfnrDB = new javax.swing.JLabel();
+        lblEpostDB = new javax.swing.JLabel();
+        lblRumsnrDB = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -75,17 +75,17 @@ public class Profil extends javax.swing.JFrame {
         jTextArea1.setText("det här är en bild :)\n");
         jScrollPane1.setViewportView(jTextArea1);
 
-        jLabel1.setText("jLabel1");
+        lblFornamnDB.setText("jLabel1");
 
-        jLabel2.setText("jLabel1");
+        lblEfternamnDB.setText("jLabel1");
 
-        jLabel3.setText("jLabel1");
+        lblAnvandarstatusDB.setText("jLabel1");
 
-        jLabel4.setText("jLabel1");
+        lblTlfnrDB.setText("jLabel1");
 
-        jLabel5.setText("jLabel1");
+        lblEpostDB.setText("jLabel1");
 
-        jLabel6.setText("jLabel1");
+        lblRumsnrDB.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,21 +103,21 @@ public class Profil extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblEfternamn)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
+                                    .addComponent(lblFornamnDB)
+                                    .addComponent(lblEfternamnDB))
                                 .addGap(176, 176, 176)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
+                                    .addComponent(lblEpostDB)
+                                    .addComponent(lblTlfnrDB)
                                     .addComponent(lblEpost)
                                     .addComponent(lblMobil)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAnvandarstatus)
-                                    .addComponent(jLabel3))
+                                    .addComponent(lblAnvandarstatusDB))
                                 .addGap(144, 144, 144)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
+                                    .addComponent(lblRumsnrDB)
                                     .addComponent(lblRumsnummer)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(163, 163, 163)
@@ -135,24 +135,24 @@ public class Profil extends javax.swing.JFrame {
                     .addComponent(lblMobil))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4))
+                    .addComponent(lblFornamnDB)
+                    .addComponent(lblTlfnrDB))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEfternamn)
                     .addComponent(lblEpost))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5))
+                    .addComponent(lblEfternamnDB)
+                    .addComponent(lblEpostDB))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAnvandarstatus)
                     .addComponent(lblRumsnummer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(lblAnvandarstatusDB)
+                    .addComponent(lblRumsnrDB))
                 .addGap(50, 50, 50)
                 .addComponent(btnRedigeraInfo)
                 .addGap(20, 20, 20))
@@ -164,19 +164,19 @@ public class Profil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRedigeraInfo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblAnvandarstatus;
+    private javax.swing.JLabel lblAnvandarstatusDB;
     private javax.swing.JLabel lblEfternamn;
+    private javax.swing.JLabel lblEfternamnDB;
     private javax.swing.JLabel lblEpost;
+    private javax.swing.JLabel lblEpostDB;
     private javax.swing.JLabel lblFornamn;
+    private javax.swing.JLabel lblFornamnDB;
     private javax.swing.JLabel lblMobil;
+    private javax.swing.JLabel lblRumsnrDB;
     private javax.swing.JLabel lblRumsnummer;
+    private javax.swing.JLabel lblTlfnrDB;
     // End of variables declaration//GEN-END:variables
 }
