@@ -115,6 +115,11 @@ public class Inloggad extends javax.swing.JFrame {
         });
 
         btnMinProfil.setText("Min profil");
+        btnMinProfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMinProfilActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,8 +164,12 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     private void btnSkapaUnderkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaUnderkategoriActionPerformed
-new SkapaKategori(connection).setVisible(true);// TODO add your handling code here:
+        new SkapaKategori(connection).setVisible(true);
     }//GEN-LAST:event_btnSkapaUnderkategoriActionPerformed
+
+    private void btnMinProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinProfilActionPerformed
+        new Profil(connection).setVisible(true);
+    }//GEN-LAST:event_btnMinProfilActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMinProfil;
