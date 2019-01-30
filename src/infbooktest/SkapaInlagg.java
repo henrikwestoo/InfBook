@@ -45,7 +45,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
         btnSkapaInlagg = new javax.swing.JButton();
         btnBifogaFiler = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         txaInlagg.setColumns(20);
         txaInlagg.setRows(5);

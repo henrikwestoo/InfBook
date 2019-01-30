@@ -106,7 +106,7 @@ public class Inloggning extends javax.swing.JFrame {
         try {
 
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM LARARE WHERE LARAR_ID =" + angivetAnv);
+            ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR=" + angivetAnv);
             
             rs.next();
             
