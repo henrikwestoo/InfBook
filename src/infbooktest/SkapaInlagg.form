@@ -53,7 +53,7 @@
                       <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="68" max="32767" attributes="0"/>
+              <EmptySpace pref="74" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -168,7 +168,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnNyKategori">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Skapa ny subkategori"/>
+        <Property name="text" type="java.lang.String" value="Skapa underkategori"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnSkapaInlagg">

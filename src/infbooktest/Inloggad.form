@@ -6,7 +6,7 @@
     </Component>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -32,6 +32,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSkapaUnderkategori" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnMinProfil" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="175" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -51,8 +52,10 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnSkapaUnderkategori" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnMinProfil" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
@@ -192,6 +195,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSkapaUnderkategoriActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnMinProfil">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Min profil"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

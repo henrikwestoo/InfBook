@@ -68,7 +68,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
 
         lblSubkategori.setText("Välj subkategori");
 
-        btnNyKategori.setText("Skapa ny subkategori");
+        btnNyKategori.setText("Skapa underkategori");
 
         btnSkapaInlagg.setText("Skapa inlägg");
 
@@ -101,7 +101,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(168, 168, 168)
                         .addComponent(btnSkapaInlagg)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

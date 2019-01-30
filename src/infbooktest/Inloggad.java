@@ -41,8 +41,9 @@ public class Inloggad extends javax.swing.JFrame {
         lblFloden = new javax.swing.JLabel();
         btnSkapaInlagg = new javax.swing.JButton();
         btnSkapaUnderkategori = new javax.swing.JButton();
+        btnMinProfil = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         txaUtbildning.setColumns(20);
         txaUtbildning.setRows(5);
@@ -113,6 +114,8 @@ public class Inloggad extends javax.swing.JFrame {
             }
         });
 
+        btnMinProfil.setText("Min profil");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,7 +124,8 @@ public class Inloggad extends javax.swing.JFrame {
                 .addGap(71, 71, 71)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSkapaInlagg)
-                    .addComponent(btnSkapaUnderkategori))
+                    .addComponent(btnSkapaUnderkategori)
+                    .addComponent(btnMinProfil))
                 .addGap(175, 175, 175)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFloden)
@@ -137,8 +141,10 @@ public class Inloggad extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(btnSkapaInlagg)
-                        .addGap(46, 46, 46)
-                        .addComponent(btnSkapaUnderkategori))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSkapaUnderkategori)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnMinProfil))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -157,6 +163,7 @@ new SkapaKategori(connection).setVisible(true);// TODO add your handling code he
     }//GEN-LAST:event_btnSkapaUnderkategoriActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMinProfil;
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaUnderkategori;
     private javax.swing.JScrollBar jScrollBar1;
