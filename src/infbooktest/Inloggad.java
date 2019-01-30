@@ -27,33 +27,124 @@ public class Inloggad extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jScrollBar1 = new javax.swing.JScrollBar();
+        tabFlode = new javax.swing.JTabbedPane();
+        pnlUtbildning = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txaUtbildning = new javax.swing.JTextArea();
+        pnlForskning = new javax.swing.JPanel();
+        pnlInformell = new javax.swing.JPanel();
+        lblFloden = new javax.swing.JLabel();
+        btnSkapaInlagg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("inloggad");
+        txaUtbildning.setColumns(20);
+        txaUtbildning.setRows(5);
+        jScrollPane1.setViewportView(txaUtbildning);
+
+        javax.swing.GroupLayout pnlUtbildningLayout = new javax.swing.GroupLayout(pnlUtbildning);
+        pnlUtbildning.setLayout(pnlUtbildningLayout);
+        pnlUtbildningLayout.setHorizontalGroup(
+            pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUtbildningLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlUtbildningLayout.setVerticalGroup(
+            pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUtbildningLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabFlode.addTab("Utbildning", pnlUtbildning);
+
+        pnlForskning.setMinimumSize(new java.awt.Dimension(200, 200));
+
+        javax.swing.GroupLayout pnlForskningLayout = new javax.swing.GroupLayout(pnlForskning);
+        pnlForskning.setLayout(pnlForskningLayout);
+        pnlForskningLayout.setHorizontalGroup(
+            pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 417, Short.MAX_VALUE)
+        );
+        pnlForskningLayout.setVerticalGroup(
+            pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 296, Short.MAX_VALUE)
+        );
+
+        tabFlode.addTab("Forskning", pnlForskning);
+
+        pnlInformell.setPreferredSize(new java.awt.Dimension(500, 500));
+
+        javax.swing.GroupLayout pnlInformellLayout = new javax.swing.GroupLayout(pnlInformell);
+        pnlInformell.setLayout(pnlInformellLayout);
+        pnlInformellLayout.setHorizontalGroup(
+            pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 417, Short.MAX_VALUE)
+        );
+        pnlInformellLayout.setVerticalGroup(
+            pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 296, Short.MAX_VALUE)
+        );
+
+        tabFlode.addTab("Informell", pnlInformell);
+
+        lblFloden.setText("Flöden");
+
+        btnSkapaInlagg.setText("Skapa inlägg");
+        btnSkapaInlagg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSkapaInlaggActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(232, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(107, 107, 107))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(btnSkapaInlagg)
+                .addGap(175, 175, 175)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFloden)
+                    .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jLabel1)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(lblFloden)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(btnSkapaInlagg)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSkapaInlaggActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnSkapaInlagg;
+    private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblFloden;
+    private javax.swing.JPanel pnlForskning;
+    private javax.swing.JPanel pnlInformell;
+    private javax.swing.JPanel pnlUtbildning;
+    private javax.swing.JTabbedPane tabFlode;
+    private javax.swing.JTextArea txaUtbildning;
     // End of variables declaration//GEN-END:variables
 }
