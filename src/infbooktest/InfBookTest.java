@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class InfBookTest {
 
-    private static Connection connection; //hej
+    private static Connection connection; //hejhej
 
     public static void main(String[] args) {
 
