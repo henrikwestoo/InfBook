@@ -148,7 +148,7 @@ public class Inloggad extends javax.swing.JFrame {
                         .addComponent(btnSkapaInlagg)
                         .addGap(18, 18, 18)
                         .addComponent(btnSkapaUnderkategori)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnMinProfil))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)

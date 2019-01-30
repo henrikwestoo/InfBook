@@ -41,20 +41,32 @@ public class Profil extends javax.swing.JFrame {
         btnRedigeraInfo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        lblFornamn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFornamn.setText("Förnamn");
 
+        lblEfternamn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblEfternamn.setText("Efternamn");
 
+        lblEpost.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblEpost.setText("E-post");
 
+        lblAnvandarstatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAnvandarstatus.setText("Användarstatus");
 
+        lblRumsnummer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRumsnummer.setText("Rumsnummer");
 
-        lblMobil.setText("Mobilnummer");
+        lblMobil.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMobil.setText("Telefonnummer");
 
         btnRedigeraInfo.setText("Redigera information");
 
@@ -62,6 +74,18 @@ public class Profil extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jTextArea1.setText("det här är en bild :)\n");
         jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel1");
+
+        jLabel3.setText("jLabel1");
+
+        jLabel4.setText("jLabel1");
+
+        jLabel5.setText("jLabel1");
+
+        jLabel6.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,43 +96,66 @@ public class Profil extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFornamn)
-                            .addComponent(lblAnvandarstatus)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(46, 46, 46)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblFornamn)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblEfternamn)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblEfternamn)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
                                 .addGap(176, 176, 176)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
                                     .addComponent(lblEpost)
-                                    .addComponent(lblRumsnummer)
-                                    .addComponent(lblMobil)))))
+                                    .addComponent(lblMobil)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAnvandarstatus)
+                                    .addComponent(jLabel3))
+                                .addGap(144, 144, 144)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(lblRumsnummer)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(163, 163, 163)
                         .addComponent(btnRedigeraInfo)))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addGap(38, 86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFornamn)
                     .addComponent(lblMobil))
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEpost)
-                    .addComponent(lblEfternamn))
-                .addGap(47, 47, 47)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEfternamn)
+                    .addComponent(lblEpost))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAnvandarstatus)
                     .addComponent(lblRumsnummer))
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addGap(50, 50, 50)
                 .addComponent(btnRedigeraInfo)
-                .addGap(37, 37, 37))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -117,6 +164,12 @@ public class Profil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRedigeraInfo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblAnvandarstatus;
