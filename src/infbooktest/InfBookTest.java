@@ -30,6 +30,8 @@ public class InfBookTest {
             JOptionPane.showMessageDialog(null, "Något gick fel med databasen!");
             System.out.println("Internt felmeddelande: " + e.getMessage());
         }
+        
+        new Inloggning(connection).setVisible(true);
 
     }
 }
