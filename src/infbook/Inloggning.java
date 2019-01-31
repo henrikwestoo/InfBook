@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 public class Inloggning extends javax.swing.JFrame {
 
     private Connection connection; //Fält för kopplingen
-
     /**
      * Creates new form Inloggning
      */

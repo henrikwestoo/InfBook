@@ -191,7 +191,7 @@ public class Inloggad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-        new SkapaInlagg(connection).setVisible(true);
+        new SkapaInlagg(connection,angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     private void btnSkapaUnderkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaUnderkategoriActionPerformed
