@@ -14,14 +14,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.text.Text;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -246,6 +243,17 @@ public ImageIcon ResizeImage(String ImagePath) {
             ps.setString(3, angivetAnv);
             ps.setInt(4,subkategoriId);
             ps.executeUpdate();
+            
+            
+            
+            ResultSet rs3 = stmt.executeQuery("SELECT FIRST 1  * FROM FILER ORDER BY FILID DESC");
+            rs.next();
+            int hogstaVarde2 = rs3.getInt("FILID");
+            int nyaVardet2 = hogstaVarde + 1;
+            
+            
+            
+            
            
             
             
