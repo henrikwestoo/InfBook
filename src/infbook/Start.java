@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package infbooktest;
+package infbook;
 
 /**
  *
@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 /**
  * @author Tomasz Baslyk
  */
-public class InfBookTest {
+public class Start {
 
     private static Connection connection; //hejhejhej
 
@@ -23,13 +23,15 @@ public class InfBookTest {
 
         try {
             // Försöker ansluta till databasen
-            connection = DriverManager.getConnection("jdbc:firebirdsql://10.22.15.91:3050/c:/db/hogdb.fdb", "SYSDBA", "masterkey");
+            connection = DriverManager.getConnection("jdbc:firebirdsql://10.22.15.91:3050/c:/db/infbookdb.fdb", "SYSDBA", "masterkey");
 
             // Fångar fel med databasen och printar ut felmeddelande
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Något gick fel med databasen!");
             System.out.println("Internt felmeddelande: " + e.getMessage());
         }
+        
+        new Inloggning(connection).setVisible(true);
 
     }
 }
