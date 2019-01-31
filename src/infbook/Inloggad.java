@@ -42,7 +42,7 @@ public class Inloggad extends javax.swing.JFrame {
         btnSkapaInlagg = new javax.swing.JButton();
         btnSkapaUnderkategori = new javax.swing.JButton();
         btnMinProfil = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnHanterAnv = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,10 +122,10 @@ public class Inloggad extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Hantera användare");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnHanterAnv.setText("Hantera användare");
+        btnHanterAnv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnHanterAnvActionPerformed(evt);
             }
         });
 
@@ -138,7 +138,7 @@ public class Inloggad extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnHanterAnv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(175, 175, 175)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +160,7 @@ public class Inloggad extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnMinProfil)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(btnHanterAnv))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -182,15 +182,15 @@ public class Inloggad extends javax.swing.JFrame {
         new Profil(connection).setVisible(true);
     }//GEN-LAST:event_btnMinProfilActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnHanterAnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanterAnvActionPerformed
         new HanteraAnvandare(connection).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnHanterAnvActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHanterAnv;
     private javax.swing.JButton btnMinProfil;
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaUnderkategori;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFloden;

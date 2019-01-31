@@ -32,7 +32,7 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnSkapaUnderkategori" max="32767" attributes="0"/>
                   <Component id="btnMinProfil" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnHanterAnv" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnSkapaInlagg" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="175" max="-2" attributes="0"/>
@@ -58,7 +58,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnMinProfil" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnHanterAnv" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
@@ -207,12 +207,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMinProfilActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnHanterAnv">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hantera anv&#xe4;ndare"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHanterAnvActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
