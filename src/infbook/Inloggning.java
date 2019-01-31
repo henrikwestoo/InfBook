@@ -109,10 +109,11 @@ public class Inloggning extends javax.swing.JFrame {
 
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR=" + angivetAnv);
-            
             rs.next();
-            
             String losenord = rs.getString("LOSENORD");
+            
+            
+           
             
             
 
@@ -121,7 +122,7 @@ public class Inloggning extends javax.swing.JFrame {
                 //inloggningen lyckas
                 this.setVisible(false);
 
-                new Inloggad(connection).setVisible(true);
+                new Inloggad(connection,angivetAnv).setVisible(true);
 
             } else {
                 JOptionPane.showMessageDialog(null, "fel lösenord");

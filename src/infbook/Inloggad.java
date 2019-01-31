@@ -14,10 +14,12 @@ import java.sql.Connection;
 public class Inloggad extends javax.swing.JFrame {
 
     private Connection connection;
+    private String angivetAnv;
     /**
      * Creates new form Inloggad
      */
-    public Inloggad(Connection connection) {
+    public Inloggad(Connection connection, String angivetAnv) {
+        this.angivetAnv = angivetAnv;
         this.connection = connection;
         initComponents();
     }
@@ -179,7 +181,7 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaUnderkategoriActionPerformed
 
     private void btnMinProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinProfilActionPerformed
-        new Profil(connection).setVisible(true);
+        new Profil(connection, angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnMinProfilActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
