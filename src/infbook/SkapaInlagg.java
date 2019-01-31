@@ -6,6 +6,11 @@
 package infbook;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +25,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
     public SkapaInlagg(Connection connection) {
         this.connection = connection;
         initComponents();
+        fyllComboBoxSuperkategori();
     }
 
     /**
@@ -38,12 +44,12 @@ public class SkapaInlagg extends javax.swing.JFrame {
         lblTitel = new javax.swing.JLabel();
         cmbSuperkategori = new javax.swing.JComboBox();
         lblSuperkategori = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        lstSubkategori = new javax.swing.JList();
         lblSubkategori = new javax.swing.JLabel();
         btnNyKategori = new javax.swing.JButton();
         btnSkapaInlagg = new javax.swing.JButton();
         btnBifogaFiler = new javax.swing.JButton();
+        cmbSubkategori = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,53 +61,79 @@ public class SkapaInlagg extends javax.swing.JFrame {
 
         lblTitel.setText("Titel");
 
-        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Välj Superkategori" }));
+        cmbSuperkategori.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbSuperkategoriItemStateChanged(evt);
+            }
+        });
 
         lblSuperkategori.setText("Välj superkategori");
-
-        lstSubkategori.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(lstSubkategori);
 
         lblSubkategori.setText("Välj subkategori");
 
         btnNyKategori.setText("Skapa underkategori");
 
         btnSkapaInlagg.setText("Skapa inlägg");
+        btnSkapaInlagg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSkapaInlaggActionPerformed(evt);
+            }
+        });
 
         btnBifogaFiler.setText("Bifoga filer");
+
+        cmbSubkategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Välj Subkategori" }));
+        cmbSubkategori.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbSubkategoriItemStateChanged(evt);
+            }
+        });
+        cmbSubkategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSubkategoriActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(65, 65, 65)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblTitel)
+                                .addComponent(lblInlagg)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblSubkategori)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblSuperkategori)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton1))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(168, 168, 168)
+                            .addComponent(btnSkapaInlagg)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTitel)
-                            .addComponent(lblInlagg)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnNyKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBifogaFiler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblSuperkategori)
-                                .addGap(18, 18, 18)
-                                .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblSubkategori)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(btnSkapaInlagg)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                        .addGap(50, 50, 50)
+                        .addComponent(cmbSubkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnNyKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBifogaFiler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,22 +146,23 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 .addComponent(lblInlagg)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSuperkategori))
+                    .addComponent(lblSuperkategori)
+                    .addComponent(jButton1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(lblSubkategori)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbSubkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addComponent(btnBifogaFiler)
                         .addGap(18, 18, 18)
                         .addComponent(btnNyKategori)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(btnSkapaInlagg)
                 .addGap(38, 38, 38))
         );
@@ -137,19 +170,118 @@ public class SkapaInlagg extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void fyllComboBoxSuperkategori ()
+{
+Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            
+            ResultSet rs = stmt.executeQuery("SELECT SKNAMN FROM SUPERKATEGORI");
+            
+       
+          
+            
+            
+                        while (rs.next()){
+
+                            
+ cmbSuperkategori.addItem(rs.getString("SKNAMN"));
+  //cmbSuperkategori.addItem("SKNAMN");
+ 
+}
+        } catch (SQLException ex) {
+            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+            
+
+            
+            
+
+
+            
+      
+
+}    
+    private void fyllComboBoxSubkategori ()
+{
+Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            Object valdSakObject = cmbSuperkategori.getSelectedItem();
+            String superKategoriNamn = valdSakObject.toString();
+            
+            
+            ResultSet rs2 = stmt.executeQuery("SELECT SUPERKATEGORIID FROM SUPERKATEGORI WHERE SKNAMN ='"+superKategoriNamn+"' ");
+            int superkategoriId = rs2.getInt("SUPERKATEGORIID");
+            ResultSet rs = stmt.executeQuery("SELECT SKNAMN FROM SUBKATEGORI WHERE SUPERKATEGORI = "+superkategoriId+" ");
+            
+       
+          
+            
+            
+                        while (rs.next()){
+
+                            
+ cmbSubkategori.addItem(rs.getString("SKNAMN"));
+ 
+}
+        } catch (SQLException ex) {
+            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+            
+
+            
+            
+
+
+            
+      
+
+}    
+    
+    
+    private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSkapaInlaggActionPerformed
+
+    private void cmbSuperkategoriItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSuperkategoriItemStateChanged
+//När ett item väljs, kommer sub-kategorierna populeras. 
+fyllComboBoxSubkategori();
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSuperkategoriItemStateChanged
+
+    private void cmbSubkategoriItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSubkategoriItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSubkategoriItemStateChanged
+
+    private void cmbSubkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSubkategoriActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSubkategoriActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+ fyllComboBoxSubkategori();
+ // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBifogaFiler;
     private javax.swing.JButton btnNyKategori;
     private javax.swing.JButton btnSkapaInlagg;
+    private javax.swing.JComboBox cmbSubkategori;
     private javax.swing.JComboBox cmbSuperkategori;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblInlagg;
     private javax.swing.JLabel lblSubkategori;
     private javax.swing.JLabel lblSuperkategori;
     private javax.swing.JLabel lblTitel;
-    private javax.swing.JList lstSubkategori;
     private javax.swing.JTextArea txaInlagg;
     private javax.swing.JTextField txtTitel;
     // End of variables declaration//GEN-END:variables
