@@ -15,6 +15,7 @@ public class Inloggad extends javax.swing.JFrame {
 
     private Connection connection;
     private String status;
+    private String angivetAnv;
     /**
      * Creates new form Inloggad
      */
@@ -22,6 +23,7 @@ public class Inloggad extends javax.swing.JFrame {
         this.connection = connection;
         initComponents();
         this.status = status;
+        this.angivetAnv = angivetAnv;
         
         String braStatus = KonverteraStatus.konverteraStatus(status);
         
@@ -197,7 +199,7 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaUnderkategoriActionPerformed
 
     private void btnMinProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinProfilActionPerformed
-        new Profil(connection).setVisible(true);
+        new Profil(connection, angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnMinProfilActionPerformed
 
     private void btnHanterAnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanterAnvActionPerformed
