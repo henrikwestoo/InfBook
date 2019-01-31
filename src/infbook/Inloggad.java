@@ -18,7 +18,7 @@ public class Inloggad extends javax.swing.JFrame {
     /**
      * Creates new form Inloggad
      */
-    public Inloggad(Connection connection, String status) {
+    public Inloggad(Connection connection, String status, String angivetAnv) {
         this.connection = connection;
         initComponents();
         this.status = status;

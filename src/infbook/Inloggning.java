@@ -130,7 +130,7 @@ public class Inloggning extends javax.swing.JFrame {
                 System.out.println(status);
                 
                 this.setVisible(false);
-                new Inloggad(connection, status).setVisible(true);
+                new Inloggad(connection, status, angivetAnv).setVisible(true);
 
             } else {
                 JOptionPane.showMessageDialog(null, "Fel lösenord");
