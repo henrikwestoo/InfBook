@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package infbooktest;
+package infbook;
 
 import java.sql.Connection;
 import javax.swing.JOptionPane;
@@ -33,7 +33,7 @@ public class SkapaKategori extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmbSuperkategori = new javax.swing.JComboBox<>();
+        cmbSuperkategori = new javax.swing.JComboBox<String>();
         lblKategorinTillhor = new javax.swing.JLabel();
         lblNyKategori = new javax.swing.JLabel();
         txtNyttNamn = new javax.swing.JTextField();
@@ -41,7 +41,7 @@ public class SkapaKategori extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblKategorinTillhor.setText("Kategorin tillhör");
 
