@@ -14,12 +14,14 @@ import java.sql.Connection;
 public class Inloggad extends javax.swing.JFrame {
 
     private Connection connection;
+    private String angivetAnv;
     /**
      * Creates new form Inloggad
      */
-    public Inloggad(Connection connection) {
+    public Inloggad(Connection connection,String angivetAnv) {
         this.connection = connection;
         initComponents();
+        this.angivetAnv = angivetAnv;
     }
 
     /**
@@ -171,7 +173,7 @@ public class Inloggad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-        new SkapaInlagg(connection).setVisible(true);
+        new SkapaInlagg(connection,angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     private void btnSkapaUnderkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaUnderkategoriActionPerformed
