@@ -29,11 +29,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btnSkapaUnderkategori" max="32767" attributes="0"/>
-                  <Component id="btnMinProfil" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnHanterAnv" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnSkapaInlagg" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="btnSkapaUnderkategori" max="32767" attributes="0"/>
+                      <Component id="btnMinProfil" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnHanterAnv" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnSkapaInlagg" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="lblInloggadSom" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblStatus" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="175" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -59,6 +63,10 @@
                       <Component id="btnMinProfil" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnHanterAnv" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="lblInloggadSom" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblStatus" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
@@ -214,6 +222,13 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHanterAnvActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblInloggadSom">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Inloggad som"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblStatus">
     </Component>
   </SubComponents>
 </Form>

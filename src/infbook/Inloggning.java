@@ -119,12 +119,21 @@ public class Inloggning extends javax.swing.JFrame {
             if (angivetLos.equals(losenord)) {
 
                 //inloggningen lyckas
+                
+                
+                Statement stmtStatus = connection.createStatement();
+                ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR="+angivetAnv);
+                
+                rsStatus.next();
+                
+                String status = rsStatus.getString("STATUS");
+                System.out.println(status);
+                
                 this.setVisible(false);
-
-                new Inloggad(connection).setVisible(true);
+                new Inloggad(connection, status).setVisible(true);
 
             } else {
-                JOptionPane.showMessageDialog(null, "fel lösenord");
+                JOptionPane.showMessageDialog(null, "Fel lösenord");
             }
 
         } catch (SQLException e) {

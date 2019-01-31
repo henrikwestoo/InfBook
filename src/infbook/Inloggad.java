@@ -14,12 +14,19 @@ import java.sql.Connection;
 public class Inloggad extends javax.swing.JFrame {
 
     private Connection connection;
+    private String status;
     /**
      * Creates new form Inloggad
      */
-    public Inloggad(Connection connection) {
+    public Inloggad(Connection connection, String status) {
         this.connection = connection;
         initComponents();
+        this.status = status;
+        
+        String braStatus = KonverteraStatus.konverteraStatus(status);
+        
+        
+        lblStatus.setText(braStatus);
     }
 
     /**
@@ -43,6 +50,8 @@ public class Inloggad extends javax.swing.JFrame {
         btnSkapaUnderkategori = new javax.swing.JButton();
         btnMinProfil = new javax.swing.JButton();
         btnHanterAnv = new javax.swing.JButton();
+        lblInloggadSom = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,17 +138,22 @@ public class Inloggad extends javax.swing.JFrame {
             }
         });
 
+        lblInloggadSom.setText("Inloggad som");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnHanterAnv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnHanterAnv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblInloggadSom)
+                    .addComponent(lblStatus))
                 .addGap(175, 175, 175)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFloden)
@@ -160,7 +174,11 @@ public class Inloggad extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnMinProfil)
                         .addGap(18, 18, 18)
-                        .addComponent(btnHanterAnv))
+                        .addComponent(btnHanterAnv)
+                        .addGap(150, 150, 150)
+                        .addComponent(lblInloggadSom)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblStatus))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -194,6 +212,8 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFloden;
+    private javax.swing.JLabel lblInloggadSom;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JPanel pnlForskning;
     private javax.swing.JPanel pnlInformell;
     private javax.swing.JPanel pnlUtbildning;
