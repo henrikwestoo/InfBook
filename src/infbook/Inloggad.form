@@ -43,6 +43,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblFloden" min="-2" max="-2" attributes="0"/>
                   <Component id="tabFlode" min="-2" pref="722" max="-2" attributes="0"/>
+                  <Component id="jButton1" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="80" max="32767" attributes="0"/>
           </Group>
@@ -73,7 +74,9 @@
                       <Component id="tabFlode" min="-2" pref="583" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="69" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -95,35 +98,28 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="687" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jScrollPane2" alignment="0" pref="717" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="517" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jScrollPane2" alignment="0" pref="553" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txaUtbildning">
+                <Component class="javax.swing.JList" name="lstInlagg">
                   <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="rows" type="int" value="5"/>
+                    <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -229,6 +225,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblStatus">
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Visa inl&#xe4;gg"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

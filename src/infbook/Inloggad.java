@@ -6,6 +6,11 @@
 package infbook;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,14 +21,13 @@ public class Inloggad extends javax.swing.JFrame {
     private Connection connection;
     private String status;
     private String angivetAnv;
-    /**
-     * Creates new form Inloggad
-     */
+    
     public Inloggad(Connection connection, String status, String angivetAnv) {
         this.connection = connection;
         initComponents();
         this.status = status;
         this.angivetAnv = angivetAnv;
+        fyllFlodeMedInlagg();
         
         String braStatus = KonverteraStatus.konverteraStatus(status);
         
@@ -43,8 +47,8 @@ public class Inloggad extends javax.swing.JFrame {
         jScrollBar1 = new javax.swing.JScrollBar();
         tabFlode = new javax.swing.JTabbedPane();
         pnlUtbildning = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txaUtbildning = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstInlagg = new javax.swing.JList();
         pnlForskning = new javax.swing.JPanel();
         pnlInformell = new javax.swing.JPanel();
         lblFloden = new javax.swing.JLabel();
@@ -54,28 +58,21 @@ public class Inloggad extends javax.swing.JFrame {
         btnHanterAnv = new javax.swing.JButton();
         lblInloggadSom = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txaUtbildning.setColumns(20);
-        txaUtbildning.setRows(5);
-        jScrollPane1.setViewportView(txaUtbildning);
+        jScrollPane2.setViewportView(lstInlagg);
 
         javax.swing.GroupLayout pnlUtbildningLayout = new javax.swing.GroupLayout(pnlUtbildning);
         pnlUtbildning.setLayout(pnlUtbildningLayout);
         pnlUtbildningLayout.setHorizontalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUtbildningLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
         );
         pnlUtbildningLayout.setVerticalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUtbildningLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Utbildning", pnlUtbildning);
@@ -142,6 +139,13 @@ public class Inloggad extends javax.swing.JFrame {
 
         lblInloggadSom.setText("Inloggad som");
 
+        jButton1.setText("Visa inlägg");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,7 +163,8 @@ public class Inloggad extends javax.swing.JFrame {
                 .addGap(175, 175, 175)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFloden)
-                    .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -184,7 +189,9 @@ public class Inloggad extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,20 +213,51 @@ public class Inloggad extends javax.swing.JFrame {
         new HanteraAnvandare(connection).setVisible(true);
     }//GEN-LAST:event_btnHanterAnvActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       String valtInlagg = (String) lstInlagg.getSelectedValue();
+       String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+       
+       
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    private void fyllFlodeMedInlagg()
+    {
+        
+        DefaultListModel lista = new DefaultListModel();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs =stmt.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE");
+            
+            
+            while(rs.next())
+            {
+                lista.addElement(rs.getString("INFORMATION"));
+                lstInlagg.setModel(lista);
+              
+            }
+        }
+        
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHanterAnv;
     private javax.swing.JButton btnMinProfil;
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaUnderkategori;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblFloden;
     private javax.swing.JLabel lblInloggadSom;
     private javax.swing.JLabel lblStatus;
+    private javax.swing.JList lstInlagg;
     private javax.swing.JPanel pnlForskning;
     private javax.swing.JPanel pnlInformell;
     private javax.swing.JPanel pnlUtbildning;
     private javax.swing.JTabbedPane tabFlode;
-    private javax.swing.JTextArea txaUtbildning;
     // End of variables declaration//GEN-END:variables
 }
