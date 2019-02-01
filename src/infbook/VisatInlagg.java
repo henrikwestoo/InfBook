@@ -1,10 +1,12 @@
 
 package infbook;
 
+import java.awt.Image;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -32,8 +34,18 @@ public class VisatInlagg extends javax.swing.JFrame {
         ResultSet rs2 = stmt2.executeQuery("SELECT TITEL FROM INLAGG WHERE INLAGGSID ='"+ inlaggsID +"'");
         rs2.next();
         String titel = rs2.getString("TITEL");
-        
         lblTitel.setText(titel);
+        
+        Statement stmt7 = connection.createStatement();
+            ResultSet rs7 = stmt7.executeQuery("SELECT FILER.FIL FROM FILER JOIN INLAGG_FILER ON FILER.FILID = INLAGG_FILER.FIL JOIN INLAGG ON INLAGG.INLAGGSID = INLAGG_FILER.INLAGG WHERE INLAGG.INLAGGSID ='"+inlaggsID +"'");
+            rs7.next();
+             byte[] img = rs7.getBytes("FIL");
+             
+                ImageIcon image = new ImageIcon(img);
+                Image im = image.getImage();
+                Image myImg = im.getScaledInstance(lblBild.getWidth(), lblBild.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon newImage = new ImageIcon(myImg);
+                lblBild.setIcon(newImage);
         
         
         
