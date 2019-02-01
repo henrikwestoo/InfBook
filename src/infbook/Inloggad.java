@@ -236,6 +236,8 @@ public class Inloggad extends javax.swing.JFrame {
        String valtInlagg = (String) lstInlagg.getSelectedValue();
        String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
        
+       new VisatInlagg(connection, inlaggsID).setVisible(true);
+       
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
