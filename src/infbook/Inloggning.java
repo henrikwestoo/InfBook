@@ -126,7 +126,6 @@ public class Inloggning extends javax.swing.JFrame {
                 rsStatus.next();
                 
                 String status = rsStatus.getString("STATUS");
-                System.out.println(status);
                 
                 this.setVisible(false);
                 new Inloggad(connection, status, angivetAnv).setVisible(true);

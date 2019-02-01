@@ -42,7 +42,7 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
         lblKategoriNamn = new javax.swing.JLabel();
         btnSkapaOverkategori = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         cmbOmrade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Utbildning", "Forskning" }));
 
