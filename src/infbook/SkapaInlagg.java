@@ -9,6 +9,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -31,7 +35,10 @@ public class SkapaInlagg extends javax.swing.JFrame {
     private Connection connection;
     private String s = null;
     private String angivetAnv;
-
+    private File selectedFile;
+    private String path;
+    private String extension;
+    JFileChooser file = new JFileChooser();
     /**
      * Creates new form SkapaInlagg
      */
@@ -46,15 +53,15 @@ public class SkapaInlagg extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser file = new JFileChooser();
+                
                 file.setCurrentDirectory(new File(System.getProperty("user.home")));
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png");
                 file.addChoosableFileFilter(filter);
                 int result = file.showSaveDialog(null);
 
                 if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = file.getSelectedFile();
-                    String path = selectedFile.getAbsolutePath();
+                    selectedFile = file.getSelectedFile();
+                    path = selectedFile.getAbsolutePath();
                     lblBild.setIcon(ResizeImage(path));
 
                     s = path;
@@ -80,15 +87,13 @@ public class SkapaInlagg extends javax.swing.JFrame {
         lblInlagg = new javax.swing.JLabel();
         lblTitel = new javax.swing.JLabel();
         cmbSuperkategori = new javax.swing.JComboBox();
-        lblSuperkategori = new javax.swing.JLabel();
         lblSubkategori = new javax.swing.JLabel();
-        btnNyKategori = new javax.swing.JButton();
         btnSkapaInlagg = new javax.swing.JButton();
         btnBifogaFiler = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<String>();
         lblBild = new javax.swing.JLabel();
+        textLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -112,11 +117,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
             }
         });
 
-        lblSuperkategori.setText("Välj superkategori");
-
         lblSubkategori.setText("Välj subkategori");
-
-        btnNyKategori.setText("Skapa underkategori");
 
         btnSkapaInlagg.setText("Skapa inlägg");
         btnSkapaInlagg.addActionListener(new java.awt.event.ActionListener() {
@@ -126,11 +127,9 @@ public class SkapaInlagg extends javax.swing.JFrame {
         });
 
         btnBifogaFiler.setText("Bifoga filer");
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBifogaFiler.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBifogaFilerActionPerformed(evt);
             }
         });
 
@@ -141,70 +140,61 @@ public class SkapaInlagg extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSubkategori)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(65, 65, 65)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblTitel)
-                                        .addComponent(lblInlagg)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblSubkategori)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblSuperkategori)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jButton1))))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(168, 168, 168)
-                                    .addComponent(btnSkapaInlagg)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblInlagg)
+                            .addComponent(lblTitel)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(53, 53, 53)
-                                .addComponent(jScrollPane2)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBifogaFiler, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                                .addComponent(btnBifogaFiler))
+                            .addComponent(jScrollPane1)
+                            .addComponent(txtTitel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnNyKategori)))
-                .addContainerGap())
+                        .addComponent(textLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnSkapaInlagg)
+                        .addGap(269, 269, 269))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addComponent(textLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
                 .addComponent(lblTitel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTitel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(txtTitel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(lblInlagg)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSuperkategori)
-                    .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 77, Short.MAX_VALUE)
+                                .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBifogaFiler, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(47, 47, 47)
                 .addComponent(lblSubkategori)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblBild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBifogaFiler)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNyKategori)
-                .addGap(46, 46, 46)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addComponent(btnSkapaInlagg)
-                .addGap(38, 38, 38))
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -218,7 +208,7 @@ public ImageIcon ResizeImage(String ImagePath) {
         return image;
     }
 
-    private void skapaEttInlagg() {
+    private void skapaEttInlagg() throws FileNotFoundException {
 
         String valdSubkategori = (String) jList1.getSelectedValue();
         try {
@@ -237,40 +227,61 @@ public ImageIcon ResizeImage(String ImagePath) {
             int hogstaVarde = rs.getInt("INLAGGSID");
             int nyaVardet = hogstaVarde + 1;
 
-            PreparedStatement ps = connection.prepareStatement("insert into INLAGG(INLAGGSID,TEXT,ANVANDARE,SUBKATEGORI) values(?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into INLAGG(INLAGGSID,TEXT,ANVANDARE,SUBKATEGORI,TITEL) values(?,?,?,?,?)");
             ps.setInt(1, nyaVardet);
             ps.setString(2, txaInlagg.getText());
             ps.setString(3, angivetAnv);
             ps.setInt(4,subkategoriId);
+            ps.setString(5,txtTitel.getText());
             ps.executeUpdate();
             
             
-            
+            if(lblBild.getIcon() == null)
+            {
+                
+            }
+            else {
             ResultSet rs3 = stmt.executeQuery("SELECT FIRST 1  * FROM FILER ORDER BY FILID DESC");
-            rs.next();
+            rs3.next();
             int hogstaVarde2 = rs3.getInt("FILID");
-            int nyaVardet2 = hogstaVarde + 1;
+            int nyaVardet2 = hogstaVarde2 + 1;
             
+            try {
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO FILER(FILID,FIL,TYP) VALUES (?,?,?)");
+            InputStream is = new FileInputStream(new File(s));
+            selectedFile = file.getSelectedFile();
+            path = selectedFile.getAbsolutePath();
             
+               extension = "";
+
+                int i = path.lastIndexOf(".");
+                
+                extension = path.substring(i,i+4);
+                
+                textLabel.setText(extension);
+                 
+ 
+                ps2.setInt(1,nyaVardet2);
+                ps2.setBlob(2, is);
+                ps2.setString(3,extension);
+                ps2.executeUpdate();
+                
+                
+                PreparedStatement ps3 = connection.prepareStatement("INSERT INTO INLAGG_FILER(INLAGG,FIL) VALUES (?,?)");
+                
+                ps3.setInt(1, nyaVardet);
+                ps3.setInt(2, nyaVardet2);
+                ps3.executeUpdate();
+            }
             
-            
-           
+            catch(FileNotFoundException e)
+            {
+                JOptionPane.showMessageDialog(null,"Bilden kom inte med");
+            }
+            }
             
             
 
-        
-        
-        
-        
-        
-       // byte[] text = str.
-        
-       // ps.setBlob(2, text);
-        
-        
-        
-    
-               
             
             
             
@@ -341,8 +352,13 @@ public ImageIcon ResizeImage(String ImagePath) {
 
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-    skapaEttInlagg();
-        // TODO add your handling code here:
+    
+        try {
+            skapaEttInlagg();
+            // TODO add your handling code here:
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     private void cmbSuperkategoriItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSuperkategoriItemStateChanged
@@ -351,32 +367,29 @@ public ImageIcon ResizeImage(String ImagePath) {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbSuperkategoriItemStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void cmbSuperkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSuperkategoriActionPerformed
         fyllComboBoxSubkategori();
 
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbSuperkategoriActionPerformed
 
+    private void btnBifogaFilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBifogaFilerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBifogaFilerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBifogaFiler;
-    private javax.swing.JButton btnNyKategori;
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JComboBox cmbSuperkategori;
-    private javax.swing.JButton jButton1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBild;
     private javax.swing.JLabel lblInlagg;
     private javax.swing.JLabel lblSubkategori;
-    private javax.swing.JLabel lblSuperkategori;
     private javax.swing.JLabel lblTitel;
+    private javax.swing.JLabel textLabel;
     private javax.swing.JTextArea txaInlagg;
     private javax.swing.JTextField txtTitel;
     // End of variables declaration//GEN-END:variables
