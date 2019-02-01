@@ -8,9 +8,12 @@ package infbook;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,7 +65,12 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 if (result == JFileChooser.APPROVE_OPTION) {
                     selectedFile = file.getSelectedFile();
                     path = selectedFile.getAbsolutePath();
-                    lblBild.setIcon(ResizeImage(path));
+                    
+                    int i = path.lastIndexOf(".");
+
+                    String nyPath = path.substring(i, i + 4);
+
+                    lblBild.setText(nyPath);
 
                     s = path;
                 }
@@ -70,6 +78,37 @@ public class SkapaInlagg extends javax.swing.JFrame {
             }
         });
 
+        
+        
+        
+        lblBild.addMouseListener(new MouseListener() {
+
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            public void mousePressed(MouseEvent e) {
+            }
+
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseClicked(MouseEvent e) {
+                File u = new File(path);
+                try {
+
+                    java.awt.Desktop.getDesktop().open(u);
+                } catch (IOException ex) {
+                    Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+
+                    
+                }
+
+            }
+        });
     }
 
     /**
@@ -155,8 +194,8 @@ public class SkapaInlagg extends javax.swing.JFrame {
                             .addComponent(jScrollPane1)
                             .addComponent(txtTitel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 17, Short.MAX_VALUE))
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 91, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,10 +220,10 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 77, Short.MAX_VALUE)
-                                .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnBifogaFiler, javax.swing.GroupLayout.Alignment.TRAILING))
