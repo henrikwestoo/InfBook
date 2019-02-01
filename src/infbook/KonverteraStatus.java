@@ -21,29 +21,29 @@ public class KonverteraStatus { //Konverterar en förkortad status till en mer a
         
         }
         
-        else if(forkortning == "UA"){
+        else if(forkortning.equals("UA")){
         
         formatteradStatus = "Utbildningsadministratör";
             
         }
         
-        else if(forkortning == "FA"){
+        else if(forkortning.equals("FA")){
         
         formatteradStatus = "Forskningsadministratör";
         
         }
         
-        else if(forkortning == "A"){
+        else if(forkortning.equals("A")){
         
         formatteradStatus = "Amanuens";
         
         }
-        else if(forkortning == "F"){
+        else if(forkortning.equals("F")){
         
         formatteradStatus = "Forskningsanvändare";
         
         }
-        else if(forkortning == "U"){
+        else if(forkortning.equals("U")){
         
         formatteradStatus = "Utbildningsanvändare";
         
