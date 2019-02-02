@@ -23,15 +23,14 @@ public class Start {
 
         try {
             // Försöker ansluta till databasen
-            connection = DriverManager.getConnection("jdbc:firebirdsql://10.22.15.91:3050/c:/db/infbookdb.fdb", "SYSDBA", "masterkey");
+            connection = DriverManager.getConnection("jdbc:firebirdsql://infbook.myscriptcase.com:3050//home/infbookm/INFBOOKDB.FDB", "infbookm", "masterkey");
+            new Inloggning(connection).setVisible(true);
 
             // Fångar fel med databasen och printar ut felmeddelande
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Något gick fel med databasen!");
             System.out.println("Internt felmeddelande: " + e.getMessage());
         }
-        
-        new Inloggning(connection).setVisible(true);
 
     }
 }
