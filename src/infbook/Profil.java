@@ -64,27 +64,32 @@ public class Profil extends javax.swing.JFrame {
             String status = rs6.getString("STATUS");
             lblAnvandarstatusDB.setText(status);
             
-            if(lblProfilBildDB.getIcon() == null)
-            {
-                
-            }
-            else{
             
+           
             Statement stmt7 = connection.createStatement();
             ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR=" + angivetAnv);
             rs7.next();
-             byte[] img = rs7.getBytes("PROFILBILD");
-             
+            
+           
+                byte[] img = rs7.getBytes("PROFILBILD");
+                
                 ImageIcon image = new ImageIcon(img);
                 Image im = image.getImage();
                 Image myImg = im.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
                 ImageIcon newImage = new ImageIcon(myImg);
                 lblProfilBildDB.setIcon(newImage);
-            }
+            
+          
+            
+            
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+          catch(NullPointerException e)
+          {
+              
+          }
 
     }
 
@@ -204,7 +209,7 @@ public class Profil extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnRedigeraInfo)
                         .addGap(56, 56, 56)
@@ -229,9 +234,8 @@ public class Profil extends javax.swing.JFrame {
                                 .addComponent(lblAnvandarstatusDB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26))))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(lblProfilBildDB, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(24, 24, 24)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFornamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblFornamn))
