@@ -21,9 +21,7 @@ public class Profil extends javax.swing.JFrame {
 
     private Connection connection;
 
-    /**
-     * Creates new form Profil
-     */
+   
     public Profil(Connection connection, String angivetAnv) {
         initComponents();
         this.connection = connection;
@@ -66,6 +64,12 @@ public class Profil extends javax.swing.JFrame {
             String status = rs6.getString("STATUS");
             lblAnvandarstatusDB.setText(status);
             
+            if(lblProfilBildDB.getIcon() == null)
+            {
+                
+            }
+            else{
+            
             Statement stmt7 = connection.createStatement();
             ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR=" + angivetAnv);
             rs7.next();
@@ -76,6 +80,7 @@ public class Profil extends javax.swing.JFrame {
                 Image myImg = im.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
                 ImageIcon newImage = new ImageIcon(myImg);
                 lblProfilBildDB.setIcon(newImage);
+            }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
