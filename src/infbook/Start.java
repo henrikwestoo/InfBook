@@ -23,7 +23,7 @@ public class Start {
 
         try {
             // Försöker ansluta till databasen
-            connection = DriverManager.getConnection("jdbc:firebirdsql://10.22.15.91:3050/c:/db/infbookdb.fdb", "SYSDBA", "masterkey");
+            connection = DriverManager.getConnection("jdbc:firebirdsql://localhost/c:/db/infbookdb.fdb", "SYSDBA", "masterkey");
 
             // Fångar fel med databasen och printar ut felmeddelande
         } catch (Exception e) {
