@@ -5,12 +5,22 @@
  */
 package infbook;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import java.awt.Toolkit;
 
 /**
  *
@@ -21,27 +31,33 @@ public class Inloggad extends javax.swing.JFrame {
     private Connection connection;
     private String status;
     private String angivetAnv;
-    
+    private DefaultListModel lista;
+
     public Inloggad(Connection connection, String status, String angivetAnv) {
+
+        lista = new DefaultListModel();
         this.connection = connection;
         initComponents();
+
         this.status = status;
         this.angivetAnv = angivetAnv;
+
         fyllFlodeMedInlagg();
+
         btnSkapaSuperKategori.setVisible(false);
-        
-        System.out.println(status);
-        
-        if(status.equals("CA") || status.equals("UA") || status.equals("FA")){
-            
-        btnSkapaSuperKategori.setVisible(true);
-        
+        btnSkapaAnvandare.setVisible(false);
+        btnHanteraAnvandare.setVisible(false);
+
+        if (status.equals("CA") || status.equals("UA") || status.equals("FA")) {
+            btnSkapaSuperKategori.setVisible(true);
+            btnSkapaAnvandare.setVisible(true);
+            btnHanteraAnvandare.setVisible(true);
         }
-        
+
         String braStatus = KonverteraStatus.konverteraStatus(status);
-        
-        
         lblStatus.setText(braStatus);
+        
+        
     }
 
     /**
@@ -64,13 +80,22 @@ public class Inloggad extends javax.swing.JFrame {
         btnSkapaInlagg = new javax.swing.JButton();
         btnSkapaUnderkategori = new javax.swing.JButton();
         btnMinProfil = new javax.swing.JButton();
-        btnHanterAnv = new javax.swing.JButton();
+        btnHanteraAnvandare = new javax.swing.JButton();
         lblInloggadSom = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         btnSkapaSuperKategori = new javax.swing.JButton();
+        btnSkapaAnvandare = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        btnLoggaUt = new javax.swing.JButton();
+        sprHog = new javax.swing.JSeparator();
+        sprMitten = new javax.swing.JSeparator();
+        sprLag = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Infbook");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Inloggning.class.getResource("/images/infbookIcon.png")));
 
         jScrollPane2.setViewportView(lstInlagg);
 
@@ -78,7 +103,9 @@ public class Inloggad extends javax.swing.JFrame {
         pnlUtbildning.setLayout(pnlUtbildningLayout);
         pnlUtbildningLayout.setHorizontalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUtbildningLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlUtbildningLayout.setVerticalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +144,8 @@ public class Inloggad extends javax.swing.JFrame {
 
         tabFlode.addTab("Informell", pnlInformell);
 
-        lblFloden.setText("Flöden");
+        lblFloden.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFloden.setText("Samtliga bloggflöden");
 
         btnSkapaInlagg.setText("Skapa inlägg");
         btnSkapaInlagg.addActionListener(new java.awt.event.ActionListener() {
@@ -140,76 +168,148 @@ public class Inloggad extends javax.swing.JFrame {
             }
         });
 
-        btnHanterAnv.setText("Hantera användare");
-        btnHanterAnv.addActionListener(new java.awt.event.ActionListener() {
+        btnHanteraAnvandare.setText("Hantera användare");
+        btnHanteraAnvandare.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHanterAnvActionPerformed(evt);
+                btnHanteraAnvandareActionPerformed(evt);
             }
         });
 
-        lblInloggadSom.setText("Inloggad som");
+        lblInloggadSom.setText("Inloggad som:");
 
-        jButton1.setText("Visa inlägg");
+        jButton1.setText("Visa markerat inlägg");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        btnSkapaSuperKategori.setText("Skapa superkategori");
+        btnSkapaSuperKategori.setText("Skapa överkategori");
         btnSkapaSuperKategori.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSkapaSuperKategoriActionPerformed(evt);
             }
         });
 
+        btnSkapaAnvandare.setText("Skapa användare");
+        btnSkapaAnvandare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSkapaAnvandareActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setText("↻");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
+        btnLoggaUt.setText("Logga ut");
+        btnLoggaUt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoggaUtActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbookIcon2small.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnHanterAnv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblInloggadSom)
-                    .addComponent(lblStatus)
-                    .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(175, 175, 175)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFloden)
-                    .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(40, 40, 40)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                            .addGap(35, 35, 35)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(45, 45, 45)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblInloggadSom)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(38, 38, 38)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(39, 39, 39)
+                            .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(sprLag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                                .addComponent(sprMitten))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(sprHog, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRefresh))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel2)
+                        .addGap(23, 23, 23)
+                        .addComponent(lblFloden)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblFloden)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(btnSkapaInlagg)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSkapaUnderkategori)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnMinProfil)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnHanterAnv)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSkapaSuperKategori)
-                        .addGap(103, 103, 103)
+                        .addGap(22, 22, 22)
                         .addComponent(lblInloggadSom)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblStatus))
+                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(sprHog, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSkapaInlagg)
+                            .addComponent(btnSkapaUnderkategori))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMinProfil)
+                            .addComponent(btnLoggaUt))
+                        .addGap(59, 59, 59)
+                        .addComponent(sprMitten, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSkapaSuperKategori)
+                            .addComponent(btnSkapaAnvandare))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnHanteraAnvandare)
+                        .addGap(47, 47, 47)
+                        .addComponent(sprLag, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblFloden)
+                                .addGap(20, 20, 20)))
+                        .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(btnRefresh))))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -217,7 +317,7 @@ public class Inloggad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-        new SkapaInlagg(connection,angivetAnv).setVisible(true);
+        new SkapaInlagg(connection, angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     private void btnSkapaUnderkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaUnderkategoriActionPerformed
@@ -228,53 +328,63 @@ public class Inloggad extends javax.swing.JFrame {
         new Profil(connection, angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnMinProfilActionPerformed
 
-    private void btnHanterAnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanterAnvActionPerformed
+    private void btnHanteraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraAnvandareActionPerformed
         new HanteraAnvandare(connection).setVisible(true);
-    }//GEN-LAST:event_btnHanterAnvActionPerformed
+    }//GEN-LAST:event_btnHanteraAnvandareActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       String valtInlagg = (String) lstInlagg.getSelectedValue();
-       String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
-       
-       new VisatInlagg(connection, inlaggsID).setVisible(true);
-       
-       
+        String valtInlagg = (String) lstInlagg.getSelectedValue();
+        String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+
+        new VisatInlagg(connection, inlaggsID).setVisible(true);
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnSkapaSuperKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaSuperKategoriActionPerformed
-        new SkapaSuperKategori(connection).setVisible(true);        // TODO add your handling code here:
+        new SkapaSuperKategori(connection).setVisible(true);
     }//GEN-LAST:event_btnSkapaSuperKategoriActionPerformed
 
-    
-    private void fyllFlodeMedInlagg()
-    {
-        
-        DefaultListModel lista = new DefaultListModel();
+    private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
+        new SkapaAnvandare(connection).setVisible(true);
+    }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        lista.removeAllElements();
+        fyllFlodeMedInlagg();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnLoggaUtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoggaUtActionPerformed
+        setVisible(false);
+        new Inloggning(connection).setVisible(true);
+    }//GEN-LAST:event_btnLoggaUtActionPerformed
+
+    private void fyllFlodeMedInlagg() {
+
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs =stmt.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 1 ORDER BY INLAGGSID DESC");
-            
-            
-            while(rs.next())
-            {
+            ResultSet rs = stmt.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 1 ORDER BY INLAGGSID DESC");
+
+            while (rs.next()) {
                 lista.addElement(rs.getString("INFORMATION"));
                 lstInlagg.setModel(lista);
-              
+
             }
-        }
-        
-        catch(SQLException e)
-        {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHanterAnv;
+    private javax.swing.JButton btnHanteraAnvandare;
+    private javax.swing.JButton btnLoggaUt;
     private javax.swing.JButton btnMinProfil;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSkapaAnvandare;
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaSuperKategori;
     private javax.swing.JButton btnSkapaUnderkategori;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblFloden;
@@ -284,6 +394,9 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JPanel pnlForskning;
     private javax.swing.JPanel pnlInformell;
     private javax.swing.JPanel pnlUtbildning;
+    private javax.swing.JSeparator sprHog;
+    private javax.swing.JSeparator sprLag;
+    private javax.swing.JSeparator sprMitten;
     private javax.swing.JTabbedPane tabFlode;
     // End of variables declaration//GEN-END:variables
 }

@@ -65,17 +65,17 @@ public class Profil extends javax.swing.JFrame {
             rs6.next();
             String status = rs6.getString("STATUS");
             lblAnvandarstatusDB.setText(status);
-            
+
             Statement stmt7 = connection.createStatement();
             ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR=" + angivetAnv);
             rs7.next();
-             byte[] img = rs7.getBytes("PROFILBILD");
-             
-                ImageIcon image = new ImageIcon(img);
-                Image im = image.getImage();
-                Image myImg = im.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImage = new ImageIcon(myImg);
-                lblProfilBildDB.setIcon(newImage);
+
+            byte[] img = rs7.getBytes("PROFILBILD");
+            ImageIcon image = new ImageIcon(img);
+            Image im = image.getImage();
+            Image myImg = im.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon newImage = new ImageIcon(myImg);
+            lblProfilBildDB.setIcon(newImage);
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

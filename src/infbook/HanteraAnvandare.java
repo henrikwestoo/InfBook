@@ -6,6 +6,12 @@
 package infbook;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -14,11 +20,13 @@ import java.sql.Connection;
 public class HanteraAnvandare extends javax.swing.JFrame {
 
     private Connection connection;
+    private DefaultListModel lista;
     /**
      * Creates new form HanteraAnvandare
      */
     public HanteraAnvandare(Connection connection) {
         this.connection = connection;
+        lista = new DefaultListModel();
         initComponents();
     }
 
@@ -40,17 +48,17 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         btnAndraAnvandare = new javax.swing.JButton();
         lblResultat = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblSokAnvandare.setText("Sök användare");
 
         btnSok.setText("Sök");
-
-        lstResultat.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        btnSok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSokActionPerformed(evt);
+            }
         });
+
         jScrollPane1.setViewportView(lstResultat);
 
         btnSkapaAnvandare.setText("Skapa användare");
@@ -61,6 +69,11 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         });
 
         btnAndraAnvandare.setText("Ändra markerad användare");
+        btnAndraAnvandare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAndraAnvandareActionPerformed(evt);
+            }
+        });
 
         lblResultat.setText("Resultat");
 
@@ -68,7 +81,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSkapaAnvandare)
@@ -78,14 +91,11 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                         .addComponent(btnSok))
                     .addComponent(lblSokAnvandare))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblResultat))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(lblResultat)
+                    .addComponent(btnAndraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(37, 37, 37))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAndraAnvandare)
-                .addGap(53, 53, 53))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,9 +122,40 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
-    
-        
+        new SkapaAnvandare(connection).setVisible(true);
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
+
+    private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
+        
+        lista.removeAllElements();
+        String soktAnvandare = txtSokAnvandare.getText();
+        
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '" + soktAnvandare + "%'");
+            
+            while(rs.next()) {
+                String fornamn = rs.getString("FORNAMN");
+                String efternamn = rs.getString("EFTERNAMN");
+                
+                lista.addElement(fornamn + " " + efternamn + "\n");
+                lstResultat.setModel(lista);
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_btnSokActionPerformed
+
+    private void btnAndraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAndraAnvandareActionPerformed
+        
+        String namn = lstResultat.getSelectedValue().toString();
+        
+    }//GEN-LAST:event_btnAndraAnvandareActionPerformed
 
 
 

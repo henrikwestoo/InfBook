@@ -48,12 +48,12 @@ public class Inloggning extends javax.swing.JFrame {
 
         btnLoggaIn = new javax.swing.JButton();
         txtAnv = new javax.swing.JTextField();
-        txtLos = new javax.swing.JTextField();
         lblAnv = new javax.swing.JLabel();
         lblLos = new javax.swing.JLabel();
         lblPic = new javax.swing.JLabel();
+        pwLos = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
 
         btnLoggaIn.setText("Logga in");
@@ -66,7 +66,6 @@ public class Inloggning extends javax.swing.JFrame {
         lblAnv.setLabelFor(txtAnv);
         lblAnv.setText("Personnummer");
 
-        lblLos.setLabelFor(txtLos);
         lblLos.setText("Lösenord");
 
         lblPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbookthin.png"))); // NOI18N
@@ -80,11 +79,6 @@ public class Inloggning extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblLos)
-                            .addComponent(txtLos, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(lblPic, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -93,23 +87,29 @@ public class Inloggning extends javax.swing.JFrame {
                             .addComponent(txtAnv, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblAnv)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(btnLoggaIn)))
+                        .addGap(154, 154, 154)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pwLos, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblLos))))
                 .addContainerGap(92, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(btnLoggaIn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(28, 28, 28)
                 .addComponent(lblPic, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblAnv)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtAnv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(lblLos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtLos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pwLos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(btnLoggaIn)
                 .addGap(67, 67, 67))
@@ -123,7 +123,7 @@ public class Inloggning extends javax.swing.JFrame {
         //Hej
         
         String angivetAnv = txtAnv.getText();
-        String angivetLos = txtLos.getText();
+        String angivetLos = new String(pwLos.getPassword());
         
         try {
 
@@ -168,7 +168,7 @@ public class Inloggning extends javax.swing.JFrame {
     private javax.swing.JLabel lblAnv;
     private javax.swing.JLabel lblLos;
     private javax.swing.JLabel lblPic;
+    private javax.swing.JPasswordField pwLos;
     private javax.swing.JTextField txtAnv;
-    private javax.swing.JTextField txtLos;
     // End of variables declaration//GEN-END:variables
 }
