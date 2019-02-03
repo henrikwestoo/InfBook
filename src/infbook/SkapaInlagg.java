@@ -48,7 +48,9 @@ public class SkapaInlagg extends javax.swing.JFrame {
      */
     public SkapaInlagg(Connection connection,String angivetAnv) {
         this.connection = connection;
+        
         initComponents();
+        txaInlagg.setLineWrap(true);
         this.angivetAnv = angivetAnv;
         fyllComboBoxSuperkategori();
         lista = new DefaultListModel();
