@@ -34,9 +34,10 @@
                   </Group>
                   <Component id="lblSokAnvandare" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="103" max="32767" attributes="0"/>
+              <EmptySpace pref="97" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jScrollPane1" pref="198" max="32767" attributes="0"/>
+                  <Component id="btnRaderaAnvandare" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                   <Component id="lblResultat" min="-2" max="-2" attributes="0"/>
                   <Component id="btnAndraAnvandare" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -66,7 +67,9 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnAndraAnvandare" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="49" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnRaderaAnvandare" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -123,6 +126,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Resultat"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRaderaAnvandare">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Radera markerad anv&#xe4;ndare"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRaderaAnvandareActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
