@@ -232,7 +232,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
             
             try { //8
 
-                stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE ="+personnummer); //fixa här henrik
+                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR=KOMMENTARID WHERE ANVANDARE="+personnummer);
 
             } catch (SQLException e) {
             }
