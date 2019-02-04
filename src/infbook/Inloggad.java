@@ -307,9 +307,9 @@ public class Inloggad extends javax.swing.JFrame {
                                 .addGap(20, 20, 20)))
                         .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(btnRefresh))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRefresh)
+                            .addComponent(jButton1))))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -336,7 +336,7 @@ public class Inloggad extends javax.swing.JFrame {
         String valtInlagg = (String) lstInlagg.getSelectedValue();
         String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
 
-        new VisatInlagg(connection, inlaggsID).setVisible(true);
+        new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed

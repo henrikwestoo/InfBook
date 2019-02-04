@@ -1,4 +1,3 @@
-
 package infbook;
 
 import java.awt.Image;
@@ -7,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,49 +16,51 @@ public class VisatInlagg extends javax.swing.JFrame {
 
     private Connection connection;
     private String inlaggsID;
-    public VisatInlagg(Connection connection,String inlaggsID) {
+    private String status;
+    private String angivetAnv;
+
+    public VisatInlagg(Connection connection, String inlaggsID, String status, String angivetAnv) {
         this.connection = connection;
         this.inlaggsID = inlaggsID;
+        this.status = status;
+        this.angivetAnv = angivetAnv;
+
         initComponents();
         textArea.setLineWrap(true);
         textArea.setEditable(false);
         txtAreaKommentar.setEditable(false);
-        
-        try{
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT TEXT FROM INLAGG WHERE INLAGGSID ='"+ inlaggsID +"'");
-        rs.next();
-        textArea.setText(rs.getString("TEXT"));
-        
-        Statement stmt2 = connection.createStatement();
-        ResultSet rs2 = stmt2.executeQuery("SELECT TITEL FROM INLAGG WHERE INLAGGSID ='"+ inlaggsID +"'");
-        rs2.next();
-        String titel = rs2.getString("TITEL");
-        lblTitel.setText(titel);
-        
-        Statement stmt7 = connection.createStatement();
-            ResultSet rs7 = stmt7.executeQuery("SELECT FILER.FIL FROM FILER JOIN INLAGG_FILER ON FILER.FILID = INLAGG_FILER.FIL JOIN INLAGG ON INLAGG.INLAGGSID = INLAGG_FILER.INLAGG WHERE INLAGG.INLAGGSID ='"+inlaggsID +"'");
+        btnTaBortInlagg.setVisible(false);
+
+        kollaOmInlaggetFarTasBort();
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT TEXT FROM INLAGG WHERE INLAGGSID ='" + inlaggsID + "'");
+            rs.next();
+            textArea.setText(rs.getString("TEXT"));
+
+            Statement stmt2 = connection.createStatement();
+            ResultSet rs2 = stmt2.executeQuery("SELECT TITEL FROM INLAGG WHERE INLAGGSID ='" + inlaggsID + "'");
+            rs2.next();
+            String titel = rs2.getString("TITEL");
+            lblTitel.setText(titel);
+
+            Statement stmt7 = connection.createStatement();
+            ResultSet rs7 = stmt7.executeQuery("SELECT FILER.FIL FROM FILER JOIN INLAGG_FILER ON FILER.FILID = INLAGG_FILER.FIL JOIN INLAGG ON INLAGG.INLAGGSID = INLAGG_FILER.INLAGG WHERE INLAGG.INLAGGSID ='" + inlaggsID + "'");
             rs7.next();
-             byte[] img = rs7.getBytes("FIL");
-             
-                ImageIcon image = new ImageIcon(img);
-                Image im = image.getImage();
-                Image myImg = im.getScaledInstance(lblBild.getWidth(), lblBild.getHeight(), Image.SCALE_SMOOTH);
-                ImageIcon newImage = new ImageIcon(myImg);
-                lblBild.setIcon(newImage);
-        
-        
-        
-        }
-        
-        catch(SQLException e)
-        {
-            
+            byte[] img = rs7.getBytes("FIL");
+
+            ImageIcon image = new ImageIcon(img);
+            Image im = image.getImage();
+            Image myImg = im.getScaledInstance(lblBild.getWidth(), lblBild.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon newImage = new ImageIcon(myImg);
+            lblBild.setIcon(newImage);
+
+        } catch (SQLException e) {
+
         }
     }
 
-    
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -72,8 +74,9 @@ public class VisatInlagg extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         lblannanFil = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnKommentera = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        btnTaBortInlagg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -89,9 +92,16 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         jLabel1.setText("Skriv kommentar");
 
-        jButton1.setText("Kommentera");
+        btnKommentera.setText("Kommentera");
 
         jLabel2.setText("Kommentarer:");
+
+        btnTaBortInlagg.setText("Ta bort inlägg");
+        btnTaBortInlagg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaBortInlaggActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,7 +115,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -115,12 +125,14 @@ public class VisatInlagg extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnTaBortInlagg)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45)
                                 .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
                             .addComponent(lblTitel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +147,10 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(btnTaBortInlagg)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -144,18 +159,64 @@ public class VisatInlagg extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnKommentera))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
- 
+    private void btnTaBortInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortInlaggActionPerformed
+
+        try {
+            Statement stmt = connection.createStatement();
+            
+            try {
+                stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+            }
+            catch (SQLException e) {
+            }
+            try {
+                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR.KOMMENTARID=ANVANDARE_KOMMENTERA_INLAGG.KOMMENTAR WHERE ANVANDARE_KOMMENTERA_INLAGG.INLAGG ='" + inlaggsID + "'");
+            }
+            catch (SQLException e) {
+            }
+            try {
+                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE INLAGG='" + inlaggsID + "'");
+            }
+            catch (SQLException e) {
+            }
+            stmt.executeUpdate("DELETE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
+            JOptionPane.showMessageDialog(null, "Inlägget har tagits bort!");
+            dispose();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }//GEN-LAST:event_btnTaBortInlaggActionPerformed
+
+    private void kollaOmInlaggetFarTasBort() {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
+            rs.next();
+            String inlaggsAnvandare = rs.getString("ANVANDARE");
+
+            if (status.equals("CA") || status.equals("UA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) {
+                btnTaBortInlagg.setVisible(true);
+            } else {
+                btnTaBortInlagg.setVisible(false);
+            }
+
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnKommentera;
+    private javax.swing.JButton btnTaBortInlagg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
