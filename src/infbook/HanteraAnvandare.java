@@ -126,9 +126,9 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAndraAnvandare)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
                 .addComponent(btnRaderaAnvandare)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -165,7 +165,10 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
     private void btnAndraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAndraAnvandareActionPerformed
 
-        String namn = lstResultat.getSelectedValue().toString();
+        String information = lstResultat.getSelectedValue().toString();
+        String personnummer = information.substring(0, information.indexOf(" "));
+        
+        new AndraProfil(connection, personnummer).setVisible(true);
 
     }//GEN-LAST:event_btnAndraAnvandareActionPerformed
 
@@ -219,6 +222,21 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
             } catch (SQLException e) {
             }
+            
+            try { //7
+
+                stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE ="+personnummer+")");
+
+            } catch (SQLException e) {
+            }
+            
+            try { //8
+
+                stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE ="+personnummer); //fixa här henrik
+
+            } catch (SQLException e) {
+            }
+            
 
         stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR ="+personnummer);
 
