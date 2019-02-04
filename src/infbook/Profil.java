@@ -21,9 +21,7 @@ public class Profil extends javax.swing.JFrame {
 
     private Connection connection;
 
-    /**
-     * Creates new form Profil
-     */
+   
     public Profil(Connection connection, String angivetAnv) {
         initComponents();
         this.connection = connection;
@@ -80,6 +78,10 @@ public class Profil extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+          catch(NullPointerException e)
+          {
+              
+          }
 
     }
 
@@ -199,7 +201,7 @@ public class Profil extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnRedigeraInfo)
                         .addGap(56, 56, 56)
@@ -224,9 +226,8 @@ public class Profil extends javax.swing.JFrame {
                                 .addComponent(lblAnvandarstatusDB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26))))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(lblProfilBildDB, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(24, 24, 24)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFornamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblFornamn))

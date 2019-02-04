@@ -23,6 +23,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -47,7 +48,9 @@ public class SkapaInlagg extends javax.swing.JFrame {
      */
     public SkapaInlagg(Connection connection,String angivetAnv) {
         this.connection = connection;
+        
         initComponents();
+        txaInlagg.setLineWrap(true);
         this.angivetAnv = angivetAnv;
         fyllComboBoxSuperkategori();
         lista = new DefaultListModel();
@@ -71,6 +74,8 @@ public class SkapaInlagg extends javax.swing.JFrame {
                     String nyPath = path.substring(i, i + 4);
 
                     lblBild.setText(nyPath);
+                    Icon icon = javax.swing.filechooser.FileSystemView.getFileSystemView().getSystemIcon(selectedFile);
+                    lblBild.setIcon(icon);
 
                     s = path;
                 }
@@ -109,6 +114,9 @@ public class SkapaInlagg extends javax.swing.JFrame {
 
             }
         });
+        
+        
+       
     }
 
     /**
@@ -132,7 +140,6 @@ public class SkapaInlagg extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<String>();
         lblBild = new javax.swing.JLabel();
-        textLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -193,24 +200,18 @@ public class SkapaInlagg extends javax.swing.JFrame {
                                 .addComponent(btnBifogaFiler))
                             .addComponent(jScrollPane1)
                             .addComponent(txtTitel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 91, Short.MAX_VALUE))
+                        .addGap(114, 114, 114)
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(textLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnSkapaInlagg)
-                        .addGap(269, 269, 269))))
+                .addComponent(btnSkapaInlagg)
+                .addGap(269, 269, 269))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(textLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addGap(31, 31, 31)
                 .addComponent(lblTitel)
                 .addGap(18, 18, 18)
                 .addComponent(txtTitel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,16 +219,15 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 .addComponent(lblInlagg)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnBifogaFiler, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(47, 47, 47)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBifogaFiler))
+                .addGap(18, 18, 18)
                 .addComponent(lblSubkategori)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -247,46 +247,43 @@ public ImageIcon ResizeImage(String ImagePath) {
         return image;
     }
 
-    private void skapaEttInlagg() throws FileNotFoundException {
+    private void skapaEttInlagg() throws FileNotFoundException  {
 
         String valdSubkategori = (String) jList1.getSelectedValue();
         try {
             
+            Statement stmt1 = connection.createStatement();
+            
+             ResultSet rs1 = stmt1.executeQuery("SELECT SUBKATEGORIID FROM SUBKATEGORI WHERE SKNAMN ='" + valdSubkategori + "' ");
+            rs1.next();
+            int subkategoriId = rs1.getInt("SUBKATEGORIID");
+            
+            
             Statement stmt2 = connection.createStatement();
-            
-             ResultSet rs2 = stmt2.executeQuery("SELECT SUBKATEGORIID FROM SUBKATEGORI WHERE SKNAMN ='" + valdSubkategori + "' ");
-            rs2.next();
-            int subkategoriId = rs2.getInt("SUBKATEGORIID");
-            
-            
-            Statement stmt = connection.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT FIRST 1  * FROM INLAGG ORDER BY INLAGGSID DESC");
-            rs.next();
-            int hogstaVarde = rs.getInt("INLAGGSID");
+            ResultSet rs2 = stmt2.executeQuery("SELECT FIRST 1  * FROM INLAGG ORDER BY INLAGGSID DESC");
+            rs2.next();
+            int hogstaVarde = rs2.getInt("INLAGGSID");
             int nyaVardet = hogstaVarde + 1;
 
-            PreparedStatement ps = connection.prepareStatement("insert into INLAGG(INLAGGSID,TEXT,ANVANDARE,SUBKATEGORI,TITEL) values(?,?,?,?,?)");
-            ps.setInt(1, nyaVardet);
-            ps.setString(2, txaInlagg.getText());
-            ps.setString(3, angivetAnv);
-            ps.setInt(4,subkategoriId);
-            ps.setString(5,txtTitel.getText());
-            ps.executeUpdate();
+            PreparedStatement ps2 = connection.prepareStatement("insert into INLAGG(INLAGGSID,TEXT,ANVANDARE,SUBKATEGORI,TITEL) values(?,?,?,?,?)");
+            ps2.setInt(1, nyaVardet);
+            ps2.setString(2, txaInlagg.getText());
+            ps2.setString(3, angivetAnv);
+            ps2.setInt(4,subkategoriId);
+            ps2.setString(5,txtTitel.getText());
+            ps2.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Inlägget har skapats");
             
             
-            if(lblBild.getIcon() == null)
-            {
-                
-            }
-            else {
-            ResultSet rs3 = stmt.executeQuery("SELECT FIRST 1  * FROM FILER ORDER BY FILID DESC");
+            Statement stmt3 = connection.createStatement();
+            ResultSet rs3 = stmt3.executeQuery("SELECT FIRST 1  * FROM FILER ORDER BY FILID DESC");
             rs3.next();
             int hogstaVarde2 = rs3.getInt("FILID");
             int nyaVardet2 = hogstaVarde2 + 1;
             
-            try {
-            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO FILER(FILID,FIL,TYP) VALUES (?,?,?)");
+            
+            PreparedStatement ps3 = connection.prepareStatement("INSERT INTO FILER(FILID,FIL,TYP) VALUES (?,?,?)");
             InputStream is = new FileInputStream(new File(s));
             selectedFile = file.getSelectedFile();
             path = selectedFile.getAbsolutePath();
@@ -297,46 +294,23 @@ public ImageIcon ResizeImage(String ImagePath) {
                 
                 extension = path.substring(i,i+4);
                 
-                textLabel.setText(extension);
+                
                  
  
-                ps2.setInt(1,nyaVardet2);
-                ps2.setBlob(2, is);
-                ps2.setString(3,extension);
-                ps2.executeUpdate();
-                
-                
-                PreparedStatement ps3 = connection.prepareStatement("INSERT INTO INLAGG_FILER(INLAGG,FIL) VALUES (?,?)");
-                
-                ps3.setInt(1, nyaVardet);
-                ps3.setInt(2, nyaVardet2);
+                ps3.setInt(1,nyaVardet2);
+                ps3.setBlob(2, is);
+                ps3.setString(3,extension);
                 ps3.executeUpdate();
-            }
-            
-            catch(FileNotFoundException e)
-            {
-                JOptionPane.showMessageDialog(null,"Bilden kom inte med");
-            }
-            }
-            
-            
-
-            
-            
+                
+                
+                PreparedStatement ps4 = connection.prepareStatement("INSERT INTO INLAGG_FILER(INLAGG,FIL) VALUES (?,?)");
+                
+                ps4.setInt(1, nyaVardet);
+                ps4.setInt(2, nyaVardet2);
+                ps4.executeUpdate();
+                  
             
 
-            while (rs.next()) {
-
-                cmbSuperkategori.addItem(rs.getString("SKNAMN"));
-                //cmbSuperkategori.addItem("SKNAMN");
-
-                
-                
-                
-                
-                
-                
-            }
         } catch (SQLException ex) {
             Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -428,7 +402,6 @@ public ImageIcon ResizeImage(String ImagePath) {
     private javax.swing.JLabel lblInlagg;
     private javax.swing.JLabel lblSubkategori;
     private javax.swing.JLabel lblTitel;
-    private javax.swing.JLabel textLabel;
     private javax.swing.JTextArea txaInlagg;
     private javax.swing.JTextField txtTitel;
     // End of variables declaration//GEN-END:variables
