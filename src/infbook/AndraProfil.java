@@ -6,12 +6,25 @@
 package infbook;
 
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -20,7 +33,10 @@ import javax.swing.JOptionPane;
 public class AndraProfil extends javax.swing.JFrame {
 
     private Connection connection;
-    
+    private JFileChooser file;
+    private File selectedFile;
+    private String path;
+
     /**
      * Creates new form AndraProfil
      */
@@ -28,6 +44,7 @@ public class AndraProfil extends javax.swing.JFrame {
         initComponents();
         this.connection = connection;
         txtPNR.setText(personnummer);
+        txtPNR.setEditable(false);
         try {
 
             Statement stmt = connection.createStatement();
@@ -64,7 +81,7 @@ public class AndraProfil extends javax.swing.JFrame {
             ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + personnummer);
             rs6.next();
             String status = rs6.getString("STATUS");
-            
+
             cmbStatus.setSelectedItem(KonverteraStatus.konverteraStatus(status));
 
             Statement stmt7 = connection.createStatement();
@@ -80,14 +97,35 @@ public class AndraProfil extends javax.swing.JFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (NullPointerException e) {
+
         }
-          catch(NullPointerException e)
-          {
-              
-          }
+
+        btnBytBild.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                file = new JFileChooser();
+                file.setCurrentDirectory(new File(System.getProperty("user.home")));
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png");
+                file.addChoosableFileFilter(filter);
+                int result = file.showSaveDialog(null);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = file.getSelectedFile();
+                    path = selectedFile.getAbsolutePath();
+
+                    int i = path.lastIndexOf(".");
+
+                    lblProfilBildDB.setIcon(ResizeImage(path));
+
+                }
+
+            }
+        });
 
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,7 +152,7 @@ public class AndraProfil extends javax.swing.JFrame {
         txtEpost = new javax.swing.JTextField();
         btnBytBild = new javax.swing.JButton();
         cmbStatus = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        btnSpara = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -140,10 +178,20 @@ public class AndraProfil extends javax.swing.JFrame {
         lblMobil.setText("Telefonnummer");
 
         btnBytBild.setText("Byt profilbild");
+        btnBytBild.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBytBildActionPerformed(evt);
+            }
+        });
 
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Centraladministratör", "Forskningsadministratör", "Utbildningsadministratör", "Forskningsanvändare", "Utbildningsanvändare", "Amanuens" }));
 
-        jButton1.setText("Spara ändringar");
+        btnSpara.setText("Spara ändringar");
+        btnSpara.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSparaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,7 +238,7 @@ public class AndraProfil extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtPNR, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnSpara)
                         .addGap(73, 73, 73))))
         );
         layout.setVerticalGroup(
@@ -243,21 +291,84 @@ public class AndraProfil extends javax.swing.JFrame {
                             .addComponent(txtPNR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(37, 37, 37))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnSpara)
                         .addGap(24, 24, 24))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
+        String PNR = txtPNR.getText();
+        String rumsnmr = txtRum.getText();
+        String mobilnmr = txtTelefon.getText();
+        String email = txtEpost.getText();
+        String fornamn = txtFornamn.getText();
+        String efternamn = txtEfternamn.getText();
+        String status = cmbStatus.getSelectedItem().toString();
+
+        if (cmbStatus.getSelectedItem().toString().equals("Centraladministratör")) {
+            status = "CA";
+        }
+        if (cmbStatus.getSelectedItem().toString().equals("Utbildningsadministratör")) {
+            status = "UA";
+        }
+        if (cmbStatus.getSelectedItem().toString().equals("Forskningsadministratör")) {
+            status = "FA";
+        }
+        if (cmbStatus.getSelectedItem().toString().equals("Amanuens")) {
+            status = "A";
+        }
+        if (cmbStatus.getSelectedItem().toString().equals("Forskningsanvändare")) {
+            status = "F";
+        }
+        if (cmbStatus.getSelectedItem().toString().equals("Utbildningsanvändare")) {
+            status = "U";
+        }
+
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("UPDATE ANVANDARE SET RUMSNMR='" + rumsnmr + "', MOBILNMR='" + mobilnmr + "', EMAIL='" + email + "', FORNAMN='" + fornamn + "', EFTERNAMN='" + efternamn + "', STATUS='" + status + "' WHERE PNR='" + PNR + "'");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE ANVANDARE SET PROFILBILD =? WHERE PNR='" + PNR + "'");
+            InputStream is = new FileInputStream(new File(path));
+            selectedFile = file.getSelectedFile();
+            path = selectedFile.getAbsolutePath();
+            ps.setBlob(1, is);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AndraProfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnSparaActionPerformed
+
+    private void btnBytBildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBytBildActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBytBildActionPerformed
+
+    public ImageIcon ResizeImage(String ImagePath) {
+
+        ImageIcon myImage = new ImageIcon(ImagePath);
+        Image img = myImage.getImage();
+        Image newImg = img.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+    }
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBytBild;
+    private javax.swing.JButton btnSpara;
     private javax.swing.JComboBox cmbStatus;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblAnvandarstatus;
     private javax.swing.JLabel lblEfternamn;
     private javax.swing.JLabel lblEpost;
