@@ -83,7 +83,7 @@ public class Inloggad extends javax.swing.JFrame {
         btnHanteraAnvandare = new javax.swing.JButton();
         lblInloggadSom = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnVisaMarkeratInlagg = new javax.swing.JButton();
         btnSkapaSuperKategori = new javax.swing.JButton();
         btnSkapaAnvandare = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
@@ -177,10 +177,10 @@ public class Inloggad extends javax.swing.JFrame {
 
         lblInloggadSom.setText("Inloggad som:");
 
-        jButton1.setText("Visa markerat inlägg");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnVisaMarkeratInlagg.setText("Visa markerat inlägg");
+        btnVisaMarkeratInlagg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnVisaMarkeratInlaggActionPerformed(evt);
             }
         });
 
@@ -228,7 +228,7 @@ public class Inloggad extends javax.swing.JFrame {
                                 .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
                             .addGap(35, 35, 35)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 152, Short.MAX_VALUE)
                                 .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(45, 45, 45)
@@ -238,7 +238,7 @@ public class Inloggad extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addGap(38, 38, 38)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGap(39, 39, 39)
                             .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -256,7 +256,7 @@ public class Inloggad extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnVisaMarkeratInlagg, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnRefresh))))
                     .addGroup(layout.createSequentialGroup()
@@ -309,7 +309,7 @@ public class Inloggad extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnRefresh)
-                            .addComponent(jButton1))))
+                            .addComponent(btnVisaMarkeratInlagg))))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -332,14 +332,14 @@ public class Inloggad extends javax.swing.JFrame {
         new HanteraAnvandare(connection).setVisible(true);
     }//GEN-LAST:event_btnHanteraAnvandareActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnVisaMarkeratInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaMarkeratInlaggActionPerformed
         String valtInlagg = (String) lstInlagg.getSelectedValue();
         String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
 
         new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnVisaMarkeratInlaggActionPerformed
 
     private void btnSkapaSuperKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaSuperKategoriActionPerformed
         new SkapaSuperKategori(connection).setVisible(true);
@@ -383,7 +383,7 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaSuperKategori;
     private javax.swing.JButton btnSkapaUnderkategori;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnVisaMarkeratInlagg;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane2;

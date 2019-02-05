@@ -132,6 +132,11 @@ public class Profil extends javax.swing.JFrame {
         lblMobil.setText("Telefonnummer");
 
         btnRedigeraInfo.setText("Redigera information");
+        btnRedigeraInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRedigeraInfoActionPerformed(evt);
+            }
+        });
 
         lblFornamnDB.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
 
@@ -244,6 +249,10 @@ public class Profil extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRedigeraInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraInfoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRedigeraInfoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

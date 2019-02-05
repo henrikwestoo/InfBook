@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +22,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
     private Connection connection;
     private DefaultListModel lista;
+
     /**
      * Creates new form HanteraAnvandare
      */
@@ -47,6 +49,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         btnSkapaAnvandare = new javax.swing.JButton();
         btnAndraAnvandare = new javax.swing.JButton();
         lblResultat = new javax.swing.JLabel();
+        btnRaderaAnvandare = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -77,6 +80,13 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
         lblResultat.setText("Resultat");
 
+        btnRaderaAnvandare.setText("Radera markerad användare");
+        btnRaderaAnvandare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRaderaAnvandareActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,9 +100,10 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addComponent(btnSok))
                     .addComponent(lblSokAnvandare))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(btnRaderaAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(lblResultat)
                     .addComponent(btnAndraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(37, 37, 37))
@@ -115,7 +126,9 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAndraAnvandare)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(btnRaderaAnvandare)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -126,41 +139,119 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
     private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
-        
+
         lista.removeAllElements();
         String soktAnvandare = txtSokAnvandare.getText();
-        
+
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '" + soktAnvandare + "%'");
-            
-            while(rs.next()) {
+            ResultSet rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '" + soktAnvandare + "%'");
+
+            while (rs.next()) {
+                String personnummer = rs.getString("PNR");
                 String fornamn = rs.getString("FORNAMN");
                 String efternamn = rs.getString("EFTERNAMN");
-                
-                lista.addElement(fornamn + " " + efternamn + "\n");
+
+                lista.addElement(personnummer + " " + fornamn + " " + efternamn + "\n");
                 lstResultat.setModel(lista);
             }
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_btnSokActionPerformed
 
     private void btnAndraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAndraAnvandareActionPerformed
+
+        String information = lstResultat.getSelectedValue().toString();
+        String personnummer = information.substring(0, information.indexOf(" "));
         
-        String namn = lstResultat.getSelectedValue().toString();
-        
+        new AndraProfil(connection, personnummer).setVisible(true);
+
     }//GEN-LAST:event_btnAndraAnvandareActionPerformed
 
+    private void btnRaderaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRaderaAnvandareActionPerformed
+
+        String information = lstResultat.getSelectedValue().toString();
+        String personnummer = information.substring(0, information.indexOf(" "));
+        System.out.println(personnummer);
+        try {
+
+            Statement stmt = connection.createStatement();
+
+            try { //1
+
+                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE WHERE PNR ="+personnummer);
+
+            } catch (SQLException e) {
+            }
+
+            try {//2
+
+                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE ANVANDARE ="+personnummer);
+
+            } catch (SQLException e) {
+            }
+
+            try {//3
+
+                stmt.executeUpdate("DELETE FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE ="+personnummer);
+
+            } catch (SQLException e) {
+            }
+
+            try {//4
+
+                stmt.executeUpdate("DELETE FROM INLAGG WHERE ANVANDARE ="+personnummer);
+
+            } catch (SQLException e) {
+            }
+
+            try {//5
+
+                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE_ANV_SVAR WHERE ANVANDARE ="+personnummer);
+
+            } catch (SQLException e) {
+            }
+
+            try { //6
+
+                stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE ="+personnummer);
+
+            } catch (SQLException e) {
+            }
+            
+            try { //7
+
+                stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE ="+personnummer+")");
+
+            } catch (SQLException e) {
+            }
+            
+            try { //8
+
+                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR=KOMMENTARID WHERE ANVANDARE="+personnummer);
+
+            } catch (SQLException e) {
+            }
+            
+
+        stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR ="+personnummer);
+
+        JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
+
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, "Något gick fel, användaren kunde inte raderas");
+        }
+    }//GEN-LAST:event_btnRaderaAnvandareActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAndraAnvandare;
+    private javax.swing.JButton btnRaderaAnvandare;
     private javax.swing.JButton btnSkapaAnvandare;
     private javax.swing.JButton btnSok;
     private javax.swing.JScrollPane jScrollPane1;
