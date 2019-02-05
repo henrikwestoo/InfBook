@@ -38,7 +38,7 @@ public class Inloggad extends javax.swing.JFrame {
         lista = new DefaultListModel();
         this.connection = connection;
         initComponents();
-
+        btnSkapaUnderkategori.setVisible(false);
         this.status = status;
         this.angivetAnv = angivetAnv;
 

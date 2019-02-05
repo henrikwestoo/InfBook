@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -123,6 +124,7 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
                 ps.setInt(3, kategoriID);
                 ps.executeUpdate();
 
+                JOptionPane.showMessageDialog(null, "Kategorin har skapats!");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

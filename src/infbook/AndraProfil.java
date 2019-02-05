@@ -329,7 +329,7 @@ public class AndraProfil extends javax.swing.JFrame {
         try {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("UPDATE ANVANDARE SET RUMSNMR='" + rumsnmr + "', MOBILNMR='" + mobilnmr + "', EMAIL='" + email + "', FORNAMN='" + fornamn + "', EFTERNAMN='" + efternamn + "', STATUS='" + status + "' WHERE PNR='" + PNR + "'");
-
+            JOptionPane.showMessageDialog(null, "Informationen har ändrats");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

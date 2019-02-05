@@ -283,7 +283,7 @@ public ImageIcon ResizeImage(String ImagePath) {
             int nyaVardet2 = hogstaVarde2 + 1;
             
             
-            PreparedStatement ps3 = connection.prepareStatement("INSERT INTO FILER(FILID,FIL,TYP) VALUES (?,?,?)");
+            PreparedStatement ps3 = connection.prepareStatement("INSERT INTO FILER(FILID,FIL,TYP, INLAGG) VALUES (?,?,?, ?)");
             InputStream is = new FileInputStream(new File(s));
             selectedFile = file.getSelectedFile();
             path = selectedFile.getAbsolutePath();
@@ -300,14 +300,8 @@ public ImageIcon ResizeImage(String ImagePath) {
                 ps3.setInt(1,nyaVardet2);
                 ps3.setBlob(2, is);
                 ps3.setString(3,extension);
+                ps3.setInt(4, nyaVardet);
                 ps3.executeUpdate();
-                
-                
-                PreparedStatement ps4 = connection.prepareStatement("INSERT INTO INLAGG_FILER(INLAGG,FIL) VALUES (?,?)");
-                
-                ps4.setInt(1, nyaVardet);
-                ps4.setInt(2, nyaVardet2);
-                ps4.executeUpdate();
                   
             
 
