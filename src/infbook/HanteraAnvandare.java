@@ -22,6 +22,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
     private Connection connection;
     private DefaultListModel lista;
+    private String status;
 
     /**
      * Creates new form HanteraAnvandare
@@ -30,6 +31,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         this.connection = connection;
         lista = new DefaultListModel();
         initComponents();
+        this.status = status;
     }
 
     /**
@@ -144,8 +146,24 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         String soktAnvandare = txtSokAnvandare.getText();
 
         try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '" + soktAnvandare + "%'");
+
+            Statement placeholder = connection.createStatement();
+            ResultSet rs = placeholder.executeQuery("SELECT * FROM ANVANDARE");
+            
+            if (status.equals("CA")) { //Om du är CA
+                Statement stmt = connection.createStatement();
+                rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '"+soktAnvandare+"%'");
+            }
+
+            if (status.equals("FA")) { //Om du är FA
+                Statement stmt = connection.createStatement();
+                rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '"+soktAnvandare+"%' AND STATUS LIKE 'F%'");
+            }
+
+            else if (status.equals("UA")) { //Om du är UA
+                Statement stmt = connection.createStatement();
+                rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '"+soktAnvandare+"%' AND STATUS LIKE 'U%'");
+            }
 
             while (rs.next()) {
                 String personnummer = rs.getString("PNR");
@@ -167,7 +185,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
         String information = lstResultat.getSelectedValue().toString();
         String personnummer = information.substring(0, information.indexOf(" "));
-        
+
         new AndraProfil(connection, personnummer).setVisible(true);
 
     }//GEN-LAST:event_btnAndraAnvandareActionPerformed
@@ -183,64 +201,63 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
             try { //1
 
-                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE WHERE PNR ="+personnummer);
+                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE WHERE PNR =" + personnummer);
 
             } catch (SQLException e) {
             }
 
             try {//2
 
-                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE ANVANDARE ="+personnummer);
+                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE ANVANDARE =" + personnummer);
 
             } catch (SQLException e) {
             }
 
             try {//3
 
-                stmt.executeUpdate("DELETE FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE ="+personnummer);
+                stmt.executeUpdate("DELETE FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE =" + personnummer);
 
             } catch (SQLException e) {
             }
 
             try {//4
 
-                stmt.executeUpdate("DELETE FROM INLAGG WHERE ANVANDARE ="+personnummer);
+                stmt.executeUpdate("DELETE FROM INLAGG WHERE ANVANDARE =" + personnummer);
 
             } catch (SQLException e) {
             }
 
             try {//5
 
-                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE_ANV_SVAR WHERE ANVANDARE ="+personnummer);
+                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE_ANV_SVAR WHERE ANVANDARE =" + personnummer);
 
             } catch (SQLException e) {
             }
 
             try { //6
 
-                stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE ="+personnummer);
+                stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE =" + personnummer);
 
             } catch (SQLException e) {
             }
-            
+
             try { //7
 
-                stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE ="+personnummer+")");
+                stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE =" + personnummer + ")");
 
             } catch (SQLException e) {
             }
-            
+
             try { //8
 
-                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR=KOMMENTARID WHERE ANVANDARE="+personnummer);
+                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR=KOMMENTARID WHERE ANVANDARE=" + personnummer);
 
             } catch (SQLException e) {
             }
-            
 
-        stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR ="+personnummer);
+            stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR =" + personnummer);
 
-        JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
+            JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
 
         } catch (SQLException e) {
 
