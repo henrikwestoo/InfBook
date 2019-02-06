@@ -26,7 +26,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     /**
      * Creates new form HanteraAnvandare
      */
-    public HanteraAnvandare(Connection connection) {
+    public HanteraAnvandare(Connection connection, String status) {
         this.connection = connection;
         lista = new DefaultListModel();
         initComponents();
