@@ -1,6 +1,9 @@
 package infbook;
 
 import java.awt.Image;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -92,6 +95,7 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnRedigera = new javax.swing.JButton();
         btnSpara = new javax.swing.JButton();
         lblTitel = new javax.swing.JTextField();
+        btnHamtaFiler = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -130,6 +134,13 @@ public class VisatInlagg extends javax.swing.JFrame {
             }
         });
 
+        btnHamtaFiler.setText("Hämta filer");
+        btnHamtaFiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHamtaFilerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,8 +166,13 @@ public class VisatInlagg extends javax.swing.JFrame {
                                 .addComponent(btnTaBortInlagg)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
-                                .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(45, 45, 45)
+                                        .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnHamtaFiler)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSpara))
                             .addComponent(jScrollPane1)
@@ -172,25 +188,30 @@ public class VisatInlagg extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRedigera)
-                        .addGap(11, 11, 11))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(btnTaBortInlagg))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSpara)
-                            .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRedigera)
+                                .addGap(11, 11, 11))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(btnTaBortInlagg))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSpara)
+                                    .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnHamtaFiler)
+                        .addGap(134, 134, 134)))
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,6 +286,44 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnSpara.setVisible(true);
         lblTitel.setEditable(true);
     }//GEN-LAST:event_btnRedigeraActionPerformed
+
+    private void btnHamtaFilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHamtaFilerActionPerformed
+                try {
+            Statement stmt = connection.createStatement();
+            ResultSet rsFiltyp = stmt.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+
+            if (rsFiltyp.next()) {
+
+                String filtyp = rsFiltyp.getString("TYP");
+
+                Statement stmt2 = connection.createStatement();
+                ResultSet rsFil = stmt2.executeQuery("SELECT FIL FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+                rsFil.next();
+                
+                if (filtyp.equals(".pdf")) {
+                    
+                    Blob enBlob = rsFil.getBlob("FIL");
+
+                    int blobLength = (int) enBlob.length();
+                    int pos = 1;
+                    byte[] bytes = enBlob.getBytes(pos, blobLength);
+
+                    InputStream is = enBlob.getBinaryStream();
+                    int b = 0;
+
+                    FileOutputStream os = new FileOutputStream("C:/Downloads/test.pdf");
+                    while ((b = is.read()) != -1) {
+                        os.write(b);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnHamtaFilerActionPerformed
 
     private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
         try {
@@ -345,6 +404,7 @@ public class VisatInlagg extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHamtaFiler;
     private javax.swing.JButton btnKommentera;
     private javax.swing.JButton btnRedigera;
     private javax.swing.JButton btnSpara;
