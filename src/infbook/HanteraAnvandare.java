@@ -137,7 +137,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
-        new SkapaAnvandare(connection).setVisible(true);
+        new SkapaAnvandare(connection, status).setVisible(true);
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
     private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed

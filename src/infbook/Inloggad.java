@@ -372,7 +372,7 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaSuperKategoriActionPerformed
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
-        new SkapaAnvandare(connection).setVisible(true);
+        new SkapaAnvandare(connection, status).setVisible(true);
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
