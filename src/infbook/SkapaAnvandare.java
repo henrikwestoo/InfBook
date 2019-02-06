@@ -46,7 +46,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
      * Creates new form SkapaAnvandare
      */
     public SkapaAnvandare(Connection connection, String status) {
-        this.connection = connection;
+        this.connection = connection; //Arrayerna nedan kommer fylla comboboxen och är olika beroende på vem man är inloggad som
         String[] alternativCA = new String[]{ "Centraladministratör", "Forskningsadministratör", "Utbildningsadministratör", "Forskningsanvändare", "Utbildningsanvändare", "Amanuens" };
         String[] alternativUA = new String[]{ "Utbildningsanvändare", "Amanuens" };
         String[] alternativFA = new String[]{ "Forskningsanvändare", "Amanuens" };
@@ -55,15 +55,15 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
         if (status.equals("UA")) {
 
-            cmbStatus.setModel(new DefaultComboBoxModel(alternativUA));
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativUA)); //Om man är ua väljs denna array för att fylla boxen
 
         } else if (status.equals("FA")) {
 
-            cmbStatus.setModel(new DefaultComboBoxModel(alternativFA));
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativFA)); // etc etc
 
         } else if (status.equals("CA")) {
 
-            cmbStatus.setModel(new DefaultComboBoxModel(alternativCA));
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativCA)); // etc etc
 
         }
 
