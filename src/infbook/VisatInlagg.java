@@ -50,7 +50,7 @@ public class VisatInlagg extends javax.swing.JFrame {
 
                 btnRedigera.setVisible(true);
             }
-            
+
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT TEXT FROM INLAGG WHERE INLAGGSID ='" + inlaggsID + "'");
             rs.next();
@@ -213,30 +213,27 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         try {
             Statement stmt = connection.createStatement();
-            
+
             try {
                 stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG='" + inlaggsID + "'");
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
             }
             try {
                 stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR.KOMMENTARID=ANVANDARE_KOMMENTERA_INLAGG.KOMMENTAR WHERE ANVANDARE_KOMMENTERA_INLAGG.INLAGG ='" + inlaggsID + "'");
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
             }
             try {
                 stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE INLAGG='" + inlaggsID + "'");
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
             }
             stmt.executeUpdate("DELETE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
             JOptionPane.showMessageDialog(null, "Inlägget har tagits bort!");
             dispose();
-            
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
     }//GEN-LAST:event_btnTaBortInlaggActionPerformed
 
     private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
@@ -268,28 +265,62 @@ public class VisatInlagg extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSparaActionPerformed
 
     private void btnRedigeraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraActionPerformed
-        textArea.setEditable(true);         
-        btnSpara.setVisible(true);         
+        textArea.setEditable(true);
+        btnSpara.setVisible(true);
         lblTitel.setEditable(true);
     }//GEN-LAST:event_btnRedigeraActionPerformed
 
-    private void kollaOmInlaggetFarTasBort() {
+    private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
             rs.next();
             String inlaggsAnvandare = rs.getString("ANVANDARE");
 
-            if (status.equals("CA") || status.equals("UA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) {
-                btnTaBortInlagg.setVisible(true);
-            } else {
-                btnTaBortInlagg.setVisible(false);
+            //Inläggstatus = Utbildning
+            if (getAnvandarStatus(inlaggsID).equals("UA") || getAnvandarStatus(inlaggsID).equals("U")) { //Om inlägget är skapat av en utbildare
+                if (status.equals("CA") || status.equals("UA") || inlaggsAnvandare.equals(angivetAnv)) {//och du är inloggad som CA/UA/den som skapade inlägget
+                    btnTaBortInlagg.setVisible(true); //kan du ta bort inlägget
+                } else {
+                    btnTaBortInlagg.setVisible(false);
+
+                }
+            }
+
+            else if (getAnvandarStatus(inlaggsID).equals("FA") || getAnvandarStatus(inlaggsID).equals("F")) { //Om inlägget är skapat av en forskare
+                if (status.equals("CA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) { //och du är inloggad som CA/FA/ den som skapade inlägget
+                    btnTaBortInlagg.setVisible(true); //så kan du ta bort inlägget
+                } else {
+                    btnTaBortInlagg.setVisible(false);
+
+                }
             }
 
         } catch (SQLException e) {
             e.getMessage();
         }
     }
+
+    public String getAnvandarStatus(String inlaggsID) { //Används för att kolla statusen på personen som gjort inlägget, returnerar statusen
+
+        String status = "";
+
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT STATUS FROM INLAGG JOIN ANVANDARE ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID =" + inlaggsID);
+            rs.next(); 
+
+            status = rs.getString("STATUS"); //
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Något gick fel i databasen");
+        }
+
+        return status;
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKommentera;
