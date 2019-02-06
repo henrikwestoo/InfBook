@@ -12,7 +12,7 @@
     </Component>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -33,23 +33,30 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Component id="lblNyAnvandare" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="lblPnr" alignment="0" pref="90" max="32767" attributes="0"/>
-                                  <Component id="txtTlfnr" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="lblTlfnr" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtPnr" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
-                              <Component id="txtFornamn" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="lblFornamn" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="lblPnr" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTlfnr" max="32767" attributes="0"/>
+                      <Component id="txtPnr" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="txtFornamn" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="txtTlfnr" alignment="1" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="lblFornamn" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBifogaFil" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblAnvstatus" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmbStatus" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
+                  <Component id="btnSkapaAnvandare" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="txtEpost" min="-2" pref="87" max="-2" attributes="0"/>
                           <Component id="lblEpost" min="-2" max="-2" attributes="0"/>
@@ -60,32 +67,20 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
-                      <Component id="lblNyAnvandare" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
-                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="lblBild" min="-2" pref="103" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <EmptySpace pref="71" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="lblNyAnvandare" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblEfternamn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblFornamn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -115,46 +110,46 @@
                   <Component id="txtTlfnr" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtEpost" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
-              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <EmptySpace pref="34" max="32767" attributes="0"/>
+              <Component id="lblAnvstatus" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="cmbStatus" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="btnBifogaFil" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <Component id="btnSkapaAnvandare" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="lblBild" min="-2" pref="117" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="txtFornamn">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtEfternamn">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPnr">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField3"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtRumsnr">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField4"/>
-      </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
+    <Component class="javax.swing.JComboBox" name="cmbStatus">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
+          <StringArray count="6">
+            <StringItem index="0" value="Centraladministrat&#xf6;r"/>
+            <StringItem index="1" value="Forskningsadministrat&#xf6;r"/>
+            <StringItem index="2" value="Utbildningsadministrat&#xf6;r"/>
+            <StringItem index="3" value="Forskningsanv&#xe4;ndare"/>
+            <StringItem index="4" value="Utbildningsanv&#xe4;ndare"/>
+            <StringItem index="5" value="Amanuens"/>
           </StringArray>
         </Property>
       </Properties>
@@ -192,9 +187,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTlfnr">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField5"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTlfnr">
       <Properties>
@@ -213,11 +205,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtEpost">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField6"/>
-      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEpostActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel8">
+    <Component class="javax.swing.JLabel" name="lblAnvstatus">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
@@ -225,10 +217,13 @@
         <Property name="text" type="java.lang.String" value="Anv&#xe4;ndarstatus"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnSkapaAnvandare">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jButton1"/>
+        <Property name="text" type="java.lang.String" value="Skapa Anv&#xe4;ndare"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSkapaAnvandareActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNyAnvandare">
       <Properties>
@@ -236,6 +231,13 @@
           <Font name="Tahoma" size="14" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Skapa ny anv&#xe4;ndare"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblBild">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnBifogaFil">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Bifoga profilbild"/>
       </Properties>
     </Component>
   </SubComponents>

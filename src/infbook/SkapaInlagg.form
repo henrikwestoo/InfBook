@@ -23,73 +23,65 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTitel" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="396" max="-2" attributes="0"/>
+                  <Component id="lblSubkategori" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblInlagg" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="260" max="-2" attributes="0"/>
-                          <Component id="txtTitel" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jScrollPane2" min="-2" pref="164" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnNyKategori" max="32767" attributes="0"/>
-                                  <Component id="btnBifogaFiler" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="lblSuperkategori" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="lblTitel" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="cmbSuperkategori" min="-2" pref="143" max="-2" attributes="0"/>
+                              <EmptySpace pref="160" max="32767" attributes="0"/>
+                              <Component id="btnBifogaFiler" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lblSubkategori" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Component id="txtTitel" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
-                      <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                      <Component id="lblBild" min="-2" pref="126" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="74" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="269" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Component id="lblTitel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="txtTitel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="txtTitel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="lblInlagg" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="153" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" pref="248" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="lblBild" min="-2" pref="117" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cmbSuperkategori" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblSuperkategori" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBifogaFiler" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                      <Component id="lblSubkategori" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                      <Component id="btnBifogaFiler" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnNyKategori" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Component id="lblSubkategori" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -125,19 +117,36 @@
     <Component class="javax.swing.JComboBox" name="cmbSuperkategori">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
+          <StringArray count="1">
+            <StringItem index="0" value="V&#xe4;lj Superkategori"/>
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cmbSuperkategoriItemStateChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbSuperkategoriActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblSuperkategori">
+    <Component class="javax.swing.JLabel" name="lblSubkategori">
       <Properties>
-        <Property name="text" type="java.lang.String" value="V&#xe4;lj superkategori"/>
+        <Property name="text" type="java.lang.String" value="V&#xe4;lj subkategori"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSkapaInlagg">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Skapa inl&#xe4;gg"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSkapaInlaggActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnBifogaFiler">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Bifoga filer"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBifogaFilerActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
@@ -146,40 +155,19 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="lstSubkategori">
+        <Component class="javax.swing.JList" name="jList1">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblSubkategori">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="V&#xe4;lj subkategori"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnNyKategori">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Skapa underkategori"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnSkapaInlagg">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Skapa inl&#xe4;gg"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnBifogaFiler">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Bifoga filer"/>
-      </Properties>
+    <Component class="javax.swing.JLabel" name="lblBild">
     </Component>
   </SubComponents>
 </Form>

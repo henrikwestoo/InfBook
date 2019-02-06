@@ -5,11 +5,13 @@
  */
 package infbook;
 
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.tools.Tool;
 
 /**
  *
@@ -18,13 +20,21 @@ import javax.swing.JOptionPane;
 public class Inloggning extends javax.swing.JFrame {
 
     private Connection connection; //Fält för kopplingen
-
     /**
      * Creates new form Inloggning
      */
     public Inloggning(Connection connection) {
         initComponents();
         this.connection = connection;
+        setJFrameIcon();
+        getRootPane().setDefaultButton(btnLoggaIn);
+        setResizable(false);
+        
+    }
+    
+    public void setJFrameIcon() {
+        setTitle("Infbook");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Inloggning.class.getResource("/images/infbookIcon.png")));
     }
 
     /**
@@ -38,12 +48,13 @@ public class Inloggning extends javax.swing.JFrame {
 
         btnLoggaIn = new javax.swing.JButton();
         txtAnv = new javax.swing.JTextField();
-        txtLos = new javax.swing.JTextField();
         lblAnv = new javax.swing.JLabel();
         lblLos = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblPic = new javax.swing.JLabel();
+        pwLos = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImages(null);
 
         btnLoggaIn.setText("Logga in");
         btnLoggaIn.addActionListener(new java.awt.event.ActionListener() {
@@ -52,47 +63,56 @@ public class Inloggning extends javax.swing.JFrame {
             }
         });
 
-        lblAnv.setText("Användarnamn");
+        lblAnv.setLabelFor(txtAnv);
+        lblAnv.setText("Personnummer");
 
         lblLos.setText("Lösenord");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("InfBook");
+        lblPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbookthin.png"))); // NOI18N
+        lblPic.setMaximumSize(new java.awt.Dimension(200, 200));
+        lblPic.setPreferredSize(new java.awt.Dimension(200, 210));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblLos)
-                    .addComponent(lblAnv))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLoggaIn)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtAnv)
-                        .addComponent(txtLos, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(lblPic, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtAnv, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAnv)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pwLos, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblLos))))
+                .addContainerGap(92, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(btnLoggaIn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtAnv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAnv))
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtLos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblLos))
-                .addGap(45, 45, 45)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(lblPic, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblAnv)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtAnv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(lblLos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pwLos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
                 .addComponent(btnLoggaIn)
-                .addGap(73, 73, 73))
+                .addGap(67, 67, 67))
         );
 
         pack();
@@ -103,7 +123,7 @@ public class Inloggning extends javax.swing.JFrame {
         //Hej
         
         String angivetAnv = txtAnv.getText();
-        String angivetLos = txtLos.getText();
+        String angivetLos = new String(pwLos.getPassword());
         
         try {
 
@@ -119,12 +139,20 @@ public class Inloggning extends javax.swing.JFrame {
             if (angivetLos.equals(losenord)) {
 
                 //inloggningen lyckas
+                
+                
+                Statement stmtStatus = connection.createStatement();
+                ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR="+angivetAnv);
+                
+                rsStatus.next();
+                
+                String status = rsStatus.getString("STATUS");
+                
                 this.setVisible(false);
-
-                new Inloggad(connection).setVisible(true);
+                new Inloggad(connection, status, angivetAnv).setVisible(true);
 
             } else {
-                JOptionPane.showMessageDialog(null, "fel lösenord");
+                JOptionPane.showMessageDialog(null, "Fel lösenord");
             }
 
         } catch (SQLException e) {
@@ -137,10 +165,10 @@ public class Inloggning extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoggaIn;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblAnv;
     private javax.swing.JLabel lblLos;
+    private javax.swing.JLabel lblPic;
+    private javax.swing.JPasswordField pwLos;
     private javax.swing.JTextField txtAnv;
-    private javax.swing.JTextField txtLos;
     // End of variables declaration//GEN-END:variables
 }
