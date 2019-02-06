@@ -39,17 +39,13 @@ public class VisatInlagg extends javax.swing.JFrame {
         lblTitel.setEditable(false);
 
         kollaOmInlaggetFarTasBort();
+        kollaOmInlaggetFarRedigeras();
 
         try {
             Statement stmt20 = connection.createStatement();
             ResultSet rs20 = stmt20.executeQuery("SELECT PNR FROM ANVANDARE JOIN INLAGG ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID ='" + inlaggsID + "'");
             rs20.next();
             String personen = rs20.getString("PNR");
-
-            if (personen.equals(angivetAnv)) {
-
-                btnRedigera.setVisible(true);
-            }
 
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT TEXT FROM INLAGG WHERE INLAGGSID ='" + inlaggsID + "'");
@@ -285,9 +281,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                     btnTaBortInlagg.setVisible(false);
 
                 }
-            }
-
-            else if (getAnvandarStatus(inlaggsID).equals("FA") || getAnvandarStatus(inlaggsID).equals("F")) { //Om inlägget är skapat av en forskare
+            } else if (getAnvandarStatus(inlaggsID).equals("FA") || getAnvandarStatus(inlaggsID).equals("F")) { //Om inlägget är skapat av en forskare
                 if (status.equals("CA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) { //och du är inloggad som CA/FA/ den som skapade inlägget
                     btnTaBortInlagg.setVisible(true); //så kan du ta bort inlägget
                 } else {
@@ -309,7 +303,7 @@ public class VisatInlagg extends javax.swing.JFrame {
 
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT STATUS FROM INLAGG JOIN ANVANDARE ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID =" + inlaggsID);
-            rs.next(); 
+            rs.next();
 
             status = rs.getString("STATUS"); //
 
@@ -319,6 +313,34 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         return status;
 
+    }
+
+    private void kollaOmInlaggetFarRedigeras() { //Kollar om du har behörighet att redigera ett inlägg
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
+            rs.next();
+            String inlaggsAnvandare = rs.getString("ANVANDARE");
+
+            if (getAnvandarStatus(inlaggsID).equals("UA") || getAnvandarStatus(inlaggsID).equals("U")) { //Om inlägget är skapat av en utbildare
+                if (status.equals("CA") || status.equals("UA") || inlaggsAnvandare.equals(angivetAnv)) {//och du är inloggad som CA/UA/den som skapade inlägget
+                    btnRedigera.setVisible(true); //kan du redigera inlägget
+                } else {
+                    btnRedigera.setVisible(false);
+
+                }
+            } else if (getAnvandarStatus(inlaggsID).equals("FA") || getAnvandarStatus(inlaggsID).equals("F")) { //Om inlägget är skapat av en forskare
+                if (status.equals("CA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) { //och du är inloggad som CA/FA/ den som skapade inlägget
+                    btnRedigera.setVisible(true); //så kan du redigera inlägget
+                } else {
+                    btnRedigera.setVisible(false);
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
 
 
