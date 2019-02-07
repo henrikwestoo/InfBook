@@ -55,6 +55,7 @@ public class VisatInlagg extends javax.swing.JFrame {
         lblTitel.setEditable(false);
         btnHamtaFil.setVisible(false);
         txtKommentar.setLineWrap(true);
+        txtAreaKommentar.setLineWrap(true);
 
         kollaOmInlaggetFarTasBort();
         kollaOmInlaggetFarRedigeras();
@@ -90,19 +91,19 @@ public class VisatInlagg extends javax.swing.JFrame {
         } catch (SQLException e) {
 
         }
+
+        fyllKommentarer();
         
         try {
             // Kollar om det finns en fil att hämta
             Statement stmt8 = connection.createStatement();
             ResultSet rs8 = stmt8.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
-            if(rs8.next()) {
+            if (rs8.next()) {
                 btnHamtaFil.setVisible(true);
-            }
-            else {
+            } else {
                 btnHamtaFil.setVisible(false);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
@@ -193,7 +194,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addComponent(btnTaBortInlagg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
+                        .addGap(197, 197, 197)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,7 +206,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRedigera)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
@@ -339,7 +340,6 @@ public class VisatInlagg extends javax.swing.JFrame {
                 /*int blobLength = (int) enBlob.length();
                 int pos = 1;
                 byte[] bytes = enBlob.getBytes(pos, blobLength);*/
-
                 is = enBlob.getBinaryStream();
                 b = 0;
 
@@ -369,61 +369,52 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         Date d = new Date(); //Visar dagens datum
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd"); //Visar datumet i detta formatet.
-        String datum =(s.format(d));
-        
-      
+        String datum = (s.format(d));
+
         LocalTime idag = LocalTime.now(); //Hämtar dagens tid
-        System.out.println(idag);
         
+
         String tid = idag.toString().substring(0, 5); // Kortar ned till 5 tecken (HH:MM)
-        System.out.println(tid);
-        
-        try{
-            
-            
-        //Hämta MAX kommentarsID from kommentar
-        Statement stmt = connection.createStatement();
-        
-        stmt.execute("SELECT MAX(KOMMENTARID) FROM KOMMENTAR");
-        ResultSet rs = stmt.getResultSet();
-        
-        rs.next();
-        
-        int KID = rs.getInt("MAX") + 1; //här
-            System.out.println(KID);
-        
-        //ta denna plus 1
-        // detta blir vårt id för kommentaren
-        
-        //Ett ps som stoppar in all data i kommentar
-        
-        PreparedStatement ps = connection.prepareStatement("insert into KOMMENTAR(KOMMENTARID,INFO,DATUM,TID,ANVANDARE,INLAGG) values(?,?,?,?,?,?)");
-        ps.setInt(1, KID);
-        ps.setString(2, txtKommentar.getText());
-        ps.setString(3, datum);
-        ps.setString(4, tid);
-        ps.setString(5, angivetAnv);
-        ps.setString(6, inlaggsID);
-        
-        ps.executeUpdate();
-        
-        //användar ps för varje kolumn
-        
-        //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
-        
         
 
-        }
-        
-        catch(SQLException e){
-        
-        JOptionPane.showMessageDialog(null, e.getMessage());
+        try {
+
+            //Hämta MAX kommentarsID from kommentar
+            Statement stmt = connection.createStatement();
+
+            stmt.execute("SELECT MAX(KOMMENTARID) FROM KOMMENTAR");
+            ResultSet rs = stmt.getResultSet();
+
+            rs.next();
+
+            int KID = rs.getInt("MAX") + 1; //här
+            
+
+            //ta denna plus 1
+            // detta blir vårt id för kommentaren
+            //Ett ps som stoppar in all data i kommentar
+            PreparedStatement ps = connection.prepareStatement("insert into KOMMENTAR(KOMMENTARID,INFO,DATUM,TID,ANVANDARE,INLAGG) values(?,?,?,?,?,?)");
+            ps.setInt(1, KID);
+            ps.setString(2, txtKommentar.getText());
+            ps.setString(3, datum);
+            ps.setString(4, tid);
+            ps.setString(5, angivetAnv);
+            ps.setString(6, inlaggsID);
+
+            ps.executeUpdate();
+
+            //användar ps för varje kolumn
+            //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
+            
+            fyllKommentarer();
+            txtKommentar.setText("");
+            
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
 
-
-
-        
     }//GEN-LAST:event_btnKommenteraActionPerformed
 
     private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
@@ -500,6 +491,32 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         } catch (SQLException e) {
             e.getMessage();
+        }
+    }
+
+    private void fyllKommentarer() { // Fyller kommentarsfältet med kommentarer
+
+        txtAreaKommentar.setText(""); //Tömmer kommentarsfältet för en reset
+        
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT FORNAMN ||' '|| EFTERNAMN ||' '|| DATUM ||' '|| TID ||' \n'|| INFO AS INFORMATION FROM KOMMENTAR JOIN ANVANDARE ON ANVANDARE.PNR = KOMMENTAR.ANVANDARE WHERE INLAGG ="+inlaggsID);
+
+            while(rs.next()){ //Fyller kommentarsfältet med kommentarer
+                String kommentar = rs.getString("INFORMATION");
+                txtAreaKommentar.append(kommentar + "\n\n");
+                
+                
+            }
+            
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        catch (NullPointerException e) {
+            System.out.println("Det finns inga kommentarer");
         }
     }
 
