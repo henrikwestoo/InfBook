@@ -271,13 +271,14 @@ public class VisatInlagg extends javax.swing.JFrame {
             } catch (SQLException e) {
             }
             try {
-                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR.KOMMENTARID=ANVANDARE_KOMMENTERA_INLAGG.KOMMENTAR WHERE ANVANDARE_KOMMENTERA_INLAGG.INLAGG ='" + inlaggsID + "'");
+                stmt.executeUpdate("UPDATE KOMMENTAR SET ANVANDARE = NULL WHERE INLAGG ="+inlaggsID);
+                stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE INLAGG ='" + inlaggsID + "'");
             } catch (SQLException e) {
             }
-            try {
-                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE INLAGG='" + inlaggsID + "'");
-            } catch (SQLException e) {
-            }
+//            try {
+//                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE INLAGG='" + inlaggsID + "'");
+//            } catch (SQLException e) {
+//            }
             stmt.executeUpdate("DELETE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
             JOptionPane.showMessageDialog(null, "Inlägget har tagits bort!");
             dispose();

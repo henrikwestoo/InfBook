@@ -249,8 +249,8 @@ public class HanteraAnvandare extends javax.swing.JFrame {
             }
 
             try { //8
-
-                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR=KOMMENTARID WHERE ANVANDARE=" + personnummer);
+                stmt.executeUpdate("UPDATE KOMMENTAR SET INLAGG = NULL WHERE ANVANDARE ="+personnummer);
+                stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE ANVANDARE=" + personnummer);
 
             } catch (SQLException e) {
             }
