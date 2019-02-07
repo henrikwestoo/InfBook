@@ -43,12 +43,13 @@ public class SkapaInlagg extends javax.swing.JFrame {
     private String path;
     private String extension;
     JFileChooser file = new JFileChooser();
+
     /**
      * Creates new form SkapaInlagg
      */
-    public SkapaInlagg(Connection connection,String angivetAnv) {
+    public SkapaInlagg(Connection connection, String angivetAnv) {
         this.connection = connection;
-        
+
         initComponents();
         txaInlagg.setLineWrap(true);
         this.angivetAnv = angivetAnv;
@@ -59,7 +60,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 file.setCurrentDirectory(new File(System.getProperty("user.home")));
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png");
                 file.addChoosableFileFilter(filter);
@@ -68,7 +69,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 if (result == JFileChooser.APPROVE_OPTION) {
                     selectedFile = file.getSelectedFile();
                     path = selectedFile.getAbsolutePath();
-                    
+
                     int i = path.lastIndexOf(".");
 
                     String nyPath = path.substring(i, i + 4);
@@ -83,9 +84,6 @@ public class SkapaInlagg extends javax.swing.JFrame {
             }
         });
 
-        
-        
-        
         lblBild.addMouseListener(new MouseListener() {
 
             public void mouseReleased(MouseEvent e) {
@@ -109,14 +107,11 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
 
-                    
                 }
 
             }
         });
-        
-        
-       
+
     }
 
     /**
@@ -247,18 +242,32 @@ public ImageIcon ResizeImage(String ImagePath) {
         return image;
     }
 
-    private void skapaEttInlagg() throws FileNotFoundException  {
+    private void skapaEttInlagg() throws FileNotFoundException {
 
         String valdSubkategori = (String) jList1.getSelectedValue();
         try {
-            
+
             Statement stmt1 = connection.createStatement();
-            
-             ResultSet rs1 = stmt1.executeQuery("SELECT SUBKATEGORIID FROM SUBKATEGORI WHERE SKNAMN ='" + valdSubkategori + "' ");
+
+            ResultSet rs1 = stmt1.executeQuery("SELECT SUBKATEGORIID FROM SUBKATEGORI WHERE SKNAMN ='" + valdSubkategori + "' ");
             rs1.next();
             int subkategoriId = rs1.getInt("SUBKATEGORIID");
-            
-            
+
+            Statement stmt100 = connection.createStatement();
+            ResultSet rs100 = stmt100.executeQuery("SELECT SUPERKATEGORI FROM SUBKATEGORI WHERE SKNAMN='" + valdSubkategori + "'");
+            rs100.next();
+            int superkategori = rs100.getInt("SUPERKATEGORI");
+
+            Statement stmt101 = connection.createStatement();
+            ResultSet rs101 = stmt101.executeQuery("SELECT MOBILNMR FROM ANVANDARE JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.ANVANDARE=ANVANDARE.PNR WHERE SUPERKATEGORIID=" + superkategori + " AND SMSNOTISER='JA'");
+
+            while (rs101.next()) {
+                String mobilnmr = rs101.getString("MOBILNMR");
+                System.out.println(mobilnmr);
+                SMSNotiser hej = new SMSNotiser();
+                hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
+            }
+
             Statement stmt2 = connection.createStatement();
 
             ResultSet rs2 = stmt2.executeQuery("SELECT FIRST 1  * FROM INLAGG ORDER BY INLAGGSID DESC");
@@ -270,43 +279,36 @@ public ImageIcon ResizeImage(String ImagePath) {
             ps2.setInt(1, nyaVardet);
             ps2.setString(2, txaInlagg.getText());
             ps2.setString(3, angivetAnv);
-            ps2.setInt(4,subkategoriId);
-            ps2.setString(5,txtTitel.getText());
+            ps2.setInt(4, subkategoriId);
+            ps2.setString(5, txtTitel.getText());
             ps2.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Inlägget har skapats");
-            
-            
+            JOptionPane.showMessageDialog(null, "Inlägget har skapats");
+
             Statement stmt3 = connection.createStatement();
             ResultSet rs3 = stmt3.executeQuery("SELECT FIRST 1  * FROM FILER ORDER BY FILID DESC");
             rs3.next();
             int hogstaVarde2 = rs3.getInt("FILID");
             int nyaVardet2 = hogstaVarde2 + 1;
-            
-            
+
             PreparedStatement ps3 = connection.prepareStatement("INSERT INTO FILER(FILID,FIL,TYP, INLAGG) VALUES (?,?,?, ?)");
             InputStream is = new FileInputStream(new File(s));
             selectedFile = file.getSelectedFile();
             path = selectedFile.getAbsolutePath();
-            
-               extension = "";
 
-                int i = path.lastIndexOf(".");
-                
-                extension = path.substring(i,i+4);
-                
-                
-                 
- 
-                ps3.setInt(1,nyaVardet2);
-                ps3.setBlob(2, is);
-                ps3.setString(3,extension);
-                ps3.setInt(4, nyaVardet);
-                ps3.executeUpdate();
-                  
-            
+            extension = "";
+
+            int i = path.lastIndexOf(".");
+
+            extension = path.substring(i, i + 4);
+
+            ps3.setInt(1, nyaVardet2);
+            ps3.setBlob(2, is);
+            ps3.setString(3, extension);
+            ps3.setInt(4, nyaVardet);
+            ps3.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
     }
@@ -359,10 +361,10 @@ public ImageIcon ResizeImage(String ImagePath) {
 
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-    
+
         try {
             skapaEttInlagg();
-            // TODO add your handling code here:
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
         }

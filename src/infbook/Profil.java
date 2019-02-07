@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -19,12 +21,14 @@ import javax.swing.JOptionPane;
  */
 public class Profil extends javax.swing.JFrame {
 
+    private String angivetAnv;
     private Connection connection;
+    private String smsNotis;
 
-   
     public Profil(Connection connection, String angivetAnv) {
         initComponents();
         this.connection = connection;
+        this.angivetAnv = angivetAnv;
         jlabelPnr.setText(angivetAnv);
         try {
 
@@ -74,14 +78,23 @@ public class Profil extends javax.swing.JFrame {
             Image myImg = im.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
             ImageIcon newImage = new ImageIcon(myImg);
             lblProfilBildDB.setIcon(newImage);
+            
+            Statement stmt8 = connection.createStatement();
+            ResultSet rs8 = stmt8.executeQuery("SELECT FIRST 1 SMSNOTISER FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE='" + angivetAnv + "'");
+            rs8.next();
+            String smsSvar = rs8.getString("SMSNOTISER");
+            if(smsSvar.equals("JA")) {
+                radSmsJa.setSelected(true);
+            }
+            else {
+                radSmsNej.setSelected(false);
+            }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (NullPointerException e) {
+
         }
-          catch(NullPointerException e)
-          {
-              
-          }
 
     }
 
@@ -110,6 +123,13 @@ public class Profil extends javax.swing.JFrame {
         lblProfilBildDB = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jlabelPnr = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        radSmsJa = new javax.swing.JRadioButton();
+        radSmsNej = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        radEpostJa = new javax.swing.JRadioButton();
+        radEpostNej = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -155,6 +175,47 @@ public class Profil extends javax.swing.JFrame {
 
         jlabelPnr.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
 
+        jButton1.setText("Hantera följningar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        radSmsJa.setText("Ja");
+        radSmsJa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radSmsJaActionPerformed(evt);
+            }
+        });
+
+        radSmsNej.setText("Nej");
+        radSmsNej.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radSmsNejActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Notiser SMS");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("Notiser E-post");
+
+        radEpostJa.setText("Ja");
+        radEpostJa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radEpostJaActionPerformed(evt);
+            }
+        });
+
+        radEpostNej.setText("Nej");
+        radEpostNej.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radEpostNejActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,29 +247,49 @@ public class Profil extends javax.swing.JFrame {
                                         .addContainerGap())))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnRedigeraInfo))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(31, 31, 31)
-                                .addComponent(jlabelPnr, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblEfternamn)
                                     .addComponent(lblFornamn))
                                 .addGap(59, 59, 59)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblEfternamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblFornamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(lblFornamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblEfternamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(31, 31, 31)
+                                .addComponent(jlabelPnr, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(85, 85, 85)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(41, 41, 41))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(radSmsJa)
+                                    .addGap(67, 67, 67)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(radSmsNej)
+                                .addGap(61, 61, 61)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(radEpostNej)
+                            .addComponent(radEpostJa)
+                            .addComponent(jLabel3))
+                        .addGap(0, 60, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRedigeraInfo)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRedigeraInfo)
+                            .addComponent(jButton1))
                         .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblMobil)
@@ -233,17 +314,31 @@ public class Profil extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblProfilBildDB, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFornamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFornamn))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblEfternamn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblEfternamnDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlabelPnr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFornamnDB, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFornamn))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblEfternamn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblEfternamnDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlabelPnr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(radSmsJa)
+                            .addComponent(radEpostJa))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(radSmsNej)
+                            .addComponent(radEpostNej))))
                 .addGap(41, 41, 41))
         );
 
@@ -254,10 +349,66 @@ public class Profil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRedigeraInfoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        HanteraFoljningar följ = new HanteraFoljningar(connection, angivetAnv);
+        följ.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void radSmsJaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSmsJaActionPerformed
+        if (radSmsJa.isSelected()) {
+            radSmsNej.setSelected(false);
+            try {
+                Statement stmt = connection.createStatement();
+
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER=JA WHERE ANVANDARE ='" + angivetAnv + "'");
+            } catch (SQLException ex) {
+            }
+        }
+    }//GEN-LAST:event_radSmsJaActionPerformed
+
+    private void radSmsNejActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSmsNejActionPerformed
+        if (radSmsNej.isSelected()) {
+            radSmsJa.setSelected(false);
+            try {
+                Statement stmt = connection.createStatement();
+
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER=NEJ WHERE ANVANDARE ='" + angivetAnv + "'");
+            } catch (SQLException ex) {
+            }
+        }
+    }//GEN-LAST:event_radSmsNejActionPerformed
+
+    private void radEpostJaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEpostJaActionPerformed
+        if (radEpostJa.isSelected()) {
+            radEpostNej.setSelected(false);
+            try {
+                Statement stmt = connection.createStatement();
+
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER=JA WHERE ANVANDARE ='" + angivetAnv + "'");
+            } catch (SQLException ex) {
+            }
+        }
+    }//GEN-LAST:event_radEpostJaActionPerformed
+
+    private void radEpostNejActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEpostNejActionPerformed
+        if (radEpostNej.isSelected()) {
+            radEpostJa.setSelected(true);
+            try {
+                Statement stmt = connection.createStatement();
+
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER=NEJ WHERE ANVANDARE ='" + angivetAnv + "'");
+            } catch (SQLException ex) {
+            }
+        }
+    }//GEN-LAST:event_radEpostNejActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRedigeraInfo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jlabelPnr;
     private javax.swing.JLabel lblAnvandarstatus;
     private javax.swing.JLabel lblAnvandarstatusDB;
@@ -272,5 +423,9 @@ public class Profil extends javax.swing.JFrame {
     private javax.swing.JLabel lblRumsnrDB;
     private javax.swing.JLabel lblRumsnummer;
     private javax.swing.JLabel lblTlfnrDB;
+    private javax.swing.JRadioButton radEpostJa;
+    private javax.swing.JRadioButton radEpostNej;
+    private javax.swing.JRadioButton radSmsJa;
+    private javax.swing.JRadioButton radSmsNej;
     // End of variables declaration//GEN-END:variables
 }
