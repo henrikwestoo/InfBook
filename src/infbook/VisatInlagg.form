@@ -54,7 +54,7 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnHamtaFiler" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnHamtaFil" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -110,7 +110,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnHamtaFiler" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnHamtaFil" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -206,12 +206,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="lblTitel">
     </Component>
-    <Component class="javax.swing.JButton" name="btnHamtaFiler">
+    <Component class="javax.swing.JButton" name="btnHamtaFil">
       <Properties>
-        <Property name="text" type="java.lang.String" value="H&#xe4;mta filer"/>
+        <Property name="text" type="java.lang.String" value="H&#xe4;mta bifogad fil"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHamtaFilerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHamtaFilActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
