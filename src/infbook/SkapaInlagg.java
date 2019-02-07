@@ -267,6 +267,22 @@ public ImageIcon ResizeImage(String ImagePath) {
                 SMSNotiser hej = new SMSNotiser();
                 hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
             }
+            
+            
+            
+            Statement stmt102 = connection.createStatement();
+            ResultSet rs102 = stmt102.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.ANVANDARE=ANVANDARE.PNR WHERE SUPERKATEGORIID=" + superkategori + " AND EMAILNOTISER='JA'");
+            while(rs102.next())
+            {
+                String email = rs102.getString("EMAIL");
+                System.out.println(email);
+                SendMail.send(email, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
+            }
+            
+            
+            
+            
+            
 
             Statement stmt2 = connection.createStatement();
 
