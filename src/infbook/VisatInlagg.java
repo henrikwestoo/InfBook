@@ -1,6 +1,10 @@
 package infbook;
 
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -25,6 +32,9 @@ public class VisatInlagg extends javax.swing.JFrame {
     private String angivetAnv;
     private String subK;
     private String anvandare;
+    private File file;
+    private InputStream is;
+    private int b;
 
     public VisatInlagg(Connection connection, String inlaggsID, String status, String angivetAnv) {
         this.connection = connection;
@@ -40,6 +50,7 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnSpara.setVisible(false);
         btnRedigera.setVisible(false);
         lblTitel.setEditable(false);
+        btnHamtaFil.setVisible(false);
 
         kollaOmInlaggetFarTasBort();
         kollaOmInlaggetFarRedigeras();
@@ -75,6 +86,22 @@ public class VisatInlagg extends javax.swing.JFrame {
         } catch (SQLException e) {
 
         }
+        
+        try {
+            // Kollar om det finns en fil att hämta
+            Statement stmt8 = connection.createStatement();
+            ResultSet rs8 = stmt8.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+            if(rs8.next()) {
+                btnHamtaFil.setVisible(true);
+            }
+            else {
+                btnHamtaFil.setVisible(false);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -95,7 +122,7 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnRedigera = new javax.swing.JButton();
         btnSpara = new javax.swing.JButton();
         lblTitel = new javax.swing.JTextField();
-        btnHamtaFiler = new javax.swing.JButton();
+        btnHamtaFil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -134,10 +161,10 @@ public class VisatInlagg extends javax.swing.JFrame {
             }
         });
 
-        btnHamtaFiler.setText("Hämta filer");
-        btnHamtaFiler.addActionListener(new java.awt.event.ActionListener() {
+        btnHamtaFil.setText("Hämta bifogad fil");
+        btnHamtaFil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHamtaFilerActionPerformed(evt);
+                btnHamtaFilActionPerformed(evt);
             }
         });
 
@@ -172,7 +199,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                                         .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnHamtaFiler)))
+                                        .addComponent(btnHamtaFil)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSpara))
                             .addComponent(jScrollPane1)
@@ -210,7 +237,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                                     .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnHamtaFiler)
+                        .addComponent(btnHamtaFil)
                         .addGap(134, 134, 134)))
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -287,8 +314,8 @@ public class VisatInlagg extends javax.swing.JFrame {
         lblTitel.setEditable(true);
     }//GEN-LAST:event_btnRedigeraActionPerformed
 
-    private void btnHamtaFilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHamtaFilerActionPerformed
-                try {
+    private void btnHamtaFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHamtaFilActionPerformed
+        try {
             Statement stmt = connection.createStatement();
             ResultSet rsFiltyp = stmt.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
 
@@ -299,31 +326,37 @@ public class VisatInlagg extends javax.swing.JFrame {
                 Statement stmt2 = connection.createStatement();
                 ResultSet rsFil = stmt2.executeQuery("SELECT FIL FROM FILER WHERE INLAGG='" + inlaggsID + "'");
                 rsFil.next();
-                
-                if (filtyp.equals(".pdf")) {
-                    
-                    Blob enBlob = rsFil.getBlob("FIL");
 
-                    int blobLength = (int) enBlob.length();
-                    int pos = 1;
-                    byte[] bytes = enBlob.getBytes(pos, blobLength);
+                Blob enBlob = rsFil.getBlob("FIL");
 
-                    InputStream is = enBlob.getBinaryStream();
-                    int b = 0;
+                /*int blobLength = (int) enBlob.length();
+                int pos = 1;
+                byte[] bytes = enBlob.getBytes(pos, blobLength);*/
 
-                    FileOutputStream os = new FileOutputStream("C:/Downloads/test.pdf");
+                is = enBlob.getBinaryStream();
+                b = 0;
+
+                String home = System.getProperty("user.home");
+                file = new File(home + "/Downloads/test" + filtyp);
+
+                FileOutputStream os = null;
+                try {
+                    os = new FileOutputStream(file);
+
                     while ((b = is.read()) != -1) {
                         os.write(b);
                     }
+                } catch (IOException ex) {
+                    System.out.println("");
                 }
+                JOptionPane.showMessageDialog(null, "En " + filtyp + " fil har laddats ner i din nedladdningsmapp");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
         }
-    }//GEN-LAST:event_btnHamtaFilerActionPerformed
+
+    }//GEN-LAST:event_btnHamtaFilActionPerformed
 
     private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
         try {
@@ -404,7 +437,7 @@ public class VisatInlagg extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHamtaFiler;
+    private javax.swing.JButton btnHamtaFil;
     private javax.swing.JButton btnKommentera;
     private javax.swing.JButton btnRedigera;
     private javax.swing.JButton btnSpara;
