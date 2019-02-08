@@ -410,7 +410,7 @@ public class Inloggad extends javax.swing.JFrame {
 
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT MOTE.INFO ||' - '|| MOTE_ANVANDARE2.TID1 ||'  '|| MOTE.SAL ||' - '|| ANVANDARE.FORNAMN ||' '|| ANVANDARE.EFTERNAMN AS INFORMATION FROM MOTE JOIN MOTE_ANVANDARE2 ON MOTE_ANVANDARE2.MOTE = MOTE.MOTESID JOIN ANVANDARE ON ANVANDARE.PNR = MOTE_ANVANDARE2.ANVANDARE WHERE MOTE_ANVANDARE2.DATUM1 ='" + date1 + "'");
+            ResultSet rs = stmt.executeQuery("SELECT MOTE.INFO ||' - '|| MOTE.TID ||'  '|| MOTE.SAL ||' - '|| ANVANDARE.FORNAMN ||' '|| ANVANDARE.EFTERNAMN AS INFORMATION FROM MOTE JOIN MOTE_ANVANDARE2 ON MOTE_ANVANDARE2.MOTE = MOTE.MOTESID JOIN ANVANDARE ON ANVANDARE.PNR = MOTE_ANVANDARE2.ANVANDARE WHERE MOTE.DATUM='" + date1 + "'");
             while (rs.next()) {
                 String info = rs.getString("INFORMATION");
                 txtArea.append(info + "\n\n");
