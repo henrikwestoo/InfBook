@@ -6,6 +6,7 @@
 package infbook;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -21,11 +22,25 @@ public class Validering {
         if (fält.getText().isEmpty()) { // Liknande ovan
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Ett eller flera obligatoriska textfält är inte ifyllda.");
+            JOptionPane.showMessageDialog(null, "Textrutan är tom");
 
         }
         return resultat;
     }
+    
+        public static boolean isTextAreaTomt(JTextArea fält) { //Validering för JTextFields för att kolla att man anger ett värde.
+
+        boolean resultat = true;
+
+        if (fält.getText().isEmpty()) { // Liknande ovan
+
+            resultat = false;
+            JOptionPane.showMessageDialog(null, "Textrutan är tom");
+
+        }
+        return resultat;
+    }
+    
 
     public static boolean isHeltal(JTextField textFält) {  //Kollar om det som står i textfältet består av heltal
         boolean resultat = true;
@@ -44,7 +59,7 @@ public class Validering {
 
             } catch (NumberFormatException e) { // och här fångar vi det undantaget och ger användaren ett lämpligt meddelande
 
-                JOptionPane.showMessageDialog(null, "En eller flera fält i formuläret får endast fyllas i med heltal");
+                JOptionPane.showMessageDialog(null, "Fältet måste fyllas i med ett heltal");
                 resultat = false;
             }
 

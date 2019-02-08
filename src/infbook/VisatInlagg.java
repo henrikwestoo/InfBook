@@ -410,6 +410,8 @@ public class VisatInlagg extends javax.swing.JFrame {
 
     private void btnKommenteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKommenteraActionPerformed
 
+        if(Validering.isTextAreaTomt(txtKommentar)){
+        
         Date d = new Date(); //Visar dagens datum
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd"); //Visar datumet i detta formatet.
         String datum = (s.format(d));
@@ -456,7 +458,7 @@ public class VisatInlagg extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
+        }
 
     }//GEN-LAST:event_btnKommenteraActionPerformed
 
@@ -471,6 +473,9 @@ public class VisatInlagg extends javax.swing.JFrame {
 
     private void btnTaBortBekraftaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortBekraftaActionPerformed
 
+        if(Validering.isTextFältTomt(txtNR)
+                && Validering.isHeltal(txtNR)){
+        
         String KID = txtNR.getText(); //Angivet kommentarID, det man vill ta bort
 
         try {
@@ -521,7 +526,7 @@ public class VisatInlagg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
 
         }
-
+        }
     }//GEN-LAST:event_btnTaBortBekraftaActionPerformed
 
     private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
