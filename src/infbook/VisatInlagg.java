@@ -1,12 +1,25 @@
 package infbook;
 
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -22,6 +35,9 @@ public class VisatInlagg extends javax.swing.JFrame {
     private String angivetAnv;
     private String subK;
     private String anvandare;
+    private File file;
+    private InputStream is;
+    private int b;
 
     public VisatInlagg(Connection connection, String inlaggsID, String status, String angivetAnv) {
         this.connection = connection;
@@ -30,15 +46,19 @@ public class VisatInlagg extends javax.swing.JFrame {
         this.angivetAnv = angivetAnv;
 
         initComponents();
-        textArea.setLineWrap(true);
-        textArea.setEditable(false);
+        txtAInlagg.setLineWrap(true);
+        txtAInlagg.setEditable(false);
         txtAreaKommentar.setEditable(false);
         btnTaBortInlagg.setVisible(false);
         btnSpara.setVisible(false);
         btnRedigera.setVisible(false);
         lblTitel.setEditable(false);
+        btnHamtaFil.setVisible(false);
+        txtKommentar.setLineWrap(true);
+        txtAreaKommentar.setLineWrap(true);
 
         kollaOmInlaggetFarTasBort();
+        kollaOmInlaggetFarRedigeras();
 
         try {
             Statement stmt20 = connection.createStatement();
@@ -46,15 +66,10 @@ public class VisatInlagg extends javax.swing.JFrame {
             rs20.next();
             String personen = rs20.getString("PNR");
 
-            if (personen.equals(angivetAnv)) {
-
-                btnRedigera.setVisible(true);
-            }
-            
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT TEXT FROM INLAGG WHERE INLAGGSID ='" + inlaggsID + "'");
             rs.next();
-            textArea.setText(rs.getString("TEXT"));
+            txtAInlagg.setText(rs.getString("TEXT"));
 
             Statement stmt2 = connection.createStatement();
             ResultSet rs2 = stmt2.executeQuery("SELECT TITEL FROM INLAGG WHERE INLAGGSID ='" + inlaggsID + "'");
@@ -76,6 +91,22 @@ public class VisatInlagg extends javax.swing.JFrame {
         } catch (SQLException e) {
 
         }
+
+        fyllKommentarer();
+        
+        try {
+            // Kollar om det finns en fil att hämta
+            Statement stmt8 = connection.createStatement();
+            ResultSet rs8 = stmt8.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+            if (rs8.next()) {
+                btnHamtaFil.setVisible(true);
+            } else {
+                btnHamtaFil.setVisible(false);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -83,12 +114,11 @@ public class VisatInlagg extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        textArea = new javax.swing.JTextArea();
+        txtAInlagg = new javax.swing.JTextArea();
         lblBild = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAreaKommentar = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         lblannanFil = new javax.swing.JLabel();
         btnKommentera = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -96,12 +126,15 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnRedigera = new javax.swing.JButton();
         btnSpara = new javax.swing.JButton();
         lblTitel = new javax.swing.JTextField();
+        btnHamtaFil = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtKommentar = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        textArea.setColumns(20);
-        textArea.setRows(5);
-        jScrollPane1.setViewportView(textArea);
+        txtAInlagg.setColumns(20);
+        txtAInlagg.setRows(5);
+        jScrollPane1.setViewportView(txtAInlagg);
 
         txtAreaKommentar.setColumns(20);
         txtAreaKommentar.setRows(5);
@@ -110,6 +143,11 @@ public class VisatInlagg extends javax.swing.JFrame {
         jLabel1.setText("Skriv kommentar");
 
         btnKommentera.setText("Kommentera");
+        btnKommentera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKommenteraActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Kommentarer:");
 
@@ -134,54 +172,65 @@ public class VisatInlagg extends javax.swing.JFrame {
             }
         });
 
+        btnHamtaFil.setText("Hämta bifogad fil");
+        btnHamtaFil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHamtaFilActionPerformed(evt);
+            }
+        });
+
+        txtKommentar.setColumns(20);
+        txtKommentar.setRows(5);
+        jScrollPane3.setViewportView(txtKommentar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnTaBortInlagg)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(197, 197, 197)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnTaBortInlagg)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
                                 .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSpara))
-                            .addComponent(jScrollPane1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnRedigera)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnHamtaFil)))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRedigera)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane3))
+                .addGap(80, 80, 80))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRedigera)
-                        .addGap(11, 11, 11))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(btnRedigera))
+                        .addGap(11, 11, 11)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -190,20 +239,23 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addGap(34, 34, 34)
                         .addComponent(btnTaBortInlagg))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSpara)
-                            .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSpara)
+                                    .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1)
+                                .addGap(8, 8, 8)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnHamtaFil)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnKommentera))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnKommentera)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
@@ -213,34 +265,32 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         try {
             Statement stmt = connection.createStatement();
-            
+
             try {
                 stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG='" + inlaggsID + "'");
-            }
-            catch (SQLException e) {
-            }
-            try {
-                stmt.executeUpdate("DELETE FROM KOMMENTAR JOIN ANVANDARE_KOMMENTERA_INLAGG ON KOMMENTAR.KOMMENTARID=ANVANDARE_KOMMENTERA_INLAGG.KOMMENTAR WHERE ANVANDARE_KOMMENTERA_INLAGG.INLAGG ='" + inlaggsID + "'");
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
             }
             try {
-                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE INLAGG='" + inlaggsID + "'");
+                stmt.executeUpdate("UPDATE KOMMENTAR SET ANVANDARE = NULL WHERE INLAGG ="+inlaggsID);
+                stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE INLAGG ='" + inlaggsID + "'");
+            } catch (SQLException e) {
             }
-            catch (SQLException e) {
-            }
+//            try {
+//                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE INLAGG='" + inlaggsID + "'");
+//            } catch (SQLException e) {
+//            }
             stmt.executeUpdate("DELETE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
             JOptionPane.showMessageDialog(null, "Inlägget har tagits bort!");
             dispose();
-            
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
     }//GEN-LAST:event_btnTaBortInlaggActionPerformed
 
     private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
-        String nyText = textArea.getText();
+        String nyText = txtAInlagg.getText();
         try {
 
             Statement stmt4 = connection.createStatement();
@@ -268,22 +318,128 @@ public class VisatInlagg extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSparaActionPerformed
 
     private void btnRedigeraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraActionPerformed
-        textArea.setEditable(true);         
-        btnSpara.setVisible(true);         
+        txtAInlagg.setEditable(true);
+        btnSpara.setVisible(true);
         lblTitel.setEditable(true);
     }//GEN-LAST:event_btnRedigeraActionPerformed
 
-    private void kollaOmInlaggetFarTasBort() {
+    private void btnHamtaFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHamtaFilActionPerformed
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rsFiltyp = stmt.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+
+            if (rsFiltyp.next()) {
+
+                String filtyp = rsFiltyp.getString("TYP");
+
+                Statement stmt2 = connection.createStatement();
+                ResultSet rsFil = stmt2.executeQuery("SELECT FIL FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+                rsFil.next();
+
+                Blob enBlob = rsFil.getBlob("FIL");
+
+                /*int blobLength = (int) enBlob.length();
+                int pos = 1;
+                byte[] bytes = enBlob.getBytes(pos, blobLength);*/
+                is = enBlob.getBinaryStream();
+                b = 0;
+
+                String home = System.getProperty("user.home");
+                file = new File(home + "/Downloads/test" + filtyp);
+
+                FileOutputStream os = null;
+                try {
+                    os = new FileOutputStream(file);
+
+                    while ((b = is.read()) != -1) {
+                        os.write(b);
+                    }
+                } catch (IOException ex) {
+                    System.out.println("");
+                }
+                JOptionPane.showMessageDialog(null, "En " + filtyp + " fil har laddats ner i din nedladdningsmapp");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }//GEN-LAST:event_btnHamtaFilActionPerformed
+
+    private void btnKommenteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKommenteraActionPerformed
+
+        Date d = new Date(); //Visar dagens datum
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd"); //Visar datumet i detta formatet.
+        String datum = (s.format(d));
+
+        LocalTime idag = LocalTime.now(); //Hämtar dagens tid
+        
+
+        String tid = idag.toString().substring(0, 5); // Kortar ned till 5 tecken (HH:MM)
+        
+
+        try {
+
+            //Hämta MAX kommentarsID from kommentar
+            Statement stmt = connection.createStatement();
+
+            stmt.execute("SELECT MAX(KOMMENTARID) FROM KOMMENTAR");
+            ResultSet rs = stmt.getResultSet();
+
+            rs.next();
+
+            int KID = rs.getInt("MAX") + 1; //här
+            
+
+            //ta denna plus 1
+            // detta blir vårt id för kommentaren
+            //Ett ps som stoppar in all data i kommentar
+            PreparedStatement ps = connection.prepareStatement("insert into KOMMENTAR(KOMMENTARID,INFO,DATUM,TID,ANVANDARE,INLAGG) values(?,?,?,?,?,?)");
+            ps.setInt(1, KID);
+            ps.setString(2, txtKommentar.getText());
+            ps.setString(3, datum);
+            ps.setString(4, tid);
+            ps.setString(5, angivetAnv);
+            ps.setString(6, inlaggsID);
+
+            ps.executeUpdate();
+
+            //användar ps för varje kolumn
+            //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
+            
+            fyllKommentarer();
+            txtKommentar.setText("");
+            
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_btnKommenteraActionPerformed
+
+    private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
             rs.next();
             String inlaggsAnvandare = rs.getString("ANVANDARE");
 
-            if (status.equals("CA") || status.equals("UA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) {
-                btnTaBortInlagg.setVisible(true);
-            } else {
-                btnTaBortInlagg.setVisible(false);
+            //Inläggstatus = Utbildning
+            if (getAnvandarStatus(inlaggsID).equals("UA") || getAnvandarStatus(inlaggsID).equals("U")) { //Om inlägget är skapat av en utbildare
+                if (status.equals("CA") || status.equals("UA") || inlaggsAnvandare.equals(angivetAnv)) {//och du är inloggad som CA/UA/den som skapade inlägget
+                    btnTaBortInlagg.setVisible(true); //kan du ta bort inlägget
+                } else {
+                    btnTaBortInlagg.setVisible(false);
+
+                }
+            } else if (getAnvandarStatus(inlaggsID).equals("FA") || getAnvandarStatus(inlaggsID).equals("F")) { //Om inlägget är skapat av en forskare
+                if (status.equals("CA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) { //och du är inloggad som CA/FA/ den som skapade inlägget
+                    btnTaBortInlagg.setVisible(true); //så kan du ta bort inlägget
+                } else {
+                    btnTaBortInlagg.setVisible(false);
+
+                }
             }
 
         } catch (SQLException e) {
@@ -291,7 +447,83 @@ public class VisatInlagg extends javax.swing.JFrame {
         }
     }
 
+    public String getAnvandarStatus(String inlaggsID) { //Används för att kolla statusen på personen som gjort inlägget, returnerar statusen
+
+        String status = "";
+
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT STATUS FROM INLAGG JOIN ANVANDARE ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID =" + inlaggsID);
+            rs.next();
+
+            status = rs.getString("STATUS"); //
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Något gick fel i databasen");
+        }
+
+        return status;
+
+    }
+
+    private void kollaOmInlaggetFarRedigeras() { //Kollar om du har behörighet att redigera ett inlägg
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
+            rs.next();
+            String inlaggsAnvandare = rs.getString("ANVANDARE");
+
+            if (getAnvandarStatus(inlaggsID).equals("UA") || getAnvandarStatus(inlaggsID).equals("U")) { //Om inlägget är skapat av en utbildare
+                if (status.equals("CA") || status.equals("UA") || inlaggsAnvandare.equals(angivetAnv)) {//och du är inloggad som CA/UA/den som skapade inlägget
+                    btnRedigera.setVisible(true); //kan du redigera inlägget
+                } else {
+                    btnRedigera.setVisible(false);
+
+                }
+            } else if (getAnvandarStatus(inlaggsID).equals("FA") || getAnvandarStatus(inlaggsID).equals("F")) { //Om inlägget är skapat av en forskare
+                if (status.equals("CA") || status.equals("FA") || inlaggsAnvandare.equals(angivetAnv)) { //och du är inloggad som CA/FA/ den som skapade inlägget
+                    btnRedigera.setVisible(true); //så kan du redigera inlägget
+                } else {
+                    btnRedigera.setVisible(false);
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+    private void fyllKommentarer() { // Fyller kommentarsfältet med kommentarer
+
+        txtAreaKommentar.setText(""); //Tömmer kommentarsfältet för en reset
+        
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT FORNAMN ||' '|| EFTERNAMN ||' '|| DATUM ||' '|| TID ||' \n'|| INFO AS INFORMATION FROM KOMMENTAR JOIN ANVANDARE ON ANVANDARE.PNR = KOMMENTAR.ANVANDARE WHERE INLAGG ="+inlaggsID);
+
+            while(rs.next()){ //Fyller kommentarsfältet med kommentarer
+                String kommentar = rs.getString("INFORMATION");
+                txtAreaKommentar.append(kommentar + "\n\n");
+                
+                
+            }
+            
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        catch (NullPointerException e) {
+            System.out.println("Det finns inga kommentarer");
+        }
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHamtaFil;
     private javax.swing.JButton btnKommentera;
     private javax.swing.JButton btnRedigera;
     private javax.swing.JButton btnSpara;
@@ -300,11 +532,12 @@ public class VisatInlagg extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBild;
     private javax.swing.JTextField lblTitel;
     private javax.swing.JLabel lblannanFil;
-    private javax.swing.JTextArea textArea;
+    private javax.swing.JTextArea txtAInlagg;
     private javax.swing.JTextArea txtAreaKommentar;
+    private javax.swing.JTextArea txtKommentar;
     // End of variables declaration//GEN-END:variables
 }

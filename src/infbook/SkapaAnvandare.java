@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -39,16 +40,37 @@ public class SkapaAnvandare extends javax.swing.JFrame {
     private File selectedFile;
     private JFileChooser file;
     private String path;
+    private String status;
 
     /**
      * Creates new form SkapaAnvandare
      */
-    public SkapaAnvandare(Connection connection) {
-        this.connection = connection;
+    public SkapaAnvandare(Connection connection, String status) {
+        this.connection = connection; //Arrayerna nedan kommer fylla comboboxen och är olika beroende på vem man är inloggad som
+        String[] alternativCA = new String[]{ "Centraladministratör", "Forskningsadministratör", "Utbildningsadministratör", "Forskningsanvändare", "Utbildningsanvändare", "Amanuens" };
+        String[] alternativUA = new String[]{ "Utbildningsanvändare", "Amanuens" };
+        String[] alternativFA = new String[]{ "Forskningsanvändare", "Amanuens" };
+
         initComponents();
+
+        if (status.equals("UA")) {
+
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativUA)); //Om man är ua väljs denna array för att fylla boxen
+
+        } else if (status.equals("FA")) {
+
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativFA)); // etc etc
+
+        } else if (status.equals("CA")) {
+
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativCA)); // etc etc
+
+        }
+
         lista = new DefaultListModel();
         lblBild.setBounds(10, 10, 60, 60);
-        
+        this.status = status;
+
         btnBifogaFil.addActionListener(new ActionListener() {
 
             @Override
@@ -100,8 +122,6 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         jLabel6.setText("Personnummer");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Centraladministratör", "Forskningsadministratör", "Utbildningsadministratör", "Forskningsanvändare", "Utbildningsanvändare", "Amanuens" }));
 
         lblFornamn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFornamn.setText("Förnamn");
@@ -273,6 +293,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             Statement stmt = connection.createStatement();
             ps.setString(1, PNR);
             ps.setString(2, "hej");
+            //ps.setString(2, LosenordsGenerator.createPassword());
             ps.setString(3, Rumsnmr);
             ps.setString(4, mobilnmr);
             ps.setString(5, email);

@@ -143,14 +143,7 @@
     <Component class="javax.swing.JComboBox" name="cmbStatus">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="Centraladministrat&#xf6;r"/>
-            <StringItem index="1" value="Forskningsadministrat&#xf6;r"/>
-            <StringItem index="2" value="Utbildningsadministrat&#xf6;r"/>
-            <StringItem index="3" value="Forskningsanv&#xe4;ndare"/>
-            <StringItem index="4" value="Utbildningsanv&#xe4;ndare"/>
-            <StringItem index="5" value="Amanuens"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
     </Component>
