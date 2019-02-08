@@ -41,7 +41,7 @@ public class Inloggad extends javax.swing.JFrame {
         lista = new DefaultListModel();
         this.connection = connection;
         initComponents();
-        btnSkapaUnderkategori.setVisible(false);
+        btnSkapaUnderkategori.setVisible(true);
         this.status = status;
         this.angivetAnv = angivetAnv;
 
@@ -365,7 +365,7 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     private void btnSkapaUnderkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaUnderkategoriActionPerformed
-        new SkapaKategori(connection).setVisible(true);
+        new SkapaSubkategori(connection).setVisible(true);
     }//GEN-LAST:event_btnSkapaUnderkategoriActionPerformed
 
     private void btnMinProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinProfilActionPerformed
