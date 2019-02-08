@@ -323,7 +323,7 @@ public ImageIcon ResizeImage(String ImagePath) {
             ps3.setInt(4, nyaVardet);
             ps3.executeUpdate();
 
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println(ex.getMessage());
         }
 
