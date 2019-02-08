@@ -33,56 +33,52 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnMinProfil" max="32767" attributes="0"/>
-                          <Component id="btnSkapaInlagg" pref="152" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="35" pref="35" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnSkapaUnderkategori" pref="161" max="32767" attributes="0"/>
-                          <Component id="btnLoggaUt" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton1" min="-2" pref="161" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnHanteraAnvandare" max="32767" attributes="0"/>
-                          <Component id="btnSkapaSuperKategori" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnSkapaAnvandare" min="-2" pref="152" max="-2" attributes="0"/>
-                          <Component id="btnHanteraMoten" min="-2" pref="152" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Component id="sprMitten" alignment="0" max="32767" attributes="0"/>
-                  <Component id="sprHog" alignment="0" max="32767" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                      <Component id="jScrollPane1" alignment="1" min="-2" pref="425" max="-2" attributes="0"/>
-                      <Component id="kalender" min="-2" pref="425" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="sprLag" alignment="1" min="-2" pref="566" max="-2" attributes="0"/>
-                  <Component id="btnVisaMote" alignment="0" min="-2" pref="425" max="-2" attributes="0"/>
-              </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="256" max="-2" attributes="0"/>
-                      <Component id="btnVisaMarkeratInlagg" min="-2" pref="204" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
-                      <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnMinProfil" max="32767" attributes="0"/>
+                                  <Component id="btnSkapaInlagg" pref="152" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="35" pref="35" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnSkapaUnderkategori" pref="161" max="32767" attributes="0"/>
+                                  <Component id="btnLoggaUt" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jButton1" min="-2" pref="161" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnHanteraAnvandare" max="32767" attributes="0"/>
+                                  <Component id="btnSkapaSuperKategori" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="btnSkapaAnvandare" min="-2" pref="152" max="-2" attributes="0"/>
+                                  <Component id="btnHanteraMoten" min="-2" pref="152" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="sprMitten" alignment="0" max="32767" attributes="0"/>
+                          <Component id="sprHog" alignment="0" max="32767" attributes="0"/>
+                          <Component id="sprLag" alignment="1" min="-2" pref="566" max="-2" attributes="0"/>
+                          <Component id="btnVisaMote" alignment="0" min="-2" pref="425" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="46" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jScrollPane1" alignment="1" min="-2" pref="425" max="-2" attributes="0"/>
+                          <Component id="kalender" min="-2" pref="425" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="46" max="32767" attributes="0"/>
-                      <Component id="tabFlode" min="-2" pref="759" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
-                  </Group>
               </Group>
+              <Component id="tabFlode" min="-2" pref="759" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
@@ -94,9 +90,11 @@
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Component id="lblFloden" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="650" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -114,7 +112,10 @@
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblFloden" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblFloden" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -127,12 +128,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="tabFlode" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnVisaMarkeratInlagg" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="sprHog" min="-2" pref="10" max="-2" attributes="0"/>
@@ -196,15 +192,36 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="754" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" alignment="0" pref="754" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="594" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" alignment="0" pref="594" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JList" name="lstInlaggForskning">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lstInlaggForskningMouseClicked"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnlInformell">
           <Properties>
@@ -262,12 +279,15 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JList" name="lstInlagg">
+                <Component class="javax.swing.JList" name="lstInlaggUtbildning">
                   <Properties>
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                       <StringArray count="0"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lstInlaggUtbildningMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -321,14 +341,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblStatus">
-    </Component>
-    <Component class="javax.swing.JButton" name="btnVisaMarkeratInlagg">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Visa markerat inl&#xe4;gg"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVisaMarkeratInlaggActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSkapaSuperKategori">
       <Properties>

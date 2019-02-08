@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import java.awt.Toolkit;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import javax.swing.JList;
 
 /**
  *
@@ -35,10 +36,12 @@ public class Inloggad extends javax.swing.JFrame {
     private String status;
     private String angivetAnv;
     private DefaultListModel lista;
+    private DefaultListModel lista2;
 
     public Inloggad(Connection connection, String status, String angivetAnv) {
 
         lista = new DefaultListModel();
+        lista2 = new DefaultListModel();
         this.connection = connection;
         initComponents();
         btnSkapaUnderkategori.setVisible(true);
@@ -76,10 +79,12 @@ public class Inloggad extends javax.swing.JFrame {
         jScrollBar1 = new javax.swing.JScrollBar();
         tabFlode = new javax.swing.JTabbedPane();
         pnlForskning = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstInlaggForskning = new javax.swing.JList();
         pnlInformell = new javax.swing.JPanel();
         pnlUtbildning = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstInlagg = new javax.swing.JList();
+        lstInlaggUtbildning = new javax.swing.JList();
         lblFloden = new javax.swing.JLabel();
         btnSkapaInlagg = new javax.swing.JButton();
         btnSkapaUnderkategori = new javax.swing.JButton();
@@ -87,7 +92,6 @@ public class Inloggad extends javax.swing.JFrame {
         btnHanteraAnvandare = new javax.swing.JButton();
         lblInloggadSom = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
-        btnVisaMarkeratInlagg = new javax.swing.JButton();
         btnSkapaSuperKategori = new javax.swing.JButton();
         btnSkapaAnvandare = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
@@ -109,15 +113,22 @@ public class Inloggad extends javax.swing.JFrame {
 
         pnlForskning.setMinimumSize(new java.awt.Dimension(200, 200));
 
+        lstInlaggForskning.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstInlaggForskningMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(lstInlaggForskning);
+
         javax.swing.GroupLayout pnlForskningLayout = new javax.swing.GroupLayout(pnlForskning);
         pnlForskning.setLayout(pnlForskningLayout);
         pnlForskningLayout.setHorizontalGroup(
             pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 754, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
         );
         pnlForskningLayout.setVerticalGroup(
             pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Forskning", pnlForskning);
@@ -137,7 +148,12 @@ public class Inloggad extends javax.swing.JFrame {
 
         tabFlode.addTab("Informell", pnlInformell);
 
-        jScrollPane2.setViewportView(lstInlagg);
+        lstInlaggUtbildning.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstInlaggUtbildningMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(lstInlaggUtbildning);
 
         javax.swing.GroupLayout pnlUtbildningLayout = new javax.swing.GroupLayout(pnlUtbildning);
         pnlUtbildning.setLayout(pnlUtbildningLayout);
@@ -184,13 +200,6 @@ public class Inloggad extends javax.swing.JFrame {
         });
 
         lblInloggadSom.setText("Inloggad som:");
-
-        btnVisaMarkeratInlagg.setText("Visa markerat inlägg");
-        btnVisaMarkeratInlagg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVisaMarkeratInlaggActionPerformed(evt);
-            }
-        });
 
         btnSkapaSuperKategori.setText("Skapa överkategori");
         btnSkapaSuperKategori.addActionListener(new java.awt.event.ActionListener() {
@@ -248,45 +257,41 @@ public class Inloggad extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 161, Short.MAX_VALUE)
-                            .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(sprMitten)
-                    .addComponent(sprHog)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(sprLag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVisaMote, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
-                        .addComponent(btnVisaMarkeratInlagg, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(115, 115, 115)
-                        .addComponent(btnRefresh)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                        .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(193, 193, 193))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                                .addGap(35, 35, 35)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                                    .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(39, 39, 39)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(sprMitten)
+                            .addComponent(sprHog)
+                            .addComponent(sprLag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnVisaMote, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(193, 193, 193))
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,8 +301,10 @@ public class Inloggad extends javax.swing.JFrame {
                         .addGap(434, 434, 434)
                         .addComponent(jLabel2)
                         .addGap(45, 45, 45)
-                        .addComponent(lblFloden)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblFloden)
+                        .addGap(37, 37, 37)
+                        .addComponent(btnRefresh)))
+                .addContainerGap(650, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,7 +319,9 @@ public class Inloggad extends javax.swing.JFrame {
                                 .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblFloden)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFloden)
+                                    .addComponent(btnRefresh))
                                 .addGap(18, 18, 18))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,11 +329,7 @@ public class Inloggad extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tabFlode)
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnRefresh)
-                            .addComponent(btnVisaMarkeratInlagg))
-                        .addGap(58, 58, 58))
+                        .addGap(121, 121, 121))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(sprHog, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -373,17 +378,8 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinProfilActionPerformed
 
     private void btnHanteraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraAnvandareActionPerformed
-        new HanteraAnvandare(connection,status).setVisible(true);
+        new HanteraAnvandare(connection, status).setVisible(true);
     }//GEN-LAST:event_btnHanteraAnvandareActionPerformed
-
-    private void btnVisaMarkeratInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaMarkeratInlaggActionPerformed
-        String valtInlagg = (String) lstInlagg.getSelectedValue();
-        String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
-
-        new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
-
-
-    }//GEN-LAST:event_btnVisaMarkeratInlaggActionPerformed
 
     private void btnSkapaSuperKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaSuperKategoriActionPerformed
         new SkapaSuperKategori(connection).setVisible(true);
@@ -427,8 +423,39 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVisaMoteActionPerformed
 
     private void btnHanteraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraMotenActionPerformed
-    new HanteraMoten(connection).setVisible(true);        // TODO add your handling code here:
+        new HanteraMoten(connection).setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_btnHanteraMotenActionPerformed
+
+    private void lstInlaggForskningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstInlaggForskningMouseClicked
+        try {
+            lstInlaggForskning = (JList) evt.getSource();
+            if (evt.getClickCount() == 2) {
+                int index = lstInlaggForskning.locationToIndex(evt.getPoint());
+                String valtInlagg = (String) lstInlaggForskning.getSelectedValue();
+                String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+
+                new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+
+            }
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_lstInlaggForskningMouseClicked
+
+    private void lstInlaggUtbildningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstInlaggUtbildningMouseClicked
+        try {
+            lstInlaggUtbildning = (JList) evt.getSource();
+            if (evt.getClickCount() == 2) {
+                int index = lstInlaggUtbildning.locationToIndex(evt.getPoint());
+                String valtInlagg = (String) lstInlaggUtbildning.getSelectedValue();
+                String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+
+                new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+            }
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_lstInlaggUtbildningMouseClicked
 
     private void fyllFlodeMedInlagg() {
 
@@ -438,9 +465,18 @@ public class Inloggad extends javax.swing.JFrame {
 
             while (rs.next()) {
                 lista.addElement(rs.getString("INFORMATION"));
-                lstInlagg.setModel(lista);
+                lstInlaggUtbildning.setModel(lista);
 
             }
+
+            Statement stmt2 = connection.createStatement();
+            ResultSet rs2 = stmt2.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 2 ORDER BY INLAGGSID DESC");
+
+            while (rs2.next()) {
+                lista2.addElement(rs2.getString("INFORMATION"));
+                lstInlaggForskning.setModel(lista2);
+            }
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -455,18 +491,19 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaSuperKategori;
     private javax.swing.JButton btnSkapaUnderkategori;
-    private javax.swing.JButton btnVisaMarkeratInlagg;
     private javax.swing.JButton btnVisaMote;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private com.toedter.calendar.JCalendar kalender;
     private javax.swing.JLabel lblFloden;
     private javax.swing.JLabel lblInloggadSom;
     private javax.swing.JLabel lblStatus;
-    private javax.swing.JList lstInlagg;
+    private javax.swing.JList lstInlaggForskning;
+    private javax.swing.JList lstInlaggUtbildning;
     private javax.swing.JPanel pnlForskning;
     private javax.swing.JPanel pnlInformell;
     private javax.swing.JPanel pnlUtbildning;
