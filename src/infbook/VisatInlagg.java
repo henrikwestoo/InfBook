@@ -60,6 +60,10 @@ public class VisatInlagg extends javax.swing.JFrame {
         kollaOmInlaggetFarTasBort();
         kollaOmInlaggetFarRedigeras();
 
+        txtNR.setVisible(false);//Swingen för att ta bort en kommentar
+        lblNR.setVisible(false);
+        btnTaBortBekrafta.setVisible(false);
+
         try {
             Statement stmt20 = connection.createStatement();
             ResultSet rs20 = stmt20.executeQuery("SELECT PNR FROM ANVANDARE JOIN INLAGG ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID ='" + inlaggsID + "'");
@@ -93,7 +97,7 @@ public class VisatInlagg extends javax.swing.JFrame {
         }
 
         fyllKommentarer();
-        
+
         try {
             // Kollar om det finns en fil att hämta
             Statement stmt8 = connection.createStatement();
@@ -129,6 +133,10 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnHamtaFil = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtKommentar = new javax.swing.JTextArea();
+        btnTaBortKommentar = new javax.swing.JButton();
+        txtNR = new javax.swing.JTextField();
+        btnTaBortBekrafta = new javax.swing.JButton();
+        lblNR = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -183,6 +191,22 @@ public class VisatInlagg extends javax.swing.JFrame {
         txtKommentar.setRows(5);
         jScrollPane3.setViewportView(txtKommentar);
 
+        btnTaBortKommentar.setText("Ta bort kommentar");
+        btnTaBortKommentar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaBortKommentarActionPerformed(evt);
+            }
+        });
+
+        btnTaBortBekrafta.setText("Ta bort");
+        btnTaBortBekrafta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaBortBekraftaActionPerformed(evt);
+            }
+        });
+
+        lblNR.setText("#");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,68 +218,86 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addComponent(btnTaBortInlagg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(197, 197, 197)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(197, 197, 197)
                                 .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSpara))
-                            .addComponent(btnHamtaFil)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(112, 112, 112)
+                                .addComponent(btnHamtaFil))))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRedigera)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane3))
-                .addGap(80, 80, 80))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addComponent(lblNR)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnTaBortKommentar)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtNR, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnTaBortBekrafta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(btnRedigera))
-                        .addGap(11, 11, 11)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(btnTaBortInlagg))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRedigera)
+                            .addComponent(jLabel2))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(btnTaBortKommentar)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSpara)
-                                    .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)
-                                .addGap(8, 8, 8)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtNR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblNR))
+                                .addGap(24, 24, 24)
+                                .addComponent(btnTaBortBekrafta))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(btnTaBortInlagg))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnSpara)
+                                .addComponent(jLabel1))
+                            .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnHamtaFil)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnKommentera)
-                .addContainerGap(29, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnKommentera)))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();
@@ -271,7 +313,7 @@ public class VisatInlagg extends javax.swing.JFrame {
             } catch (SQLException e) {
             }
             try {
-                stmt.executeUpdate("UPDATE KOMMENTAR SET ANVANDARE = NULL WHERE INLAGG ="+inlaggsID);
+                stmt.executeUpdate("UPDATE KOMMENTAR SET ANVANDARE = NULL WHERE INLAGG =" + inlaggsID);
                 stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE INLAGG ='" + inlaggsID + "'");
             } catch (SQLException e) {
             }
@@ -373,10 +415,8 @@ public class VisatInlagg extends javax.swing.JFrame {
         String datum = (s.format(d));
 
         LocalTime idag = LocalTime.now(); //Hämtar dagens tid
-        
 
         String tid = idag.toString().substring(0, 5); // Kortar ned till 5 tecken (HH:MM)
-        
 
         try {
 
@@ -389,7 +429,6 @@ public class VisatInlagg extends javax.swing.JFrame {
             rs.next();
 
             int KID = rs.getInt("MAX") + 1; //här
-            
 
             //ta denna plus 1
             // detta blir vårt id för kommentaren
@@ -406,10 +445,13 @@ public class VisatInlagg extends javax.swing.JFrame {
 
             //användar ps för varje kolumn
             //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
-            
             fyllKommentarer();
             txtKommentar.setText("");
-            
+
+            txtNR.setVisible(false);//Swingen för att ta bort en kommentar
+            lblNR.setVisible(false);
+            btnTaBortBekrafta.setVisible(false);
+
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -417,6 +459,70 @@ public class VisatInlagg extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnKommenteraActionPerformed
+
+    private void btnTaBortKommentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortKommentarActionPerformed
+        fyllKommentarerMedID();
+
+        txtNR.setVisible(true);
+        lblNR.setVisible(true);
+        btnTaBortBekrafta.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnTaBortKommentarActionPerformed
+
+    private void btnTaBortBekraftaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortBekraftaActionPerformed
+
+        String KID = txtNR.getText(); //Angivet kommentarID, det man vill ta bort
+
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM KOMMENTAR WHERE KOMMENTARID =" + KID); //Hittar vem som kommenterat
+
+            rs.next();
+
+            String kommenterareID = rs.getString("ANVANDARE"); //Variabel för den som kommenterat, IDt
+            
+            
+            String posterStatus = getAnvandarStatus(inlaggsID);
+            
+
+            boolean FAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som forskningsadministratör
+
+            if (status.equals("FA") && posterStatus.equals("F") || status.equals("FA") && posterStatus.equals("FA")) {
+
+                FAbehorighet = true;
+
+            }
+
+            boolean UAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som utbildningsadministratör
+
+            if (status.equals("UA") && posterStatus.equals("U") || status.equals("UA") && posterStatus.equals("UA")) {
+
+                UAbehorighet = true;
+            }
+
+                if (kommenterareID.equals(angivetAnv) || status.equals("CA") || FAbehorighet || UAbehorighet) { //Om den som kommenterat är samma som den som är inloggad
+
+                Statement stmt1 = connection.createStatement();
+                stmt1.executeUpdate("DELETE FROM KOMMENTAR WHERE KOMMENTARID =" + KID);
+
+                fyllKommentarerMedID();
+                txtNR.setText("");
+                JOptionPane.showMessageDialog(null, "Kommentaren har tagits bort");
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Du har inte behörighet att ta bort kommentaren");
+
+            }
+
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, e.getMessage());
+
+        }
+
+    }//GEN-LAST:event_btnTaBortBekraftaActionPerformed
 
     private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
         try {
@@ -498,25 +604,43 @@ public class VisatInlagg extends javax.swing.JFrame {
     private void fyllKommentarer() { // Fyller kommentarsfältet med kommentarer
 
         txtAreaKommentar.setText(""); //Tömmer kommentarsfältet för en reset
-        
+
         try {
 
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FORNAMN ||' '|| EFTERNAMN ||' '|| DATUM ||' '|| TID ||' \n'|| INFO AS INFORMATION FROM KOMMENTAR JOIN ANVANDARE ON ANVANDARE.PNR = KOMMENTAR.ANVANDARE WHERE INLAGG ="+inlaggsID);
+            ResultSet rs = stmt.executeQuery("SELECT FORNAMN ||' '|| EFTERNAMN ||' '|| DATUM ||' '|| TID ||' \n'|| INFO AS INFORMATION FROM KOMMENTAR JOIN ANVANDARE ON ANVANDARE.PNR = KOMMENTAR.ANVANDARE WHERE INLAGG =" + inlaggsID);
 
-            while(rs.next()){ //Fyller kommentarsfältet med kommentarer
+            while (rs.next()) { //Fyller kommentarsfältet med kommentarer
                 String kommentar = rs.getString("INFORMATION");
                 txtAreaKommentar.append(kommentar + "\n\n");
-                
-                
+
             }
-            
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("Det finns inga kommentarer");
         }
-        
-        catch (NullPointerException e) {
+    }
+
+    private void fyllKommentarerMedID() { // Fyller kommentarsfältet med kommentarer
+
+        txtAreaKommentar.setText(""); //Tömmer kommentarsfältet för en reset
+
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT KOMMENTARID ||'\n'|| FORNAMN ||' '|| EFTERNAMN ||' '|| DATUM ||' '|| TID ||' \n'|| INFO AS INFORMATION FROM KOMMENTAR JOIN ANVANDARE ON ANVANDARE.PNR = KOMMENTAR.ANVANDARE WHERE INLAGG =" + inlaggsID);
+
+            while (rs.next()) { //Fyller kommentarsfältet med kommentarer
+                String kommentar = rs.getString("INFORMATION");
+                txtAreaKommentar.append("#" + kommentar + "\n\n");
+
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (NullPointerException e) {
             System.out.println("Det finns inga kommentarer");
         }
     }
@@ -527,17 +651,21 @@ public class VisatInlagg extends javax.swing.JFrame {
     private javax.swing.JButton btnKommentera;
     private javax.swing.JButton btnRedigera;
     private javax.swing.JButton btnSpara;
+    private javax.swing.JButton btnTaBortBekrafta;
     private javax.swing.JButton btnTaBortInlagg;
+    private javax.swing.JButton btnTaBortKommentar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBild;
+    private javax.swing.JLabel lblNR;
     private javax.swing.JTextField lblTitel;
     private javax.swing.JLabel lblannanFil;
     private javax.swing.JTextArea txtAInlagg;
     private javax.swing.JTextArea txtAreaKommentar;
     private javax.swing.JTextArea txtKommentar;
+    private javax.swing.JTextField txtNR;
     // End of variables declaration//GEN-END:variables
 }
