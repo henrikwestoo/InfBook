@@ -10,8 +10,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -87,8 +85,20 @@ public class Profil extends javax.swing.JFrame {
                 radSmsJa.setSelected(true);
             }
             else {
-                radSmsNej.setSelected(false);
+                radSmsNej.setSelected(true);
             }
+            
+            Statement stmt9 = connection.createStatement();
+            ResultSet rs9 = stmt9.executeQuery("SELECT FIRST 1 EMAILNOTISER FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE='" + angivetAnv + "'");
+            rs9.next();
+            String emailSvar = rs9.getString("EMAILNOTISER");
+            if(emailSvar.equals("JA")) {
+                radEpostJa.setSelected(true);
+            }
+            else {
+                radEpostNej.setSelected(true);
+            }
+            
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -107,6 +117,8 @@ public class Profil extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgSms = new javax.swing.ButtonGroup();
+        bgEpost = new javax.swing.ButtonGroup();
         lblFornamn = new javax.swing.JLabel();
         lblEfternamn = new javax.swing.JLabel();
         lblEpost = new javax.swing.JLabel();
@@ -130,6 +142,12 @@ public class Profil extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         radEpostJa = new javax.swing.JRadioButton();
         radEpostNej = new javax.swing.JRadioButton();
+
+        bgSms.add(radSmsJa);
+        bgSms.add(radSmsNej);
+
+        bgEpost.add(radEpostJa);
+        bgEpost.add(radEpostNej);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -241,7 +259,7 @@ public class Profil extends javax.swing.JFrame {
                                             .addComponent(lblAnvandarstatus)
                                             .addComponent(lblAnvandarstatusDB, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblEpost))
-                                        .addGap(0, 77, Short.MAX_VALUE))
+                                        .addGap(0, 130, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblEpostDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addContainerGap())))
@@ -280,7 +298,7 @@ public class Profil extends javax.swing.JFrame {
                             .addComponent(radEpostNej)
                             .addComponent(radEpostJa)
                             .addComponent(jLabel3))
-                        .addGap(0, 60, Short.MAX_VALUE))))
+                        .addGap(0, 113, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,55 +373,51 @@ public class Profil extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void radSmsJaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSmsJaActionPerformed
-        if (radSmsJa.isSelected()) {
-            radSmsNej.setSelected(false);
+
             try {
                 Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER=JA WHERE ANVANDARE ='" + angivetAnv + "'");
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER='JA' WHERE ANVANDARE ='" + angivetAnv + "'");
             } catch (SQLException ex) {
             }
-        }
+        
     }//GEN-LAST:event_radSmsJaActionPerformed
 
     private void radSmsNejActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSmsNejActionPerformed
-        if (radSmsNej.isSelected()) {
-            radSmsJa.setSelected(false);
+
             try {
                 Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER=NEJ WHERE ANVANDARE ='" + angivetAnv + "'");
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER='NEJ' WHERE ANVANDARE ='" + angivetAnv + "'");
             } catch (SQLException ex) {
             }
-        }
+        
     }//GEN-LAST:event_radSmsNejActionPerformed
 
     private void radEpostJaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEpostJaActionPerformed
-        if (radEpostJa.isSelected()) {
-            radEpostNej.setSelected(false);
+
             try {
                 Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER=JA WHERE ANVANDARE ='" + angivetAnv + "'");
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER='JA' WHERE ANVANDARE ='" + angivetAnv + "'");
             } catch (SQLException ex) {
             }
-        }
     }//GEN-LAST:event_radEpostJaActionPerformed
 
     private void radEpostNejActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEpostNejActionPerformed
-        if (radEpostNej.isSelected()) {
-            radEpostJa.setSelected(true);
+
             try {
                 Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER=NEJ WHERE ANVANDARE ='" + angivetAnv + "'");
+                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER='NEJ' WHERE ANVANDARE ='" + angivetAnv + "'");
             } catch (SQLException ex) {
             }
-        }
     }//GEN-LAST:event_radEpostNejActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bgEpost;
+    private javax.swing.ButtonGroup bgSms;
     private javax.swing.JButton btnRedigeraInfo;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
