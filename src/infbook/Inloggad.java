@@ -51,6 +51,7 @@ public class Inloggad extends javax.swing.JFrame {
         btnSkapaAnvandare.setVisible(false);
         btnHanteraAnvandare.setVisible(false);
         txtArea.setEditable(false);
+        txtArea.setLineWrap(true);
 
         if (status.equals("CA") || status.equals("UA") || status.equals("FA")) {
             btnSkapaSuperKategori.setVisible(true);
@@ -99,6 +100,8 @@ public class Inloggad extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
         btnVisaMote = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        btnHanteraMoten = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Infbook");
@@ -114,7 +117,7 @@ public class Inloggad extends javax.swing.JFrame {
         );
         pnlForskningLayout.setVerticalGroup(
             pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 592, Short.MAX_VALUE)
+            .addGap(0, 594, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Forskning", pnlForskning);
@@ -129,7 +132,7 @@ public class Inloggad extends javax.swing.JFrame {
         );
         pnlInformellLayout.setVerticalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 592, Short.MAX_VALUE)
+            .addGap(0, 594, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Informell", pnlInformell);
@@ -144,7 +147,7 @@ public class Inloggad extends javax.swing.JFrame {
         );
         pnlUtbildningLayout.setVerticalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Utbildning", pnlUtbildning);
@@ -230,13 +233,22 @@ public class Inloggad extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Hantera följningar");
+
+        btnHanteraMoten.setText("Hantera möten");
+        btnHanteraMoten.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHanteraMotenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -244,22 +256,25 @@ public class Inloggad extends javax.swing.JFrame {
                             .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                            .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 161, Short.MAX_VALUE)
+                            .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(39, 39, 39)
-                        .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(sprMitten, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(sprHog, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(sprLag, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(sprMitten)
+                    .addComponent(sprHog)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sprLag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVisaMote, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -315,7 +330,8 @@ public class Inloggad extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSkapaInlagg)
-                            .addComponent(btnSkapaUnderkategori))
+                            .addComponent(btnSkapaUnderkategori)
+                            .addComponent(jButton1))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnMinProfil)
@@ -327,7 +343,9 @@ public class Inloggad extends javax.swing.JFrame {
                             .addComponent(btnSkapaSuperKategori)
                             .addComponent(btnSkapaAnvandare))
                         .addGap(18, 18, 18)
-                        .addComponent(btnHanteraAnvandare)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnHanteraAnvandare)
+                            .addComponent(btnHanteraMoten))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sprLag, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14)
@@ -386,7 +404,7 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoggaUtActionPerformed
 
     private void btnVisaMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaMoteActionPerformed
-        txtArea.setText(null);
+        txtArea.setText("");
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
         String date1 = dFormat.format(kalender.getDate());
 
@@ -395,7 +413,7 @@ public class Inloggad extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery("SELECT MOTE.INFO ||' - '|| MOTE_ANVANDARE2.TID1 ||'  '|| MOTE.SAL ||' - '|| ANVANDARE.FORNAMN ||' '|| ANVANDARE.EFTERNAMN AS INFORMATION FROM MOTE JOIN MOTE_ANVANDARE2 ON MOTE_ANVANDARE2.MOTE = MOTE.MOTESID JOIN ANVANDARE ON ANVANDARE.PNR = MOTE_ANVANDARE2.ANVANDARE WHERE MOTE_ANVANDARE2.DATUM1 ='" + date1 + "'");
             while (rs.next()) {
                 String info = rs.getString("INFORMATION");
-                txtArea.append(info + "\n");
+                txtArea.append(info + "\n\n");
                 System.out.println(rs.getString("INFORMATION"));
             }
 
@@ -407,6 +425,10 @@ public class Inloggad extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnVisaMoteActionPerformed
+
+    private void btnHanteraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraMotenActionPerformed
+    new HanteraMoten(connection).setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHanteraMotenActionPerformed
 
     private void fyllFlodeMedInlagg() {
 
@@ -425,6 +447,7 @@ public class Inloggad extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHanteraAnvandare;
+    private javax.swing.JButton btnHanteraMoten;
     private javax.swing.JButton btnLoggaUt;
     private javax.swing.JButton btnMinProfil;
     private javax.swing.JButton btnRefresh;
@@ -434,6 +457,7 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JButton btnSkapaUnderkategori;
     private javax.swing.JButton btnVisaMarkeratInlagg;
     private javax.swing.JButton btnVisaMote;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
