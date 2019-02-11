@@ -25,12 +25,20 @@ public class RedigeraMoten extends javax.swing.JFrame {
 private String motesid;
     private Connection connection;
     private DefaultListModel lista;
-    public RedigeraMoten(Connection connection) {
+     private String angivetAnv;
+    private String inlaggsID;
+    private String status;
+    
+    public RedigeraMoten(Connection connection, String status, String angivetAnv) {
+     
         initComponents();
         this.connection = connection;
+         this.status = status;
+        this.angivetAnv = angivetAnv;
         lista = new DefaultListModel();
          fyllComboBoxAnvandare();
          btnÄndraMoten.setVisible(false);
+         
         
     }
 
@@ -179,21 +187,61 @@ private String motesid;
     }
     private void btnÄndraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnÄndraMotenActionPerformed
 
-
           try {
               SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
         String date1 = dFormat.format(valjDatum.getDate());
-              System.out.println(date1);
-                    Statement stmt = connection.createStatement();
+              
+                   Statement stmt = connection.createStatement();  
+            
+            
+              String KID = ""; //Angivet kommentarID, det man vill ta bort
+
+   
+
+          
+            ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM MOTE WHERE MOTESID =" + inlaggsID); //Hittar vem som kommenterat
+
+            rs.next();
+
+            String kommenterareID = rs.getString("ANVANDARE"); //Variabel för den som kommenterat, IDt
+            
+            
+            String posterStatus = getAnvandarStatus(inlaggsID);
+            
+
+            boolean FAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som forskningsadministratör
+
+            if (status.equals("FA") && posterStatus.equals("F") || status.equals("FA") && posterStatus.equals("FA")) {
+
+                FAbehorighet = true;
+
+            }
+
+            boolean UAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som utbildningsadministratör
+
+            if (status.equals("UA") && posterStatus.equals("U") || status.equals("UA") && posterStatus.equals("UA")) {
+
+                UAbehorighet = true;
+            }
+
+                if (kommenterareID.equals(angivetAnv) || status.equals("CA") || FAbehorighet || UAbehorighet) { //Om den som kommenterat är samma som den som är inloggad
+
+           
             stmt.executeUpdate("UPDATE MOTE SET INFO ='" + txtAndraInfo.getText() + "', SAL='" + txtAndraSal.getText() + "', TID='" + txtAndraTid.getText()+ "'"+ ", DATUM='" + date1+"' WHERE MOTESID ='"+motesid+"'");
               
-            
-            
-            
+
+                
+               
+                JOptionPane.showMessageDialog(null, "Mötet har ändrat");
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Du har inte behörighet att ändra mötet");
+
+                }
             lista.removeAllElements();
             fyllComboBoxAnvandare();
             
-            JOptionPane.showMessageDialog(null, "Informationen har ändrats");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -245,7 +293,10 @@ int motesidInt = Integer.parseInt(motesid);
     }//GEN-LAST:event_listaMotenKeyPressed
 
     private void btnValjMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValjMoteActionPerformed
-btnÄndraMoten.setVisible(true);
+        String valtInlagg = (String) listaMoten.getSelectedValue();
+        inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+        
+        btnÄndraMoten.setVisible(true);
         Statement stmt;
         try {
             stmt = connection.createStatement();
@@ -277,7 +328,25 @@ int motesidInt = Integer.parseInt(motesid);
            JOptionPane.showMessageDialog(null, ex);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnValjMoteActionPerformed
+public String getAnvandarStatus(String inlaggsID) { //Används för att kolla statusen på personen som gjort inlägget, returnerar statusen
 
+        String status = "";
+
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT STATUS FROM MOTE JOIN ANVANDARE ON MOTE.ANVANDARE = ANVANDARE.PNR WHERE MOTESID =" + inlaggsID);
+            rs.next();
+
+            status = rs.getString("STATUS"); //
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Något gick fel i databasen");
+        }
+
+        return status;
+
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

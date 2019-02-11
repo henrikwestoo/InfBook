@@ -423,7 +423,7 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVisaMoteActionPerformed
 
     private void btnHanteraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraMotenActionPerformed
-        new HanteraMoten(connection).setVisible(true);        // TODO add your handling code here:
+        new HanteraMoten(connection, status, angivetAnv).setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_btnHanteraMotenActionPerformed
 
     private void lstInlaggForskningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstInlaggForskningMouseClicked

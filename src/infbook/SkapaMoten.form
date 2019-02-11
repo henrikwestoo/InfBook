@@ -57,7 +57,7 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" min="-2" pref="59" max="-2" attributes="0"/>
+                          <Component id="txtTid" min="-2" pref="59" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -79,7 +79,7 @@
                   <Component id="dagValjare" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtSal" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtTid" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -166,7 +166,7 @@
         <Property name="text" type="java.lang.String" value="Ange sal"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="txtTid">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>

@@ -19,9 +19,14 @@ import java.util.logging.Logger;
 public class HanteraMoten extends javax.swing.JFrame {
 
  private Connection connection;
-    public HanteraMoten(Connection connection) {
+    private String status;
+    private String angivetAnv;
+    public HanteraMoten(Connection connection, String status, String angivetAnv) {
         initComponents();
         this.connection = connection;
+        this.status = status;
+        this.angivetAnv = angivetAnv;
+        
     }
 
     
@@ -43,6 +48,11 @@ public class HanteraMoten extends javax.swing.JFrame {
         });
 
         btnRedMote.setText("Redigera möten");
+        btnRedMote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRedMoteActionPerformed(evt);
+            }
+        });
 
         btnTaBortMote.setText("Ta bort möten");
         btnTaBortMote.addActionListener(new java.awt.event.ActionListener() {
@@ -80,12 +90,19 @@ public class HanteraMoten extends javax.swing.JFrame {
 
     private void btnSkapaMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaMoteActionPerformed
         
-     new SkapaMoten(connection).setVisible(true);
+     new SkapaMoten(connection, angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnSkapaMoteActionPerformed
 
     private void btnTaBortMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortMoteActionPerformed
-        new TaBortMoten(connection).setVisible(true); 
+        new TaBortMoten(connection, status, angivetAnv).setVisible(true); 
     }//GEN-LAST:event_btnTaBortMoteActionPerformed
+
+    private void btnRedMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedMoteActionPerformed
+new RedigeraMoten(connection, status, angivetAnv).setVisible(true);
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRedMoteActionPerformed
 
    
    

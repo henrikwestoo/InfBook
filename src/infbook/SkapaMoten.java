@@ -23,12 +23,14 @@ import javax.swing.JOptionPane;
 public class SkapaMoten extends javax.swing.JFrame {
 private Connection connection;
 private DefaultListModel lista;
+private String angivetAnv;
     
-    public SkapaMoten(Connection connection) {
+    public SkapaMoten(Connection connection, String angivetAnv) {
         initComponents();
          this.connection = connection;
          lista = new DefaultListModel();
          fyllComboBoxAnvandare();
+         this.angivetAnv = angivetAnv;
     }
 
     
@@ -48,7 +50,7 @@ private DefaultListModel lista;
         jLabel3 = new javax.swing.JLabel();
         txtSal = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTid = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -107,7 +109,7 @@ private DefaultListModel lista;
                                 .addGap(71, 71, 71)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtTid, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(178, 178, 178))
         );
         layout.setVerticalGroup(
@@ -123,7 +125,7 @@ private DefaultListModel lista;
                     .addComponent(dagValjare, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtSal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
@@ -175,16 +177,19 @@ private DefaultListModel lista;
             int hogstaVarde = rs2.getInt("MOTESID");
             int nyaVardet = hogstaVarde + 1;
 //            
-//            SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
-//            String date1 = dFormat.format(dagValjare.getDate());
+           SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
+          String date1 = dFormat.format(dagValjare.getDate());
 //            
             
             String info = txtInfoMote.getText();
             
-            PreparedStatement ps2 = connection.prepareStatement("insert into MOTE(MOTESID,INFO,SAL) values(?,?,?)");
+            PreparedStatement ps2 = connection.prepareStatement("insert into MOTE(MOTESID,INFO,SAL,TID,DATUM,ANVANDARE) values(?,?,?,?,?,?)");
             ps2.setInt(1, nyaVardet);
             ps2.setString(2, info);
             ps2.setString(3, txtSal.getText());
+            ps2.setString(4, txtTid.getText());
+            ps2.setString(5, date1);
+            ps2.setString(6, angivetAnv);
             
             ps2.executeUpdate();
             
@@ -198,9 +203,19 @@ private DefaultListModel lista;
 //            ps3.executeUpdate();
 //            
 //            
-//            JOptionPane.showMessageDialog(null,"Mötet har skapats");
+         JOptionPane.showMessageDialog(null,"Mötet har skapats");
+         Object [] valda = listAnstallda.getSelectedValues();
+            for(Object anvandare : valda)
+            {
+               PreparedStatement ps4 = connection.prepareStatement("insert into MOTE_ANVANDARE2(ANVANDARE,MOTE) values(?,?)");
+
+            String pnr = anvandare.toString().substring(0,anvandare.toString().indexOf(" "));
+
+            ps4.setString(1, pnr);
+            ps4.setInt(2, nyaVardet);
+            ps4.executeUpdate();
             
-            
+            }
             
         
              } catch (SQLException ex) {
@@ -208,6 +223,7 @@ private DefaultListModel lista;
      }
     }//GEN-LAST:event_btnSkapaMotetActionPerformed
 
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSkapaMotet;
@@ -219,9 +235,9 @@ private DefaultListModel lista;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JList<String> listAnstallda;
     private javax.swing.JTextArea txtInfoMote;
     private javax.swing.JTextField txtSal;
+    private javax.swing.JTextField txtTid;
     // End of variables declaration//GEN-END:variables
 }
