@@ -435,10 +435,15 @@ public class VisatInlagg extends javax.swing.JFrame {
             rs.next();
             int KID = rs.getInt("MAX") + 1; //här
             
-            Statement stmt2 = connection.createStatement();
             
-
-           
+            
+            
+           //Statement stmt2 = connection.createStatement();
+            //ResultSet rs2 = stmt2.executeQuery("SELECT ANVANDARE FROM KOMMENTAR WHERE KOMMENTARID ="+KID+"");
+            //rs2.next();
+            //int anvandare = rs2.getInt("ANVANDARE");
+            //String anvandare1 = Integer.toString(anvandare);
+            
             
             Statement stmt101 = connection.createStatement();
             ResultSet rs101 = stmt101.executeQuery("SELECT MOBILNMR FROM ANVANDARE JOIN KOMMENTAR ON KOMMENTAR.ANVANDARE = ANVANDARE.PNR WHERE KOMMENTAR.INLAGG = "+inlaggsID+"");
@@ -447,13 +452,24 @@ public class VisatInlagg extends javax.swing.JFrame {
                 String mobilnmr = rs101.getString("MOBILNMR");
                 System.out.println(mobilnmr);
                 SMSNotiser hej = new SMSNotiser();
-                hej.skickaNotis("En ny kommentar har skrivits på ett inlägg som du har kommenterat på", mobilnmr);
+                hej.skickaNotis("En ny kommentar har skrivits på ett inlägg som du har kommenterat på \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
+            }
+            
+            
+            Statement stmt102 = connection.createStatement();
+            ResultSet rs102 = stmt102.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN KOMMENTAR ON KOMMENTAR.ANVANDARE = ANVANDARE.PNR WHERE KOMMENTAR.INLAGG = "+inlaggsID+"");
+            while(rs102.next())
+            {
+                String email = rs102.getString("EMAIL");
+                System.out.println(email);
+                SendMail.send(email, "Händelse från InfBook", "Någon har kommenterat på ett inlägg som du har kommenterat på, logga in för att ta reda på vad som har skrivits. \n\n Med vänliga hälsningar,\n InfBook", "mail@infbook.page", "Infbook2019");
             }
 
-
+            
             //ta denna plus 1
             // detta blir vårt id för kommentaren
             //Ett ps som stoppar in all data i kommentar
+            
             PreparedStatement ps = connection.prepareStatement("insert into KOMMENTAR(KOMMENTARID,INFO,DATUM,TID,ANVANDARE,INLAGG) values(?,?,?,?,?,?)");
             ps.setInt(1, KID);
             ps.setString(2, txtKommentar.getText());
@@ -462,8 +478,7 @@ public class VisatInlagg extends javax.swing.JFrame {
             ps.setString(5, angivetAnv);
             ps.setString(6, inlaggsID);
 
-            ps.executeUpdate();
-            
+            ps.executeUpdate();    
             
             //användar ps för varje kolumn
             //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
