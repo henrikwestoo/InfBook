@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -258,30 +259,80 @@ public ImageIcon ResizeImage(String ImagePath) {
             rs100.next();
             int superkategori = rs100.getInt("SUPERKATEGORI");
 
-            Statement stmt101 = connection.createStatement();
-            ResultSet rs101 = stmt101.executeQuery("SELECT MOBILNMR FROM ANVANDARE JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.ANVANDARE=ANVANDARE.PNR WHERE SUPERKATEGORIID=" + superkategori + " AND SMSNOTISER='JA'");
+            Statement stmt101 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
-            while (rs101.next()) {
-                String mobilnmr = rs101.getString("MOBILNMR");
-                System.out.println(mobilnmr);
-                SMSNotiser hej = new SMSNotiser();
-                hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
+            Statement stmt102 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+
+            ResultSet sub = stmt101.executeQuery("SELECT MOBILNMR FROM ANVANDARE JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.ANVANDARE=ANVANDARE.PNR WHERE SUPERKATEGORIID=" + superkategori + " AND SMSNOTISER='JA'");
+
+            ResultSet unsub = stmt102.executeQuery("SELECT MOBILNMR FROM ANVANDARE JOIN ANVANDARE_SUBKATEGORI ON ANVANDARE_SUBKATEGORI.ANVANDARE = ANVANDARE.PNR WHERE SUBKATEGORI =" + subkategoriId);
+
+            ArrayList<String> unsubList = new ArrayList();
+
+            while (unsub.next()) {
+                //första värdet i tabellen hänger inte med, så den får vara en placeholder
+                String unsubNummer = unsub.getString("MOBILNMR");
+                unsubList.add(unsubNummer);
+            }
+
+            while (sub.next()) {
+                //första mobilnummret hänger inte med, så den måste vara en placeholder
+                String mobilnmr = sub.getString("MOBILNMR");
+
+                for (String unsubNummer : unsubList) {
+
+                    if (mobilnmr.equals(unsubNummer)) {
+                        System.out.println("Meddelandet stoppades för: " + mobilnmr);
+                    } else {
+                        System.out.println("Meddelande skickas till " + mobilnmr);
+
+                          SMSNotiser hej = new SMSNotiser();
+//                        hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
+                    }
+                }
+            }
+
+            Statement stmt103 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            ResultSet subE = stmt103.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.ANVANDARE=ANVANDARE.PNR WHERE SUPERKATEGORIID=" + superkategori + " AND EMAILNOTISER='JA'");
+
+            Statement stmt104 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            ResultSet unsubE = stmt104.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN ANVANDARE_SUBKATEGORI ON ANVANDARE_SUBKATEGORI.ANVANDARE = ANVANDARE.PNR WHERE SUBKATEGORI =" + subkategoriId);
+
+            ArrayList<String> unsubEList = new ArrayList();
+
+            while (unsubE.next()) {
+                String unsubEpost = unsubE.getString("EMAIL");
+                unsubEList.add(unsubEpost);
+            }
+
+            while (subE.next()) {
+
+                String subEpost = subE.getString("EMAIL");
+                System.out.println("1"+subEpost);
+                
+                for (String unsubEpostadress : unsubEList) {
+                    System.out.println("2"+unsubEpostadress);
+
+                    if (subEpost.equals(unsubEpostadress)) {
+                        System.out.println("Mailet skickades INTE till: " + subEpost);
+                    } else {
+                        System.out.println("Mailet skickades till: " + subEpost);
+                        //SendMail.send(subEpost, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
+                    }
+
+                }
+
             }
             
-            
-            
-            Statement stmt102 = connection.createStatement();
-            ResultSet rs102 = stmt102.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.ANVANDARE=ANVANDARE.PNR WHERE SUPERKATEGORIID=" + superkategori + " AND EMAILNOTISER='JA'");
-            while(rs102.next())
-            {
-                String email = rs102.getString("EMAIL");
-                System.out.println(email);
-                SendMail.send(email, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
-            }
-            
-            
-            
-            
+
             
 
             Statement stmt2 = connection.createStatement();
@@ -393,6 +444,7 @@ public ImageIcon ResizeImage(String ImagePath) {
     }//GEN-LAST:event_cmbSuperkategoriItemStateChanged
 
     private void cmbSuperkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSuperkategoriActionPerformed
+        lista.removeAllElements();
         fyllComboBoxSubkategori();
 
         // TODO add your handling code here:
