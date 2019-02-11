@@ -38,12 +38,14 @@ public class VisatInlagg extends javax.swing.JFrame {
     private File file;
     private InputStream is;
     private int b;
+    private String titel;
 
     public VisatInlagg(Connection connection, String inlaggsID, String status, String angivetAnv) {
         this.connection = connection;
         this.inlaggsID = inlaggsID;
         this.status = status;
         this.angivetAnv = angivetAnv;
+        this.titel=titel;
 
         initComponents();
         txtAInlagg.setLineWrap(true);
@@ -218,14 +220,14 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addComponent(btnTaBortInlagg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(197, 197, 197)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(197, 197, 197)
                                 .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSpara))
+                                .addGap(72, 72, 72))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(112, 112, 112)
+                                .addComponent(btnSpara)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnHamtaFil))))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -287,17 +289,19 @@ public class VisatInlagg extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnSpara)
-                                .addComponent(jLabel1))
+                            .addComponent(jLabel1)
                             .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnHamtaFil)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnHamtaFil)
+                                    .addComponent(btnSpara))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnKommentera)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();
@@ -429,8 +433,23 @@ public class VisatInlagg extends javax.swing.JFrame {
             ResultSet rs = stmt.getResultSet();
 
             rs.next();
-
             int KID = rs.getInt("MAX") + 1; //här
+            
+            Statement stmt2 = connection.createStatement();
+            
+
+           
+            
+            Statement stmt101 = connection.createStatement();
+            ResultSet rs101 = stmt101.executeQuery("SELECT MOBILNMR FROM ANVANDARE JOIN KOMMENTAR ON KOMMENTAR.ANVANDARE = ANVANDARE.PNR WHERE KOMMENTAR.INLAGG = "+inlaggsID+"");
+
+            while (rs101.next()) {
+                String mobilnmr = rs101.getString("MOBILNMR");
+                System.out.println(mobilnmr);
+                SMSNotiser hej = new SMSNotiser();
+                hej.skickaNotis("En ny kommentar har skrivits på ett inlägg som du har kommenterat på", mobilnmr);
+            }
+
 
             //ta denna plus 1
             // detta blir vårt id för kommentaren
@@ -444,7 +463,8 @@ public class VisatInlagg extends javax.swing.JFrame {
             ps.setString(6, inlaggsID);
 
             ps.executeUpdate();
-
+            
+            
             //användar ps för varje kolumn
             //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
             fyllKommentarer();
