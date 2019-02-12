@@ -291,7 +291,7 @@ public ImageIcon ResizeImage(String ImagePath) {
                         System.out.println("Meddelande skickas till " + mobilnmr);
 
                           SMSNotiser hej = new SMSNotiser();
-//                        hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
+                        hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
                     }
                 }
             }
@@ -316,16 +316,16 @@ public ImageIcon ResizeImage(String ImagePath) {
             while (subE.next()) {
 
                 String subEpost = subE.getString("EMAIL");
-                System.out.println("1"+subEpost);
+                
                 
                 for (String unsubEpostadress : unsubEList) {
-                    System.out.println("2"+unsubEpostadress);
+                    
 
                     if (subEpost.equals(unsubEpostadress)) {
                         System.out.println("Mailet skickades INTE till: " + subEpost);
                     } else {
                         System.out.println("Mailet skickades till: " + subEpost);
-                        //SendMail.send(subEpost, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
+                        SendMail.send(subEpost, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
                     }
 
                 }
