@@ -467,7 +467,7 @@ public class Inloggad extends javax.swing.JFrame {
     private void fyllFlodeMedInlagg() {
 
         try {
-            Statement stmt = connection.createStatement();
+            Statement stmt = connection.createStatement(); //utbildning
             ResultSet rs = stmt.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 1 ORDER BY INLAGGSID DESC");
 
             while (rs.next()) {
@@ -476,7 +476,7 @@ public class Inloggad extends javax.swing.JFrame {
 
             }
 
-            Statement stmt2 = connection.createStatement();
+            Statement stmt2 = connection.createStatement(); //forskning
             ResultSet rs2 = stmt2.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 2 ORDER BY INLAGGSID DESC");
 
             while (rs2.next()) {

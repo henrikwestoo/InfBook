@@ -272,6 +272,8 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         String fornamn = txtFornamn.getText();
         String efternamn = txtEfternamn.getText();
         String status = "";
+        String losenord = "hej";
+        //String losenord = LosenordsGenerator.createPassword();
 
         if (cmbStatus.getSelectedItem().toString().equals("Centraladministratör")) {
             status = "CA";
@@ -300,8 +302,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
             Statement stmt = connection.createStatement();
             ps.setString(1, PNR);
-            ps.setString(2, "hej");
-            //ps.setString(2, LosenordsGenerator.createPassword());
+            ps.setString(2, losenord);
             ps.setString(3, Rumsnmr);
             ps.setString(4, mobilnmr);
             ps.setString(5, email);
@@ -311,7 +312,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             ps.setString(9, status);
             ps.executeUpdate();
             SMSNotiser hej = new SMSNotiser();
-            hej.skickaNotis("Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet hej. \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
+            hej.skickaNotis("Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet: "+losenord+". \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
             
             SendMail.send(email, "Ditt konto har skapats", "Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet hej. \n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
           
@@ -323,6 +324,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             // int nyaVardet2 = hogstaVarde + 1;
             // byte[] text = str.
             JOptionPane.showMessageDialog(null, "En användare har skapats!");
+            this.dispose();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SkapaAnvandare.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
