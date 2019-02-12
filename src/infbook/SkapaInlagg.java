@@ -281,19 +281,29 @@ public ImageIcon ResizeImage(String ImagePath) {
 
             while (sub.next()) {
                 //första mobilnummret hänger inte med, så den måste vara en placeholder
+                boolean matchning = false;
                 String mobilnmr = sub.getString("MOBILNMR");
+
+                System.out.println("Första loopen sms: " + mobilnmr + "-----");
 
                 for (String unsubNummer : unsubList) {
 
-                    if (mobilnmr.equals(unsubNummer)) {
-                        System.out.println("Meddelandet stoppades för: " + mobilnmr);
-                    } else {
-                        System.out.println("Meddelande skickas till " + mobilnmr);
+                    System.out.println("andra loopen sms:" + unsubNummer + "----");
 
-                          SMSNotiser hej = new SMSNotiser();
-                        hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
+                    if (mobilnmr.equals(unsubNummer)) {
+                        matchning = true;
+                        System.out.println("Följande nummer gjorde matchnign = true" + mobilnmr);
                     }
                 }
+
+                if (matchning == false) {
+
+                    System.out.println("Meddelande skickas till " + mobilnmr);
+
+                    SMSNotiser hej = new SMSNotiser();
+                    //hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
+                }
+
             }
 
             Statement stmt103 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -315,25 +325,27 @@ public ImageIcon ResizeImage(String ImagePath) {
 
             while (subE.next()) {
 
+                boolean matchning = false;
                 String subEpost = subE.getString("EMAIL");
-                
-                
+                System.out.println("Första epost loopen innehåller: " + subEpost + "---------");
+
                 for (String unsubEpostadress : unsubEList) {
-                    
+
+                    System.out.println("Andra epost loopen innehåller: " + unsubEpostadress + "---------");
 
                     if (subEpost.equals(unsubEpostadress)) {
-                        System.out.println("Mailet skickades INTE till: " + subEpost);
-                    } else {
-                        System.out.println("Mailet skickades till: " + subEpost);
-                        SendMail.send(subEpost, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
-                    }
 
+                        matchning = true;
+                        System.out.println("Följande adressen gjorde matchning till true: " + subEpost);
+                    }
+                }
+
+                if (matchning == false) {
+                    System.out.println("Mailet skickades till: " + subEpost);
+                    //SendMail.send(subEpost, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
                 }
 
             }
-            
-
-            
 
             Statement stmt2 = connection.createStatement();
 
