@@ -299,54 +299,64 @@ public class AndraProfil extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
-        String PNR = txtPNR.getText();
-        String rumsnmr = txtRum.getText();
-        String mobilnmr = txtTelefon.getText();
-        String email = txtEpost.getText();
-        String fornamn = txtFornamn.getText();
-        String efternamn = txtEfternamn.getText();
-        String status = cmbStatus.getSelectedItem().toString();
 
-        if (cmbStatus.getSelectedItem().toString().equals("Centraladministratör")) {
-            status = "CA";
-        }
-        if (cmbStatus.getSelectedItem().toString().equals("Utbildningsadministratör")) {
-            status = "UA";
-        }
-        if (cmbStatus.getSelectedItem().toString().equals("Forskningsadministratör")) {
-            status = "FA";
-        }
-        if (cmbStatus.getSelectedItem().toString().equals("Amanuens")) {
-            status = "A";
-        }
-        if (cmbStatus.getSelectedItem().toString().equals("Forskningsanvändare")) {
-            status = "F";
-        }
-        if (cmbStatus.getSelectedItem().toString().equals("Utbildningsanvändare")) {
-            status = "U";
-        }
+        if (Validering.isHeltal(txtTelefon)
+                && Validering.isString(txtFornamn)
+                && Validering.isString(txtEfternamn)
+                && Validering.isTextFältTomt(txtTelefon)
+                && Validering.isTextFältTomt(txtRum)
+                && Validering.isTextFältTomt(txtEpost)
+                && Validering.isTextFältTomt(txtFornamn)
+                && Validering.isTextFältTomt(txtEfternamn)) {
 
-        try {
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate("UPDATE ANVANDARE SET RUMSNMR='" + rumsnmr + "', MOBILNMR='" + mobilnmr + "', EMAIL='" + email + "', FORNAMN='" + fornamn + "', EFTERNAMN='" + efternamn + "', STATUS='" + status + "' WHERE PNR='" + PNR + "'");
-            JOptionPane.showMessageDialog(null, "Informationen har ändrats");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            String PNR = txtPNR.getText();
+            String rumsnmr = txtRum.getText();
+            String mobilnmr = txtTelefon.getText();
+            String email = txtEpost.getText();
+            String fornamn = txtFornamn.getText();
+            String efternamn = txtEfternamn.getText();
+            String status = cmbStatus.getSelectedItem().toString();
+
+            if (cmbStatus.getSelectedItem().toString().equals("Centraladministratör")) {
+                status = "CA";
+            }
+            if (cmbStatus.getSelectedItem().toString().equals("Utbildningsadministratör")) {
+                status = "UA";
+            }
+            if (cmbStatus.getSelectedItem().toString().equals("Forskningsadministratör")) {
+                status = "FA";
+            }
+            if (cmbStatus.getSelectedItem().toString().equals("Amanuens")) {
+                status = "A";
+            }
+            if (cmbStatus.getSelectedItem().toString().equals("Forskningsanvändare")) {
+                status = "F";
+            }
+            if (cmbStatus.getSelectedItem().toString().equals("Utbildningsanvändare")) {
+                status = "U";
+            }
+
+            try {
+                Statement stmt = connection.createStatement();
+                stmt.executeUpdate("UPDATE ANVANDARE SET RUMSNMR='" + rumsnmr + "', MOBILNMR='" + mobilnmr + "', EMAIL='" + email + "', FORNAMN='" + fornamn + "', EFTERNAMN='" + efternamn + "', STATUS='" + status + "' WHERE PNR='" + PNR + "'");
+                JOptionPane.showMessageDialog(null, "Informationen har ändrats");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+            try {
+                PreparedStatement ps = connection.prepareStatement("UPDATE ANVANDARE SET PROFILBILD =? WHERE PNR='" + PNR + "'");
+                InputStream is = new FileInputStream(new File(path));
+                selectedFile = file.getSelectedFile();
+                path = selectedFile.getAbsolutePath();
+                ps.setBlob(1, is);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(AndraProfil.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE ANVANDARE SET PROFILBILD =? WHERE PNR='" + PNR + "'");
-            InputStream is = new FileInputStream(new File(path));
-            selectedFile = file.getSelectedFile();
-            path = selectedFile.getAbsolutePath();
-            ps.setBlob(1, is);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(AndraProfil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }//GEN-LAST:event_btnSparaActionPerformed
 
     private void btnBytBildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBytBildActionPerformed

@@ -261,6 +261,10 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
+
+        if(Validering.personnummer(txtPnr)){
+
+
         String PNR = txtPnr.getText();
         String Rumsnmr = txtRumsnr.getText();
         String mobilnmr = txtTlfnr.getText();
@@ -323,6 +327,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             Logger.getLogger(SkapaAnvandare.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(SkapaAnvandare.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 

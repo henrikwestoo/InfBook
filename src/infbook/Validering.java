@@ -22,13 +22,13 @@ public class Validering {
         if (fält.getText().isEmpty()) { // Liknande ovan
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Textrutan är tom");
+            JOptionPane.showMessageDialog(null, "En eller flera obligatoriska fält är inte ifyllda");
 
         }
         return resultat;
     }
-    
-        public static boolean isTextAreaTomt(JTextArea fält) { //Validering för JTextFields för att kolla att man anger ett värde.
+
+    public static boolean isTextAreaTomt(JTextArea fält) { //Validering för JTextFields för att kolla att man anger ett värde.
 
         boolean resultat = true;
 
@@ -40,7 +40,6 @@ public class Validering {
         }
         return resultat;
     }
-    
 
     public static boolean isHeltal(JTextField textFält) {  //Kollar om det som står i textfältet består av heltal
         boolean resultat = true;
@@ -59,7 +58,7 @@ public class Validering {
 
             } catch (NumberFormatException e) { // och här fångar vi det undantaget och ger användaren ett lämpligt meddelande
 
-                JOptionPane.showMessageDialog(null, "Fältet måste fyllas i med ett heltal");
+                JOptionPane.showMessageDialog(null, "Ett eller flera fält måste fyllas i med heltal");
                 resultat = false;
             }
 
@@ -77,8 +76,45 @@ public class Validering {
         } //Kontrollerar ifall strängen är tom. Stringvalideringen behöver inte ske ifall värdet är null
         else if (!text.matches(regex)) { // själva valideringen, kollar ifall det hämtade värdet inte stämmer överens med de tecken som vi tillät
 
-            JOptionPane.showMessageDialog(null, "Endast bokstäver får användas när du fyller i namn");
+            JOptionPane.showMessageDialog(null, "Ett eller flera fält måste fyllas i med bokstäver");
             resultat = false;
+
+        }
+
+        return resultat;
+
+    }
+
+    public static boolean personnummer(JTextField pnr) {
+
+        boolean resultat = true;
+        boolean heltal = true;
+
+        String personnummer = pnr.getText();
+
+        try {
+
+            int intpnr = Integer.parseInt(personnummer);
+
+        } catch (NumberFormatException e) {
+
+            heltal = false;
+
+        }
+
+        int langd = personnummer.length();
+
+        if (!(langd ==10)) {
+
+            resultat = false;
+            JOptionPane.showMessageDialog(null, "Personnummret måste skrivas med formatet ÅÅMMDDXXXX");
+
+        }
+
+        if (heltal == false) {
+
+            resultat = false;
+            JOptionPane.showMessageDialog(null, "Personnummret måste skrivas med formatet ÅÅMMDDXXXX");
 
         }
 
