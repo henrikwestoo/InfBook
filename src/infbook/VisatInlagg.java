@@ -45,7 +45,7 @@ public class VisatInlagg extends javax.swing.JFrame {
         this.inlaggsID = inlaggsID;
         this.status = status;
         this.angivetAnv = angivetAnv;
-        this.titel=titel;
+        this.titel = titel;
 
         initComponents();
         txtAInlagg.setLineWrap(true);
@@ -414,85 +414,117 @@ public class VisatInlagg extends javax.swing.JFrame {
 
     private void btnKommenteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKommenteraActionPerformed
 
-        if(Validering.isTextAreaTomt(txtKommentar)){
-        
-        Date d = new Date(); //Visar dagens datum
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd"); //Visar datumet i detta formatet.
-        String datum = (s.format(d));
+        if (Validering.isTextAreaTomt(txtKommentar)) {
 
-        LocalTime idag = LocalTime.now(); //Hämtar dagens tid
+            Date d = new Date(); //Visar dagens datum
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd"); //Visar datumet i detta formatet.
+            String datum = (s.format(d));
 
-        String tid = idag.toString().substring(0, 5); // Kortar ned till 5 tecken (HH:MM)
+            LocalTime idag = LocalTime.now(); //Hämtar dagens tid
 
-        try {
+            String tid = idag.toString().substring(0, 5); // Kortar ned till 5 tecken (HH:MM)
 
-            //Hämta MAX kommentarsID from kommentar
-            Statement stmt = connection.createStatement();
+            try {
 
-            stmt.execute("SELECT MAX(KOMMENTARID) FROM KOMMENTAR");
-            ResultSet rs = stmt.getResultSet();
+                //Hämta MAX kommentarsID from kommentar
+                Statement stmt = connection.createStatement();
 
-            rs.next();
-            int KID = rs.getInt("MAX") + 1; //här
-            
-            
-            
-            
-           //Statement stmt2 = connection.createStatement();
-            //ResultSet rs2 = stmt2.executeQuery("SELECT ANVANDARE FROM KOMMENTAR WHERE KOMMENTARID ="+KID+"");
-            //rs2.next();
-            //int anvandare = rs2.getInt("ANVANDARE");
-            //String anvandare1 = Integer.toString(anvandare);
-            
-            
-            Statement stmt101 = connection.createStatement();
-            ResultSet rs101 = stmt101.executeQuery("SELECT MOBILNMR FROM ANVANDARE JOIN KOMMENTAR ON KOMMENTAR.ANVANDARE = ANVANDARE.PNR WHERE KOMMENTAR.INLAGG = "+inlaggsID+"");
+                stmt.execute("SELECT MAX(KOMMENTARID) FROM KOMMENTAR");
+                ResultSet rs = stmt.getResultSet();
 
-            while (rs101.next()) {
-                String mobilnmr = rs101.getString("MOBILNMR");
-                System.out.println(mobilnmr);
-                SMSNotiser hej = new SMSNotiser();
-                hej.skickaNotis("En ny kommentar har skrivits på ett inlägg som du har kommenterat på \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
+                rs.next();
+                int KID = rs.getInt("MAX") + 1; //här
+
+                //Statement stmt2 = connection.createStatement();
+                //ResultSet rs2 = stmt2.executeQuery("SELECT ANVANDARE FROM KOMMENTAR WHERE KOMMENTARID ="+KID+"");
+                //rs2.next();
+                //int anvandare = rs2.getInt("ANVANDARE");
+                //String anvandare1 = Integer.toString(anvandare);
+                //ta denna plus 1
+                // detta blir vårt id för kommentaren
+                //Ett ps som stoppar in all data i kommentar
+                PreparedStatement ps = connection.prepareStatement("insert into KOMMENTAR(KOMMENTARID,INFO,DATUM,TID,ANVANDARE,INLAGG) values(?,?,?,?,?,?)");
+                ps.setInt(1, KID);
+                ps.setString(2, txtKommentar.getText());
+                ps.setString(3, datum);
+                ps.setString(4, tid);
+                ps.setString(5, angivetAnv);
+                ps.setString(6, inlaggsID);
+
+                ps.executeUpdate();
+
+                Statement stmt101 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY,
+                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                ResultSet rs101 = stmt101.executeQuery("SELECT DISTINCT MOBILNMR FROM ANVANDARE JOIN KOMMENTAR ON KOMMENTAR.ANVANDARE = ANVANDARE.PNR WHERE KOMMENTAR.INLAGG = " + inlaggsID + "");
+
+                Statement stmt103 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY,
+                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                ResultSet rs103 = stmt103.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR =" + angivetAnv);
+
+                rs103.next();
+
+                String mittNR = rs103.getString("MOBILNMR");
+
+                while (rs101.next()) {
+
+                    String mobilnmr = rs101.getString("MOBILNMR");
+
+                    if (mobilnmr.equals(mittNR)) {
+
+                        System.out.println("Meddelandet skickades inte ut till :" + mittNR);
+
+                    } else {
+
+                        System.out.println(mobilnmr);
+                        SMSNotiser hej = new SMSNotiser();
+                        hej.skickaNotis("En ny kommentar har skrivits på ett inlägg som du har kommenterat på \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
+                    }
+                }
+
+                Statement stmt102 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY,
+                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                ResultSet rs102 = stmt102.executeQuery("SELECT DISTINCT EMAIL FROM ANVANDARE JOIN KOMMENTAR ON KOMMENTAR.ANVANDARE = ANVANDARE.PNR WHERE KOMMENTAR.INLAGG = " + inlaggsID + "");
+
+                Statement stmt104 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY,
+                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                ResultSet rs104 = stmt104.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR =" + angivetAnv);
+
+                rs104.next();
+
+                String minEMAIL = rs104.getString("EMAIL");
+
+                while (rs102.next()) {
+                    String email = rs102.getString("EMAIL");
+
+                    if (email.equals(minEMAIL)) {
+                        
+                        System.out.println("Mailet skickades inte till: "+email);
+                        
+                    }
+                    else{
+
+                    System.out.println(email);
+                    SendMail.send(email, "Händelse från InfBook", "Någon har kommenterat på ett inlägg som du har kommenterat på, logga in för att ta reda på vad som har skrivits. \n\n Med vänliga hälsningar,\n InfBook", "mail@infbook.page", "Infbook2019");
+                    }
+                }
+
+                //användar ps för varje kolumn
+                //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
+                fyllKommentarer();
+                txtKommentar.setText("");
+
+                txtNR.setVisible(false);//Swingen för att ta bort en kommentar
+                lblNR.setVisible(false);
+                btnTaBortBekrafta.setVisible(false);
+
+            } catch (SQLException e) {
+
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
-            
-            
-            Statement stmt102 = connection.createStatement();
-            ResultSet rs102 = stmt102.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN KOMMENTAR ON KOMMENTAR.ANVANDARE = ANVANDARE.PNR WHERE KOMMENTAR.INLAGG = "+inlaggsID+"");
-            while(rs102.next())
-            {
-                String email = rs102.getString("EMAIL");
-                System.out.println(email);
-                SendMail.send(email, "Händelse från InfBook", "Någon har kommenterat på ett inlägg som du har kommenterat på, logga in för att ta reda på vad som har skrivits. \n\n Med vänliga hälsningar,\n InfBook", "mail@infbook.page", "Infbook2019");
-            }
-
-            
-            //ta denna plus 1
-            // detta blir vårt id för kommentaren
-            //Ett ps som stoppar in all data i kommentar
-            
-            PreparedStatement ps = connection.prepareStatement("insert into KOMMENTAR(KOMMENTARID,INFO,DATUM,TID,ANVANDARE,INLAGG) values(?,?,?,?,?,?)");
-            ps.setInt(1, KID);
-            ps.setString(2, txtKommentar.getText());
-            ps.setString(3, datum);
-            ps.setString(4, tid);
-            ps.setString(5, angivetAnv);
-            ps.setString(6, inlaggsID);
-
-            ps.executeUpdate();    
-            
-            //användar ps för varje kolumn
-            //Variabler: KommentarID, txtArea.getText, dagens datum, dagens tid, anvandarAnv, inlaggsID
-            fyllKommentarer();
-            txtKommentar.setText("");
-
-            txtNR.setVisible(false);//Swingen för att ta bort en kommentar
-            lblNR.setVisible(false);
-            btnTaBortBekrafta.setVisible(false);
-
-        } catch (SQLException e) {
-
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
         }
 
     }//GEN-LAST:event_btnKommenteraActionPerformed
@@ -508,59 +540,57 @@ public class VisatInlagg extends javax.swing.JFrame {
 
     private void btnTaBortBekraftaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortBekraftaActionPerformed
 
-        if(Validering.isTextFältTomt(txtNR)
-                && Validering.isHeltal(txtNR)){
-        
-        String KID = txtNR.getText(); //Angivet kommentarID, det man vill ta bort
+        if (Validering.isTextFältTomt(txtNR)
+                && Validering.isHeltal(txtNR)) {
 
-        try {
+            String KID = txtNR.getText(); //Angivet kommentarID, det man vill ta bort
 
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM KOMMENTAR WHERE KOMMENTARID =" + KID); //Hittar vem som kommenterat
+            try {
 
-            rs.next();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT ANVANDARE FROM KOMMENTAR WHERE KOMMENTARID =" + KID); //Hittar vem som kommenterat
 
-            String kommenterareID = rs.getString("ANVANDARE"); //Variabel för den som kommenterat, IDt
-            
-            
-            String posterStatus = getAnvandarStatus(inlaggsID);
-            
+                rs.next();
 
-            boolean FAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som forskningsadministratör
+                String kommenterareID = rs.getString("ANVANDARE"); //Variabel för den som kommenterat, IDt
 
-            if (status.equals("FA") && posterStatus.equals("F") || status.equals("FA") && posterStatus.equals("FA")) {
+                String posterStatus = getAnvandarStatus(inlaggsID);
 
-                FAbehorighet = true;
+                boolean FAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som forskningsadministratör
 
-            }
+                if (status.equals("FA") && posterStatus.equals("F") || status.equals("FA") && posterStatus.equals("FA")) {
 
-            boolean UAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som utbildningsadministratör
+                    FAbehorighet = true;
 
-            if (status.equals("UA") && posterStatus.equals("U") || status.equals("UA") && posterStatus.equals("UA")) {
+                }
 
-                UAbehorighet = true;
-            }
+                boolean UAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som utbildningsadministratör
+
+                if (status.equals("UA") && posterStatus.equals("U") || status.equals("UA") && posterStatus.equals("UA")) {
+
+                    UAbehorighet = true;
+                }
 
                 if (kommenterareID.equals(angivetAnv) || status.equals("CA") || FAbehorighet || UAbehorighet) { //Om den som kommenterat är samma som den som är inloggad
 
-                Statement stmt1 = connection.createStatement();
-                stmt1.executeUpdate("DELETE FROM KOMMENTAR WHERE KOMMENTARID =" + KID);
+                    Statement stmt1 = connection.createStatement();
+                    stmt1.executeUpdate("DELETE FROM KOMMENTAR WHERE KOMMENTARID =" + KID);
 
-                fyllKommentarerMedID();
-                txtNR.setText("");
-                JOptionPane.showMessageDialog(null, "Kommentaren har tagits bort");
+                    fyllKommentarerMedID();
+                    txtNR.setText("");
+                    JOptionPane.showMessageDialog(null, "Kommentaren har tagits bort");
 
-            } else {
+                } else {
 
-                JOptionPane.showMessageDialog(null, "Du har inte behörighet att ta bort kommentaren");
+                    JOptionPane.showMessageDialog(null, "Du har inte behörighet att ta bort kommentaren");
+
+                }
+
+            } catch (SQLException e) {
+
+                JOptionPane.showMessageDialog(null, e.getMessage());
 
             }
-
-        } catch (SQLException e) {
-
-            JOptionPane.showMessageDialog(null, e.getMessage());
-
-        }
         }
     }//GEN-LAST:event_btnTaBortBekraftaActionPerformed
 
