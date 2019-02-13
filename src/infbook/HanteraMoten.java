@@ -19,11 +19,12 @@ import java.util.logging.Logger;
  */
 public class HanteraMoten extends javax.swing.JFrame {
 
- private Connection connection;
+    private Connection connection;
     private String status;
     private String angivetAnv;
     private String datumet;
     private String tiden;
+
     public HanteraMoten(Connection connection, String status, String angivetAnv) {
         initComponents();
         this.connection = connection;
@@ -31,10 +32,9 @@ public class HanteraMoten extends javax.swing.JFrame {
         this.angivetAnv = angivetAnv;
         this.datumet = datumet;
         this.tiden = tiden;
-        
+
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -94,23 +94,19 @@ public class HanteraMoten extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaMoteActionPerformed
-        
-        new SkapaMoten(connection, angivetAnv,datumet,tiden).setVisible(true);
+
+        new SkapaMoten(connection, angivetAnv, datumet, tiden).setVisible(true);
     }//GEN-LAST:event_btnSkapaMoteActionPerformed
 
     private void btnTaBortMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortMoteActionPerformed
-        new TaBortMoten(connection, status, angivetAnv).setVisible(true); 
+        new TaBortMoten(connection, status, angivetAnv).setVisible(true);
     }//GEN-LAST:event_btnTaBortMoteActionPerformed
 
     private void btnRedMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedMoteActionPerformed
-new RedigeraMoten(connection, status, angivetAnv).setVisible(true);
+        new RedigeraMoten(connection, status, angivetAnv).setVisible(true);
 
-
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnRedMoteActionPerformed
 
-   
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRedMote;

@@ -22,8 +22,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import java.awt.Toolkit;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JList;
 
 /**
@@ -65,6 +68,35 @@ public class Inloggad extends javax.swing.JFrame {
         String braStatus = KonverteraStatus.konverteraStatus(status);
         lblStatus.setText(braStatus);
 
+        
+        kalender.addPropertyChangeListener("calendar", new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                
+                        txtArea.setText("");
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
+        String date1 = dFormat.format(kalender.getDate());
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MOTE.INFO ||' - '|| MOTE.TID ||'  '|| MOTE.SAL AS INFORMATION FROM MOTE WHERE MOTE.DATUM='" + date1 + "'");
+            while (rs.next()) {
+                String info = rs.getString("INFORMATION");
+                txtArea.append(info + "\n\n");
+                
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Något blev fel");
+        } catch (NullPointerException e2) {
+            JOptionPane.showMessageDialog(null, "Det finns inga bokade möten den dagen");
+        }
+
+                
+            }
+        });
+
     }
 
     /**
@@ -103,7 +135,6 @@ public class Inloggad extends javax.swing.JFrame {
         kalender = new com.toedter.calendar.JCalendar();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
-        btnVisaMote = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         btnHanteraMoten = new javax.swing.JButton();
         btnDoodle = new javax.swing.JButton();
@@ -232,16 +263,15 @@ public class Inloggad extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbookIcon2small.png"))); // NOI18N
 
+        kalender.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kalenderMouseClicked(evt);
+            }
+        });
+
         txtArea.setColumns(20);
         txtArea.setRows(5);
         jScrollPane1.setViewportView(txtArea);
-
-        btnVisaMote.setText("Visa möten");
-        btnVisaMote.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVisaMoteActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Hantera följningar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -286,20 +316,18 @@ public class Inloggad extends javax.swing.JFrame {
                         .addComponent(sprMitten)
                         .addComponent(sprHog)
                         .addComponent(sprLag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(39, 39, 39)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(btnDoodle, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(btnVisaMote, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(26, 26, 26)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(39, 39, 39)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(34, 34, 34)
+                                    .addComponent(btnDoodle, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -369,10 +397,8 @@ public class Inloggad extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sprLag, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14)
-                        .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnVisaMote)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
@@ -414,29 +440,6 @@ public class Inloggad extends javax.swing.JFrame {
         new Inloggning(connection).setVisible(true);
     }//GEN-LAST:event_btnLoggaUtActionPerformed
 
-    private void btnVisaMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisaMoteActionPerformed
-        txtArea.setText("");
-        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
-        String date1 = dFormat.format(kalender.getDate());
-
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT MOTE.INFO ||' - '|| MOTE.TID ||'  '|| MOTE.SAL AS INFORMATION FROM MOTE WHERE MOTE.DATUM='" + date1 + "'");
-            while (rs.next()) {
-                String info = rs.getString("INFORMATION");
-                txtArea.append(info + "\n\n");
-                System.out.println(rs.getString("INFORMATION"));
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Något blev fel");
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Det finns inga bokade möten den dagen");
-        }
-
-
-    }//GEN-LAST:event_btnVisaMoteActionPerformed
-
     private void btnHanteraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraMotenActionPerformed
         new HanteraMoten(connection, status, angivetAnv).setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_btnHanteraMotenActionPerformed
@@ -473,7 +476,7 @@ public class Inloggad extends javax.swing.JFrame {
     }//GEN-LAST:event_lstInlaggUtbildningMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        HanteraFoljningar folj = new HanteraFoljningar(connection,angivetAnv);
+        HanteraFoljningar folj = new HanteraFoljningar(connection, angivetAnv);
         folj.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -481,6 +484,10 @@ public class Inloggad extends javax.swing.JFrame {
         Doodle hej = new Doodle(connection, angivetAnv);
         hej.setVisible(true);
     }//GEN-LAST:event_btnDoodleActionPerformed
+
+    private void kalenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kalenderMouseClicked
+
+    }//GEN-LAST:event_kalenderMouseClicked
 
     private void fyllFlodeMedInlagg() {
 
@@ -517,7 +524,6 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaSuperKategori;
     private javax.swing.JButton btnSkapaUnderkategori;
-    private javax.swing.JButton btnVisaMote;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollBar jScrollBar1;
