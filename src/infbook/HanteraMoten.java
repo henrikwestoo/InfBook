@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,11 +22,15 @@ public class HanteraMoten extends javax.swing.JFrame {
  private Connection connection;
     private String status;
     private String angivetAnv;
+    private String datumet;
+    private String tiden;
     public HanteraMoten(Connection connection, String status, String angivetAnv) {
         initComponents();
         this.connection = connection;
         this.status = status;
         this.angivetAnv = angivetAnv;
+        this.datumet = datumet;
+        this.tiden = tiden;
         
     }
 
@@ -90,7 +95,7 @@ public class HanteraMoten extends javax.swing.JFrame {
 
     private void btnSkapaMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaMoteActionPerformed
         
-     new SkapaMoten(connection, angivetAnv).setVisible(true);
+        new SkapaMoten(connection, angivetAnv,datumet,tiden).setVisible(true);
     }//GEN-LAST:event_btnSkapaMoteActionPerformed
 
     private void btnTaBortMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortMoteActionPerformed
