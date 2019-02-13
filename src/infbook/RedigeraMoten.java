@@ -186,7 +186,7 @@ private String motesid;
 
     }
     private void btnÄndraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnÄndraMotenActionPerformed
-        if(Validering.isTextFältTomt(txtAndraSal)&& Validering.isTextFältTomt(txtAndraTid)&& Validering.isTextAreaTomt(txtAndraInfo))
+        if(Validering.isTextFältTomt(txtAndraSal)&& Validering.isTextFältTomt(txtAndraTid)&& Validering.isTextAreaTomt(txtAndraInfo)&& Validering.isDateChooserTomt(valjDatum))
         {
           try {
               SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.

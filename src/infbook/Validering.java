@@ -5,6 +5,8 @@
  */
 package infbook;
 
+import com.toedter.calendar.JDateChooser;
+import java.util.Date;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -123,7 +125,7 @@ public class Validering {
 
     }
     
-    public static boolean isJListTomt (JList lista) { 
+    public static boolean isJListTomt (JList lista) { //Validering för JLists för att kolla att man anger ett värde.
 
         boolean resultat = true;
 
@@ -137,5 +139,18 @@ public class Validering {
         return resultat;
     }
 
+    public static boolean isDateChooserTomt(JDateChooser fält) { //Validering för att kolla om ett datum är angett i samtliga DateChoosers.
 
+        boolean resultat = true;
+        Date datum = fält.getDate();
+        
+
+        if (datum == null) {
+
+            resultat = false;
+            JOptionPane.showMessageDialog(null, "Ett eller flera obligatoriska textfält är inte ifyllda.");
+
+        }
+        return resultat;
+    }
 }
