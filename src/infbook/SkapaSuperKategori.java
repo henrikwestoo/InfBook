@@ -42,6 +42,7 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
         txtKategoriNamn = new javax.swing.JTextField();
         lblKategoriNamn = new javax.swing.JLabel();
         btnSkapaOverkategori = new javax.swing.JButton();
+        lblNotis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -73,8 +74,10 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
                             .addComponent(lblKategoriNamn)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(112, 112, 112)
-                        .addComponent(btnSkapaOverkategori)))
-                .addContainerGap(152, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSkapaOverkategori)
+                            .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,7 +92,9 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
                 .addComponent(txtKategoriNamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addComponent(btnSkapaOverkategori)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNotis, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -125,7 +130,8 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
                 ps.setInt(3, kategoriID);
                 ps.executeUpdate();
 
-                JOptionPane.showMessageDialog(null, "Kategorin har skapats!");
+                //JOptionPane.showMessageDialog(null, "Kategorin har skapats!");
+                lblNotis.setText("Kategorin har skapats!");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -140,6 +146,7 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
     private javax.swing.JButton btnSkapaOverkategori;
     private javax.swing.JComboBox cmbOmrade;
     private javax.swing.JLabel lblKategoriNamn;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblOmrade;
     private javax.swing.JTextField txtKategoriNamn;
     // End of variables declaration//GEN-END:variables

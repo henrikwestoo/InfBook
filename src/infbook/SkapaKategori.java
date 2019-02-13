@@ -33,15 +33,16 @@ public class SkapaKategori extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmbSuperkategori = new javax.swing.JComboBox<String>();
+        cmbSuperkategori = new javax.swing.JComboBox<>();
         lblKategorinTillhor = new javax.swing.JLabel();
         lblNyKategori = new javax.swing.JLabel();
         txtNyttNamn = new javax.swing.JTextField();
         btnSkapaKategori = new javax.swing.JButton();
+        lblNotis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblKategorinTillhor.setText("Kategorin tillhör");
 
@@ -61,12 +62,13 @@ public class SkapaKategori extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(105, 105, 105)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblKategorinTillhor)
                     .addComponent(txtNyttNamn, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSkapaKategori)
                     .addComponent(lblNyKategori)
                     .addComponent(cmbSuperkategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,20 +83,26 @@ public class SkapaKategori extends javax.swing.JFrame {
                 .addComponent(txtNyttNamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(btnSkapaKategori)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNotis, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaKategoriActionPerformed
-JOptionPane.showMessageDialog(null, "Kategorin har skapats");        // TODO add your handling code here:
+//JOptionPane.showMessageDialog(null, "Kategorin har skapats"); 
+lblNotis.setText("Kategorin har skapats");
+
+// TODO add your handling code here:
     }//GEN-LAST:event_btnSkapaKategoriActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSkapaKategori;
     private javax.swing.JComboBox<String> cmbSuperkategori;
     private javax.swing.JLabel lblKategorinTillhor;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblNyKategori;
     private javax.swing.JTextField txtNyttNamn;
     // End of variables declaration//GEN-END:variables

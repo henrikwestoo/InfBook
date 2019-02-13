@@ -118,6 +118,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         lblNyAnvandare = new javax.swing.JLabel();
         lblBild = new javax.swing.JLabel();
         btnBifogaFil = new javax.swing.JButton();
+        lblNotis = new javax.swing.JLabel();
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Personnummer");
@@ -175,9 +176,6 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAnvstatus)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -203,7 +201,12 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                             .addComponent(lblEpost)
                             .addComponent(lblRumsnr)
                             .addComponent(lblEfternamn))
-                        .addContainerGap(34, Short.MAX_VALUE))))
+                        .addContainerGap(34, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNotis)
+                            .addComponent(lblAnvstatus))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +237,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTlfnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEpost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(lblAnvstatus)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -245,7 +248,9 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(btnSkapaAnvandare))
                     .addComponent(lblBild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(106, 106, 106))
+                .addGap(18, 18, 18)
+                .addComponent(lblNotis)
+                .addGap(72, 72, 72))
         );
 
         pack();
@@ -323,8 +328,9 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             //int hogstaVarde2 = rs3.getInt("FILID");
             // int nyaVardet2 = hogstaVarde + 1;
             // byte[] text = str.
-            JOptionPane.showMessageDialog(null, "En användare har skapats!");
-            this.dispose();
+            //JOptionPane.showMessageDialog(null, "En användare har skapats!");
+            lblNotis.setText("Användare skapad!");
+           // this.dispose();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SkapaAnvandare.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -348,6 +354,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
     private javax.swing.JLabel lblEfternamn;
     private javax.swing.JLabel lblEpost;
     private javax.swing.JLabel lblFornamn;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblNyAnvandare;
     private javax.swing.JLabel lblPnr;
     private javax.swing.JLabel lblRumsnr;

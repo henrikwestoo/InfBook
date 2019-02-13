@@ -45,12 +45,13 @@ public class SkapaMoten extends javax.swing.JFrame {
         txtInfoMote = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listAnstallda = new javax.swing.JList<String>();
+        listAnstallda = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
         txtSal = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtTid = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        lblNotis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -84,6 +85,8 @@ public class SkapaMoten extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(318, 318, 318)
                 .addComponent(btnSkapaMotet)
+                .addGap(18, 18, 18)
+                .addComponent(lblNotis)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
@@ -133,7 +136,9 @@ public class SkapaMoten extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addGap(27, 27, 27)
-                .addComponent(btnSkapaMotet)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSkapaMotet)
+                    .addComponent(lblNotis))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -189,8 +194,8 @@ public class SkapaMoten extends javax.swing.JFrame {
             ps2.setString(6, angivetAnv);
 
             ps2.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Mötet har skapats");
+           lblNotis.setText("Mötet skapat");
+           // JOptionPane.showMessageDialog(null, "Mötet har skapats");
             Object[] valda = listAnstallda.getSelectedValues();
             for (Object anvandare : valda) {
                 PreparedStatement ps4 = connection.prepareStatement("insert into MOTE_ANVANDARE2(ANVANDARE,MOTE) values(?,?)");
@@ -238,6 +243,7 @@ public class SkapaMoten extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JList<String> listAnstallda;
     private javax.swing.JTextArea txtInfoMote;
     private javax.swing.JTextField txtSal;

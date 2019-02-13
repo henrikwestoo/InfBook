@@ -139,6 +139,8 @@ public class VisatInlagg extends javax.swing.JFrame {
         txtNR = new javax.swing.JTextField();
         btnTaBortBekrafta = new javax.swing.JButton();
         lblNR = new javax.swing.JLabel();
+        lblNotis = new javax.swing.JLabel();
+        lblNotis2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -225,19 +227,22 @@ public class VisatInlagg extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(72, 72, 72))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSpara)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnHamtaFil))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblNotis2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnSpara)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnHamtaFil)))))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRedigera)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
+                    .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -249,9 +254,8 @@ public class VisatInlagg extends javax.swing.JFrame {
                             .addComponent(btnTaBortKommentar)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtNR, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnTaBortBekrafta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addComponent(btnKommentera, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(95, 95, 95))
+                                .addComponent(btnTaBortBekrafta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,7 +279,9 @@ public class VisatInlagg extends javax.swing.JFrame {
                                     .addComponent(txtNR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblNR))
                                 .addGap(24, 24, 24)
-                                .addComponent(btnTaBortBekrafta))
+                                .addComponent(btnTaBortBekrafta)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -292,13 +298,15 @@ public class VisatInlagg extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(btnHamtaFil)
-                                    .addComponent(btnSpara))))
+                                    .addComponent(btnSpara))
+                                .addGap(18, 18, 18)
+                                .addComponent(lblNotis2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnKommentera)))
                 .addContainerGap(57, Short.MAX_VALUE))
@@ -326,7 +334,7 @@ public class VisatInlagg extends javax.swing.JFrame {
 //            } catch (SQLException e) {
 //            }
             stmt.executeUpdate("DELETE FROM INLAGG WHERE INLAGGSID='" + inlaggsID + "'");
-            JOptionPane.showMessageDialog(null, "Inlägget har tagits bort!");
+            //JOptionPane.showMessageDialog(null, "Inlägget har tagits bort!");
             dispose();
 
         } catch (SQLException e) {
@@ -356,10 +364,10 @@ public class VisatInlagg extends javax.swing.JFrame {
             stmt.setString(4, subK);
             stmt.setString(5, lblTitel.getText());
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Förändringarna har registrerats");
-
+            //JOptionPane.showMessageDialog(null, "Förändringarna har registrerats");
+            lblNotis2.setText("Ändringar sparade!");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "hej");
+            JOptionPane.showMessageDialog(null, "Något gick fel");
         }
     }//GEN-LAST:event_btnSparaActionPerformed
 
@@ -578,7 +586,8 @@ public class VisatInlagg extends javax.swing.JFrame {
 
                     fyllKommentarerMedID();
                     txtNR.setText("");
-                    JOptionPane.showMessageDialog(null, "Kommentaren har tagits bort");
+                    lblNotis.setText("Kommentaren har tagits bort!");
+                    //JOptionPane.showMessageDialog(null, "Kommentaren har tagits bort");
 
                 } else {
 
@@ -731,6 +740,8 @@ public class VisatInlagg extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBild;
     private javax.swing.JLabel lblNR;
+    private javax.swing.JLabel lblNotis;
+    private javax.swing.JLabel lblNotis2;
     private javax.swing.JTextField lblTitel;
     private javax.swing.JLabel lblannanFil;
     private javax.swing.JTextArea txtAInlagg;
