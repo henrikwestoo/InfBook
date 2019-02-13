@@ -164,7 +164,8 @@ public class SkapaMoten extends javax.swing.JFrame {
 
 
     private void btnSkapaMotetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaMotetActionPerformed
-
+       if(Validering.isTextFältTomt(txtSal)&& Validering.isTextFältTomt(txtTid)&& Validering.isTextAreaTomt(txtInfoMote)&& Validering.isJListTomt(listAnstallda))
+       {
         try {
 
             Statement stmt2 = connection.createStatement();
@@ -223,6 +224,7 @@ public class SkapaMoten extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
         }
+       }
     }//GEN-LAST:event_btnSkapaMotetActionPerformed
 
 

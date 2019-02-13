@@ -96,7 +96,8 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaOverkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaOverkategoriActionPerformed
-
+       if(Validering.isTextFältTomt(txtKategoriNamn))
+       {
         String valtOmrade = String.valueOf(cmbOmrade.getSelectedItem());
         String kategoriNamn = txtKategoriNamn.getText();
 
@@ -129,6 +130,7 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+       }
 
 
     }//GEN-LAST:event_btnSkapaOverkategoriActionPerformed

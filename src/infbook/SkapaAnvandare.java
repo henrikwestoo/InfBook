@@ -262,7 +262,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
 
-        if(Validering.personnummer(txtPnr)){
+        if(Validering.personnummer(txtPnr) && Validering.isTextFältTomt(txtFornamn) && Validering.isTextFältTomt(txtEfternamn) && Validering.isTextFältTomt(txtPnr) && Validering.isTextFältTomt(txtRumsnr) && Validering.isTextFältTomt(txtTlfnr) && Validering.isTextFältTomt(txtEpost)){
 
 
         String PNR = txtPnr.getText();

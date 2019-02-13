@@ -141,7 +141,8 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
     private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
-
+        if(Validering.isTextFältTomt(txtSokAnvandare)&& Validering.isString(txtSokAnvandare))
+        {
         lista.removeAllElements();
         String soktAnvandare = txtSokAnvandare.getText();
 
@@ -177,21 +178,24 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        }
 
 
     }//GEN-LAST:event_btnSokActionPerformed
 
     private void btnAndraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAndraAnvandareActionPerformed
-
+       if(Validering.isJListTomt(lstResultat))
+       {
         String information = lstResultat.getSelectedValue().toString();
         String personnummer = information.substring(0, information.indexOf(" "));
 
         new AndraProfil(connection, personnummer).setVisible(true);
-
+       }
     }//GEN-LAST:event_btnAndraAnvandareActionPerformed
 
     private void btnRaderaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRaderaAnvandareActionPerformed
-
+       if(Validering.isJListTomt(lstResultat))
+       {
         String information = lstResultat.getSelectedValue().toString();
         String personnummer = information.substring(0, information.indexOf(" "));
         System.out.println(personnummer);
@@ -263,6 +267,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Något gick fel, användaren kunde inte raderas");
         }
+       }
     }//GEN-LAST:event_btnRaderaAnvandareActionPerformed
 
 

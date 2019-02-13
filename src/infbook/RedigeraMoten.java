@@ -186,7 +186,8 @@ private String motesid;
 
     }
     private void btnÄndraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnÄndraMotenActionPerformed
-
+        if(Validering.isTextFältTomt(txtAndraSal)&& Validering.isTextFältTomt(txtAndraTid)&& Validering.isTextAreaTomt(txtAndraInfo))
+        {
           try {
               SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
         String date1 = dFormat.format(valjDatum.getDate());
@@ -245,6 +246,7 @@ private String motesid;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        }
                   
        
 
@@ -293,6 +295,8 @@ int motesidInt = Integer.parseInt(motesid);
     }//GEN-LAST:event_listaMotenKeyPressed
 
     private void btnValjMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValjMoteActionPerformed
+        if(Validering.isJListTomt(listaMoten))
+        {
         String valtInlagg = (String) listaMoten.getSelectedValue();
         inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
         
@@ -326,7 +330,8 @@ int motesidInt = Integer.parseInt(motesid);
                   
         } catch (SQLException ex) {
            JOptionPane.showMessageDialog(null, ex);
-        }        // TODO add your handling code here:
+        } 
+        }// TODO add your handling code here:
     }//GEN-LAST:event_btnValjMoteActionPerformed
 public String getAnvandarStatus(String inlaggsID) { //Används för att kolla statusen på personen som gjort inlägget, returnerar statusen
 

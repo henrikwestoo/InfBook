@@ -201,7 +201,8 @@ public class HanteraFoljningar extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbKategoriActionPerformed
 
     private void btnFoljActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFoljActionPerformed
-
+       if(Validering.isJListTomt(jList1))
+       {
         Object[] valt = jList1.getSelectedValues();
 
         for (Object ettVal : valt) {
@@ -223,11 +224,14 @@ public class HanteraFoljningar extends javax.swing.JFrame {
             }
 
         }
+       }
 
 
     }//GEN-LAST:event_btnFoljActionPerformed
 
     private void btnAvfoljActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvfoljActionPerformed
+        if(Validering.isJListTomt(jList2))
+        {
         Object[] valt = jList2.getSelectedValues();
 
         for (Object ettVal : valt) {
@@ -249,9 +253,12 @@ public class HanteraFoljningar extends javax.swing.JFrame {
             }
 
         }
+        }
     }//GEN-LAST:event_btnAvfoljActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       if(Validering.isTextFältTomt(txtSub))
+       {
         String subK = txtSub.getText();
         try {
             Statement stmt = connection.createStatement();
@@ -270,6 +277,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
               System.out.println(e.getMessage());
 
         }
+       }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

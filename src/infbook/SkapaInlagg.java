@@ -440,12 +440,14 @@ public ImageIcon ResizeImage(String ImagePath) {
 
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-
+        if(Validering.isTextFältTomt(txtTitel) && Validering.isTextAreaTomt(txaInlagg)&& Validering.isJListTomt(jList1))
+        {
         try {
             skapaEttInlagg();
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 

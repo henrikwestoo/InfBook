@@ -5,6 +5,7 @@
  */
 package infbook;
 
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -121,5 +122,20 @@ public class Validering {
         return resultat;
 
     }
+    
+    public static boolean isJListTomt (JList lista) { 
+
+        boolean resultat = true;
+
+        int index = lista.getSelectedIndex();
+    if (index < 0){
+        
+            resultat = false;
+            JOptionPane.showMessageDialog(null, "Välj någonting i listan");
+
+        }
+        return resultat;
+    }
+
 
 }
