@@ -37,11 +37,13 @@ public class Inloggad extends javax.swing.JFrame {
     private String angivetAnv;
     private DefaultListModel lista;
     private DefaultListModel lista2;
+    private DefaultListModel lista3;
 
     public Inloggad(Connection connection, String status, String angivetAnv) {
 
         lista = new DefaultListModel();
         lista2 = new DefaultListModel();
+        lista3= new DefaultListModel();
         this.connection = connection;
         initComponents();
         btnSkapaUnderkategori.setVisible(true);
@@ -82,6 +84,8 @@ public class Inloggad extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstInlaggForskning = new javax.swing.JList();
         pnlInformell = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lstInlaggInformell = new javax.swing.JList<>();
         pnlUtbildning = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstInlaggUtbildning = new javax.swing.JList();
@@ -135,15 +139,22 @@ public class Inloggad extends javax.swing.JFrame {
 
         pnlInformell.setPreferredSize(new java.awt.Dimension(500, 500));
 
+        lstInlaggInformell.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstInlaggInformellMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(lstInlaggInformell);
+
         javax.swing.GroupLayout pnlInformellLayout = new javax.swing.GroupLayout(pnlInformell);
         pnlInformell.setLayout(pnlInformellLayout);
         pnlInformellLayout.setHorizontalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 754, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
         );
         pnlInformellLayout.setVerticalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Informell", pnlInformell);
@@ -432,11 +443,13 @@ public class Inloggad extends javax.swing.JFrame {
         try {
             lstInlaggForskning = (JList) evt.getSource();
             if (evt.getClickCount() == 2) {
+                setCursor(WAIT_CURSOR);
                 int index = lstInlaggForskning.locationToIndex(evt.getPoint());
                 String valtInlagg = (String) lstInlaggForskning.getSelectedValue();
                 String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
 
                 new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+                setCursor(DEFAULT_CURSOR);
 
             }
         } catch (NullPointerException ex) {
@@ -448,11 +461,13 @@ public class Inloggad extends javax.swing.JFrame {
         try {
             lstInlaggUtbildning = (JList) evt.getSource();
             if (evt.getClickCount() == 2) {
+                setCursor(WAIT_CURSOR);
                 int index = lstInlaggUtbildning.locationToIndex(evt.getPoint());
                 String valtInlagg = (String) lstInlaggUtbildning.getSelectedValue();
                 String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
 
                 new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+                setCursor(DEFAULT_CURSOR);
             }
         } catch (NullPointerException ex) {
             System.out.println(ex.getMessage());
@@ -463,6 +478,23 @@ public class Inloggad extends javax.swing.JFrame {
         HanteraFoljningar folj = new HanteraFoljningar(connection,angivetAnv);
         folj.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void lstInlaggInformellMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstInlaggInformellMouseClicked
+         try {
+            lstInlaggInformell = (JList) evt.getSource();
+            if (evt.getClickCount() == 2) {
+                setCursor(WAIT_CURSOR);
+                int index = lstInlaggInformell.locationToIndex(evt.getPoint());
+                String valtInlagg = (String) lstInlaggInformell.getSelectedValue();
+                String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+
+                new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+                setCursor(DEFAULT_CURSOR);
+            }
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_lstInlaggInformellMouseClicked
 
     private void fyllFlodeMedInlagg() {
 
@@ -483,6 +515,14 @@ public class Inloggad extends javax.swing.JFrame {
                 lista2.addElement(rs2.getString("INFORMATION"));
                 lstInlaggForskning.setModel(lista2);
             }
+            Statement stmt3 = connection.createStatement(); //forskning
+            ResultSet rs3 = stmt3.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 3 ORDER BY INLAGGSID DESC");
+
+            while (rs3.next()) {
+                lista3.addElement(rs3.getString("INFORMATION"));
+                lstInlaggInformell.setModel(lista3);
+            }
+
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -505,11 +545,13 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private com.toedter.calendar.JCalendar kalender;
     private javax.swing.JLabel lblFloden;
     private javax.swing.JLabel lblInloggadSom;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JList lstInlaggForskning;
+    private javax.swing.JList<String> lstInlaggInformell;
     private javax.swing.JList lstInlaggUtbildning;
     private javax.swing.JPanel pnlForskning;
     private javax.swing.JPanel pnlInformell;
