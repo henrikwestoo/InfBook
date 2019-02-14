@@ -1,7 +1,9 @@
 package infbook;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -49,6 +51,9 @@ public class VisatInlagg extends javax.swing.JFrame {
         this.titel = titel;
 
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         txtAInlagg.setLineWrap(true);
         txtAInlagg.setEditable(false);
         txtAreaKommentar.setEditable(false);
@@ -85,12 +90,10 @@ public class VisatInlagg extends javax.swing.JFrame {
                 jLabel3.setVisible(true);
             } else if (typ.contains(".doc")) {
                 lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/docx.png")));
-                 jLabel3.setVisible(true);
-            }
-            else {
+                jLabel3.setVisible(true);
+            } else {
                 hmtaFil.setVisible(true);
             }
-           
 
             Statement stmt20 = connection.createStatement();
             ResultSet rs20 = stmt20.executeQuery("SELECT PNR FROM ANVANDARE JOIN INLAGG ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID ='" + inlaggsID + "'");

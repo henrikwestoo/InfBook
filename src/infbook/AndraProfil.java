@@ -5,7 +5,9 @@
  */
 package infbook;
 
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -43,6 +45,9 @@ public class AndraProfil extends javax.swing.JFrame {
      */
     public AndraProfil(Connection connection, String personnummer) {
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         this.connection = connection;
         this.personnummer = personnummer;
         txtPNR.setText(personnummer);
@@ -377,10 +382,10 @@ public class AndraProfil extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBytBildActionPerformed
 
     private void btnBytLosenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBytLosenordActionPerformed
-        
+
         BytLosenord bytLosenord = new BytLosenord(connection, personnummer);
         bytLosenord.setVisible(true);
-        
+
     }//GEN-LAST:event_btnBytLosenordActionPerformed
 
     public ImageIcon ResizeImage(String ImagePath) {

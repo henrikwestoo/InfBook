@@ -5,6 +5,8 @@
  */
 package infbook;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +33,9 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         this.connection = connection;
         lista = new DefaultListModel();
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         this.status = status;
     }
 
@@ -147,133 +152,129 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
     private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
-       
+
         {
-        lista.removeAllElements();
-        String soktAnvandare = txtSokAnvandare.getText();
+            lista.removeAllElements();
+            String soktAnvandare = txtSokAnvandare.getText();
 
-        try {
+            try {
 
-            Statement placeholder = connection.createStatement();
-            ResultSet rs = placeholder.executeQuery("SELECT * FROM ANVANDARE");
-            
-            if (status.equals("CA")) { //Om du är CA
-                Statement stmt = connection.createStatement();
-                rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '"+soktAnvandare+"%'");
+                Statement placeholder = connection.createStatement();
+                ResultSet rs = placeholder.executeQuery("SELECT * FROM ANVANDARE");
+
+                if (status.equals("CA")) { //Om du är CA
+                    Statement stmt = connection.createStatement();
+                    rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '" + soktAnvandare + "%'");
+                }
+
+                if (status.equals("FA")) { //Om du är FA
+                    Statement stmt = connection.createStatement();
+                    rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '" + soktAnvandare + "%' AND STATUS LIKE 'F%'");
+                } else if (status.equals("UA")) { //Om du är UA
+                    Statement stmt = connection.createStatement();
+                    rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '" + soktAnvandare + "%' AND STATUS LIKE 'U%'");
+                }
+
+                while (rs.next()) {
+                    String personnummer = rs.getString("PNR");
+                    String fornamn = rs.getString("FORNAMN");
+                    String efternamn = rs.getString("EFTERNAMN");
+
+                    lista.addElement(personnummer + " " + fornamn + " " + efternamn + "\n");
+                    lstResultat.setModel(lista);
+                }
+
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-
-            if (status.equals("FA")) { //Om du är FA
-                Statement stmt = connection.createStatement();
-                rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '"+soktAnvandare+"%' AND STATUS LIKE 'F%'");
-            }
-
-            else if (status.equals("UA")) { //Om du är UA
-                Statement stmt = connection.createStatement();
-                rs = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE WHERE FORNAMN LIKE '"+soktAnvandare+"%' AND STATUS LIKE 'U%'");
-            }
-
-            while (rs.next()) {
-                String personnummer = rs.getString("PNR");
-                String fornamn = rs.getString("FORNAMN");
-                String efternamn = rs.getString("EFTERNAMN");
-
-                lista.addElement(personnummer + " " + fornamn + " " + efternamn + "\n");
-                lstResultat.setModel(lista);
-            }
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
         }
 
 
     }//GEN-LAST:event_btnSokActionPerformed
 
     private void btnAndraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAndraAnvandareActionPerformed
-       if(Validering.isJListTomt(lstResultat))
-       {
-        String information = lstResultat.getSelectedValue().toString();
-        String personnummer = information.substring(0, information.indexOf(" "));
+        if (Validering.isJListTomt(lstResultat)) {
+            String information = lstResultat.getSelectedValue().toString();
+            String personnummer = information.substring(0, information.indexOf(" "));
 
-        new AndraProfil(connection, personnummer).setVisible(true);
-       }
+            new AndraProfil(connection, personnummer).setVisible(true);
+        }
     }//GEN-LAST:event_btnAndraAnvandareActionPerformed
 
     private void btnRaderaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRaderaAnvandareActionPerformed
-       if(Validering.isJListTomt(lstResultat))
-       {
-        String information = lstResultat.getSelectedValue().toString();
-        String personnummer = information.substring(0, information.indexOf(" "));
-        System.out.println(personnummer);
-        try {
+        if (Validering.isJListTomt(lstResultat)) {
+            String information = lstResultat.getSelectedValue().toString();
+            String personnummer = information.substring(0, information.indexOf(" "));
+            System.out.println(personnummer);
+            try {
 
-            Statement stmt = connection.createStatement();
+                Statement stmt = connection.createStatement();
 
-            try { //1
+                try { //1
 
-                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE WHERE PNR =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE WHERE PNR =" + personnummer);
+
+                } catch (SQLException e) {
+                }
+
+                try {//2
+
+                    stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE ANVANDARE =" + personnummer);
+
+                } catch (SQLException e) {
+                }
+
+                try {//3
+
+                    stmt.executeUpdate("DELETE FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE =" + personnummer);
+
+                } catch (SQLException e) {
+                }
+
+                try {//4
+
+                    stmt.executeUpdate("DELETE FROM INLAGG WHERE ANVANDARE =" + personnummer);
+
+                } catch (SQLException e) {
+                }
+
+                try {//5
+
+                    stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE_ANV_SVAR WHERE ANVANDARE =" + personnummer);
+
+                } catch (SQLException e) {
+                }
+
+                try { //6
+
+                    stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE =" + personnummer);
+
+                } catch (SQLException e) {
+                }
+
+                try { //7
+
+                    stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE =" + personnummer + ")");
+
+                } catch (SQLException e) {
+                }
+
+                try { //8
+                    stmt.executeUpdate("UPDATE KOMMENTAR SET INLAGG = NULL WHERE ANVANDARE =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE ANVANDARE=" + personnummer);
+
+                } catch (SQLException e) {
+                }
+
+                stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR =" + personnummer);
+                lblNotis.setText("Användaren borttagen");
+                //JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
 
             } catch (SQLException e) {
+
+                JOptionPane.showMessageDialog(null, "Något gick fel, användaren kunde inte raderas");
             }
-
-            try {//2
-
-                stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE ANVANDARE =" + personnummer);
-
-            } catch (SQLException e) {
-            }
-
-            try {//3
-
-                stmt.executeUpdate("DELETE FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE =" + personnummer);
-
-            } catch (SQLException e) {
-            }
-
-            try {//4
-
-                stmt.executeUpdate("DELETE FROM INLAGG WHERE ANVANDARE =" + personnummer);
-
-            } catch (SQLException e) {
-            }
-
-            try {//5
-
-                stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE_ANV_SVAR WHERE ANVANDARE =" + personnummer);
-
-            } catch (SQLException e) {
-            }
-
-            try { //6
-
-                stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE =" + personnummer);
-
-            } catch (SQLException e) {
-            }
-
-            try { //7
-
-                stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE =" + personnummer + ")");
-
-            } catch (SQLException e) {
-            }
-
-            try { //8
-                stmt.executeUpdate("UPDATE KOMMENTAR SET INLAGG = NULL WHERE ANVANDARE ="+personnummer);
-                stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE ANVANDARE=" + personnummer);
-
-            } catch (SQLException e) {
-            }
-
-            stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR =" + personnummer);
-            lblNotis.setText("Användaren borttagen");
-            //JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
-
-        } catch (SQLException e) {
-
-            JOptionPane.showMessageDialog(null, "Något gick fel, användaren kunde inte raderas");
         }
-       }
     }//GEN-LAST:event_btnRaderaAnvandareActionPerformed
 
 

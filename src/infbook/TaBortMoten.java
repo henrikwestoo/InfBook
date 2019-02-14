@@ -5,6 +5,8 @@
  */
 package infbook;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,30 +28,32 @@ public class TaBortMoten extends javax.swing.JFrame {
     private String status;
     private String angivetAnv;
     private String inlaggsID;
-    
+
     public TaBortMoten(Connection connection, String status, String angivetAnv) {
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         this.connection = connection;
         this.status = status;
         this.angivetAnv = angivetAnv;
-       
+
         lista = new DefaultListModel();
         fyllComboxTaBortMoten();
         btnOk.setVisible(false);
-    
+
     }
 
     private void fyllComboxTaBortMoten() {
-    Statement stmt;
+        Statement stmt;
         try {
             stmt = connection.createStatement();
 
             ResultSet rs2 = stmt.executeQuery("SELECT MOTESID, INFO, SAL FROM MOTE");
-          
-          
+
             while (rs2.next()) {
 
-                lista.addElement(rs2.getString("MOTESID")+" "+rs2.getString("INFO")+" "+rs2.getString("SAL"));
+                lista.addElement(rs2.getString("MOTESID") + " " + rs2.getString("INFO") + " " + rs2.getString("SAL"));
 
             }
         } catch (SQLException ex) {
@@ -66,13 +70,15 @@ public class TaBortMoten extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        btnRefresh = new javax.swing.JButton();
+        btnOk = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         listaMoten = new javax.swing.JList<>();
-        btnOk = new javax.swing.JButton();
-        btnRefresh = new javax.swing.JButton();
-        btnTaBortBekrafta = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         btnTaBortMote = new javax.swing.JButton();
+        btnTaBortBekrafta = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -83,9 +89,14 @@ public class TaBortMoten extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Ta bort möten");
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane2.setViewportView(listaMoten);
+        btnRefresh.setText("↻");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         btnOk.setText("Bekräfta");
         btnOk.addActionListener(new java.awt.event.ActionListener() {
@@ -94,10 +105,14 @@ public class TaBortMoten extends javax.swing.JFrame {
             }
         });
 
-        btnRefresh.setText("↻");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+        jScrollPane2.setViewportView(listaMoten);
+
+        jLabel1.setText("Ta bort möten");
+
+        btnTaBortMote.setText("Bekräfta valt möte");
+        btnTaBortMote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
+                btnTaBortMoteActionPerformed(evt);
             }
         });
 
@@ -108,53 +123,62 @@ public class TaBortMoten extends javax.swing.JFrame {
             }
         });
 
-        btnTaBortMote.setText("Bekräfta valt möte");
-        btnTaBortMote.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTaBortMoteActionPerformed(evt);
-            }
-        });
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbook.png"))); // NOI18N
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(btnOk)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnRefresh))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(89, 89, 89)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnTaBortMote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTaBortBekrafta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                                .addComponent(btnRefresh)))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnTaBortMote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTaBortBekrafta, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnTaBortMote)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnTaBortBekrafta))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOk)
                     .addComponent(btnRefresh))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -162,30 +186,28 @@ public class TaBortMoten extends javax.swing.JFrame {
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         String mote = listaMoten.getSelectedValue().toString();
-         String motesID = mote.split(" ")[0];  
-         int motesIDInt = Integer.parseInt(motesID);
+        String motesID = mote.split(" ")[0];
+        int motesIDInt = Integer.parseInt(motesID);
         PreparedStatement ps2;
         try {
-            ps2 = connection.prepareStatement("DELETE FROM MOTE WHERE MOTESID = "+ motesIDInt );
-              ps2.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Mötet har tagits bort");
-            
+            ps2 = connection.prepareStatement("DELETE FROM MOTE WHERE MOTESID = " + motesIDInt);
+            ps2.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Mötet har tagits bort");
+
         } catch (SQLException ex) {
             Logger.getLogger(TaBortMoten.class.getName()).log(Level.SEVERE, null, ex);
         }
-          
-            
+
+
     }//GEN-LAST:event_btnOkActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-         lista.removeAllElements();
+        lista.removeAllElements();
         fyllComboxTaBortMoten();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnTaBortBekraftaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortBekraftaActionPerformed
-        
-       
-        
+
         String KID = ""; //Angivet kommentarID, det man vill ta bort
 
         try {
@@ -196,10 +218,8 @@ public class TaBortMoten extends javax.swing.JFrame {
             rs.next();
 
             String kommenterareID = rs.getString("ANVANDARE"); //Variabel för den som kommenterat, IDt
-            
-            
+
             String posterStatus = getAnvandarStatus(inlaggsID);
-            
 
             boolean FAbehorighet = false; //En boolean som kontrollerar om du har behörighet att ta bort en kommentar som forskningsadministratör
 
@@ -216,27 +236,26 @@ public class TaBortMoten extends javax.swing.JFrame {
                 UAbehorighet = true;
             }
 
-                if (kommenterareID.equals(angivetAnv) || status.equals("CA") || FAbehorighet || UAbehorighet) { //Om den som kommenterat är samma som den som är inloggad
+            if (kommenterareID.equals(angivetAnv) || status.equals("CA") || FAbehorighet || UAbehorighet) { //Om den som kommenterat är samma som den som är inloggad
 
                 Statement stmt1 = connection.createStatement();
-                 stmt1.executeUpdate("DELETE FROM MOTE_ANVANDARE2 WHERE MOTE =" + inlaggsID);
+                stmt1.executeUpdate("DELETE FROM MOTE_ANVANDARE2 WHERE MOTE =" + inlaggsID);
                 stmt1.executeUpdate("DELETE FROM MOTE WHERE MOTESID =" + inlaggsID);
-               
 
             } else {
 
                 JOptionPane.showMessageDialog(null, "Du har inte behörighet att ta bort mötet");
 
             }
-                 JOptionPane.showMessageDialog(null, "Mötet har tagits bort");
+            JOptionPane.showMessageDialog(null, "Mötet har tagits bort");
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(null, e.getMessage());
 
         }
-        
+
     }//GEN-LAST:event_btnTaBortBekraftaActionPerformed
-public String getAnvandarStatus(String inlaggsID) { //Används för att kolla statusen på personen som gjort inlägget, returnerar statusen
+    public String getAnvandarStatus(String inlaggsID) { //Används för att kolla statusen på personen som gjort inlägget, returnerar statusen
 
         String status = "";
 
@@ -256,12 +275,11 @@ public String getAnvandarStatus(String inlaggsID) { //Används för att kolla st
 
     }
     private void btnTaBortMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortMoteActionPerformed
-        if(Validering.isJListTomt(listaMoten))
-        {
-        String valtInlagg = (String) listaMoten.getSelectedValue();
-        inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
-        
-        btnTaBortBekrafta.setVisible(true);
+        if (Validering.isJListTomt(listaMoten)) {
+            String valtInlagg = (String) listaMoten.getSelectedValue();
+            inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+
+            btnTaBortBekrafta.setVisible(true);
         }
     }//GEN-LAST:event_btnTaBortMoteActionPerformed
 
@@ -272,7 +290,9 @@ public String getAnvandarStatus(String inlaggsID) { //Används för att kolla st
     private javax.swing.JButton btnTaBortBekrafta;
     private javax.swing.JButton btnTaBortMote;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> listaMoten;

@@ -5,7 +5,9 @@
  */
 package infbook;
 
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +27,9 @@ public class Profil extends javax.swing.JFrame {
 
     public Profil(Connection connection, String angivetAnv) {
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         this.connection = connection;
         this.angivetAnv = angivetAnv;
         jlabelPnr.setText(angivetAnv);
@@ -76,29 +81,26 @@ public class Profil extends javax.swing.JFrame {
             Image myImg = im.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
             ImageIcon newImage = new ImageIcon(myImg);
             lblProfilBildDB.setIcon(newImage);
-            
+
             Statement stmt8 = connection.createStatement();
             ResultSet rs8 = stmt8.executeQuery("SELECT FIRST 1 SMSNOTISER FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE='" + angivetAnv + "'");
             rs8.next();
             String smsSvar = rs8.getString("SMSNOTISER");
-            if(smsSvar.equals("JA")) {
+            if (smsSvar.equals("JA")) {
                 radSmsJa.setSelected(true);
-            }
-            else {
+            } else {
                 radSmsNej.setSelected(true);
             }
-            
+
             Statement stmt9 = connection.createStatement();
             ResultSet rs9 = stmt9.executeQuery("SELECT FIRST 1 EMAILNOTISER FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE='" + angivetAnv + "'");
             rs9.next();
             String emailSvar = rs9.getString("EMAILNOTISER");
-            if(emailSvar.equals("JA")) {
+            if (emailSvar.equals("JA")) {
                 radEpostJa.setSelected(true);
-            }
-            else {
+            } else {
                 radEpostNej.setSelected(true);
             }
-            
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -364,8 +366,8 @@ public class Profil extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRedigeraInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraInfoActionPerformed
-AndraProfil andraProfil = new AndraProfil(connection, angivetAnv);
-andraProfil.setVisible(true);
+        AndraProfil andraProfil = new AndraProfil(connection, angivetAnv);
+        andraProfil.setVisible(true);
     }//GEN-LAST:event_btnRedigeraInfoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -375,44 +377,44 @@ andraProfil.setVisible(true);
 
     private void radSmsJaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSmsJaActionPerformed
 
-            try {
-                Statement stmt = connection.createStatement();
+        try {
+            Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER='JA' WHERE ANVANDARE ='" + angivetAnv + "'");
-            } catch (SQLException ex) {
-            }
-        
+            stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER='JA' WHERE ANVANDARE ='" + angivetAnv + "'");
+        } catch (SQLException ex) {
+        }
+
     }//GEN-LAST:event_radSmsJaActionPerformed
 
     private void radSmsNejActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSmsNejActionPerformed
 
-            try {
-                Statement stmt = connection.createStatement();
+        try {
+            Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER='NEJ' WHERE ANVANDARE ='" + angivetAnv + "'");
-            } catch (SQLException ex) {
-            }
-        
+            stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER='NEJ' WHERE ANVANDARE ='" + angivetAnv + "'");
+        } catch (SQLException ex) {
+        }
+
     }//GEN-LAST:event_radSmsNejActionPerformed
 
     private void radEpostJaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEpostJaActionPerformed
 
-            try {
-                Statement stmt = connection.createStatement();
+        try {
+            Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER='JA' WHERE ANVANDARE ='" + angivetAnv + "'");
-            } catch (SQLException ex) {
-            }
+            stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER='JA' WHERE ANVANDARE ='" + angivetAnv + "'");
+        } catch (SQLException ex) {
+        }
     }//GEN-LAST:event_radEpostJaActionPerformed
 
     private void radEpostNejActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEpostNejActionPerformed
 
-            try {
-                Statement stmt = connection.createStatement();
+        try {
+            Statement stmt = connection.createStatement();
 
-                stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER='NEJ' WHERE ANVANDARE ='" + angivetAnv + "'");
-            } catch (SQLException ex) {
-            }
+            stmt.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET EMAILNOTISER='NEJ' WHERE ANVANDARE ='" + angivetAnv + "'");
+        } catch (SQLException ex) {
+        }
     }//GEN-LAST:event_radEpostNejActionPerformed
 
 
