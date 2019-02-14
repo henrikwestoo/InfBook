@@ -1,5 +1,6 @@
 package infbook;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -55,18 +56,42 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnSpara.setVisible(false);
         btnRedigera.setVisible(false);
         lblTitel.setEditable(false);
-        btnHamtaFil.setVisible(false);
+
         txtKommentar.setLineWrap(true);
         txtAreaKommentar.setLineWrap(true);
 
         kollaOmInlaggetFarTasBort();
         kollaOmInlaggetFarRedigeras();
-
+        jLabel3.setVisible(false);
         txtNR.setVisible(false);//Swingen för att ta bort en kommentar
         lblNR.setVisible(false);
         btnTaBortBekrafta.setVisible(false);
+        hmtaFil.setVisible(false);
 
         try {
+
+            Statement stmt23 = connection.createStatement();
+            ResultSet rsFiltyp23 = stmt23.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+            rsFiltyp23.next();
+            String typ = rsFiltyp23.getString("TYP");
+            if (typ.contains(".jpg")) {
+                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/jpg.png")));
+                jLabel3.setVisible(true);
+            } else if (typ.contains(".png")) {
+                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/png.png")));
+                jLabel3.setVisible(true);
+            } else if (typ.contains(".pdf")) {
+                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
+                jLabel3.setVisible(true);
+            } else if (typ.contains(".doc")) {
+                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/docx.png")));
+                 jLabel3.setVisible(true);
+            }
+            else {
+                hmtaFil.setVisible(true);
+            }
+           
+
             Statement stmt20 = connection.createStatement();
             ResultSet rs20 = stmt20.executeQuery("SELECT PNR FROM ANVANDARE JOIN INLAGG ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID ='" + inlaggsID + "'");
             rs20.next();
@@ -100,19 +125,6 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         fyllKommentarer();
 
-        try {
-            // Kollar om det finns en fil att hämta
-            Statement stmt8 = connection.createStatement();
-            ResultSet rs8 = stmt8.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
-            if (rs8.next()) {
-                btnHamtaFil.setVisible(true);
-            } else {
-                btnHamtaFil.setVisible(false);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -132,7 +144,6 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnRedigera = new javax.swing.JButton();
         btnSpara = new javax.swing.JButton();
         lblTitel = new javax.swing.JTextField();
-        btnHamtaFil = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtKommentar = new javax.swing.JTextArea();
         btnTaBortKommentar = new javax.swing.JButton();
@@ -141,6 +152,9 @@ public class VisatInlagg extends javax.swing.JFrame {
         lblNR = new javax.swing.JLabel();
         lblNotis = new javax.swing.JLabel();
         lblNotis2 = new javax.swing.JLabel();
+        lblBild2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        hmtaFil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -184,13 +198,6 @@ public class VisatInlagg extends javax.swing.JFrame {
             }
         });
 
-        btnHamtaFil.setText("Hämta bifogad fil");
-        btnHamtaFil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHamtaFilActionPerformed(evt);
-            }
-        });
-
         txtKommentar.setColumns(20);
         txtKommentar.setRows(5);
         jScrollPane3.setViewportView(txtKommentar);
@@ -211,6 +218,27 @@ public class VisatInlagg extends javax.swing.JFrame {
 
         lblNR.setText("#");
 
+        lblBild2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBild2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblBild2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblBild2MouseExited(evt);
+            }
+        });
+
+        jLabel3.setText("Tryck för att hämta filen");
+
+        hmtaFil.setText("Hämta bifogad fil");
+        hmtaFil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hmtaFilActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,23 +250,27 @@ public class VisatInlagg extends javax.swing.JFrame {
                         .addComponent(btnTaBortInlagg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(197, 197, 197)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(lblBild2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(72, 72, 72))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblNotis2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnSpara)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnHamtaFil)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnSpara, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(hmtaFil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNotis2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblTitel, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRedigera)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
@@ -287,29 +319,37 @@ public class VisatInlagg extends javax.swing.JFrame {
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(btnTaBortInlagg))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnHamtaFil)
-                                    .addComponent(btnSpara))
-                                .addGap(18, 18, 18)
-                                .addComponent(lblNotis2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(lblannanFil, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(btnSpara)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblNotis2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(hmtaFil))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblBild2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnKommentera)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -376,49 +416,6 @@ public class VisatInlagg extends javax.swing.JFrame {
         btnSpara.setVisible(true);
         lblTitel.setEditable(true);
     }//GEN-LAST:event_btnRedigeraActionPerformed
-
-    private void btnHamtaFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHamtaFilActionPerformed
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rsFiltyp = stmt.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
-
-            if (rsFiltyp.next()) {
-
-                String filtyp = rsFiltyp.getString("TYP");
-
-                Statement stmt2 = connection.createStatement();
-                ResultSet rsFil = stmt2.executeQuery("SELECT FIL FROM FILER WHERE INLAGG='" + inlaggsID + "'");
-                rsFil.next();
-
-                Blob enBlob = rsFil.getBlob("FIL");
-
-                /*int blobLength = (int) enBlob.length();
-                int pos = 1;
-                byte[] bytes = enBlob.getBytes(pos, blobLength);*/
-                is = enBlob.getBinaryStream();
-                b = 0;
-
-                String home = System.getProperty("user.home");
-                file = new File(home + "/Downloads/test" + filtyp);
-
-                FileOutputStream os = null;
-                try {
-                    os = new FileOutputStream(file);
-
-                    while ((b = is.read()) != -1) {
-                        os.write(b);
-                    }
-                } catch (IOException ex) {
-                    System.out.println("");
-                }
-                JOptionPane.showMessageDialog(null, "En " + filtyp + " fil har laddats ner i din nedladdningsmapp");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }//GEN-LAST:event_btnHamtaFilActionPerformed
 
     private void btnKommenteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKommenteraActionPerformed
 
@@ -509,14 +506,13 @@ public class VisatInlagg extends javax.swing.JFrame {
                     String email = rs102.getString("EMAIL");
 
                     if (email.equals(minEMAIL)) {
-                        
-                        System.out.println("Mailet skickades inte till: "+email);
-                        
-                    }
-                    else{
 
-                    System.out.println(email);
-                    SendMail.send(email, "Händelse från InfBook", "Någon har kommenterat på ett inlägg som du har kommenterat på, logga in för att ta reda på vad som har skrivits. \n\n Med vänliga hälsningar,\n InfBook", "mail@infbook.page", "Infbook2019");
+                        System.out.println("Mailet skickades inte till: " + email);
+
+                    } else {
+
+                        System.out.println(email);
+                        SendMail.send(email, "Händelse från InfBook", "Någon har kommenterat på ett inlägg som du har kommenterat på, logga in för att ta reda på vad som har skrivits. \n\n Med vänliga hälsningar,\n InfBook", "mail@infbook.page", "Infbook2019");
                     }
                 }
 
@@ -602,6 +598,92 @@ public class VisatInlagg extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnTaBortBekraftaActionPerformed
+
+    private void lblBild2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBild2MouseClicked
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rsFiltyp = stmt.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+
+            if (rsFiltyp.next()) {
+
+                String filtyp = rsFiltyp.getString("TYP");
+
+                Statement stmt2 = connection.createStatement();
+                ResultSet rsFil = stmt2.executeQuery("SELECT FIL FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+                rsFil.next();
+
+                Blob enBlob = rsFil.getBlob("FIL");
+
+                is = enBlob.getBinaryStream();
+                b = 0;
+
+                String home = System.getProperty("user.home");
+                file = new File(home + "/Downloads/test" + filtyp);
+
+                FileOutputStream os = null;
+                try {
+                    os = new FileOutputStream(file);
+
+                    while ((b = is.read()) != -1) {
+                        os.write(b);
+                    }
+                } catch (IOException ex) {
+                    System.out.println("");
+                }
+                JOptionPane.showMessageDialog(null, "En " + filtyp + " fil har laddats ner i din nedladdningsmapp");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_lblBild2MouseClicked
+
+    private void lblBild2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBild2MouseEntered
+        lblBild2.setBackground(Color.CYAN);
+    }//GEN-LAST:event_lblBild2MouseEntered
+
+    private void lblBild2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBild2MouseExited
+        lblBild2.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_lblBild2MouseExited
+
+    private void hmtaFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hmtaFilActionPerformed
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rsFiltyp = stmt.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+
+            if (rsFiltyp.next()) {
+
+                String filtyp = rsFiltyp.getString("TYP");
+
+                Statement stmt2 = connection.createStatement();
+                ResultSet rsFil = stmt2.executeQuery("SELECT FIL FROM FILER WHERE INLAGG='" + inlaggsID + "'");
+                rsFil.next();
+
+                Blob enBlob = rsFil.getBlob("FIL");
+
+                is = enBlob.getBinaryStream();
+                b = 0;
+
+                String home = System.getProperty("user.home");
+                file = new File(home + "/Downloads/test" + filtyp);
+
+                FileOutputStream os = null;
+                try {
+                    os = new FileOutputStream(file);
+
+                    while ((b = is.read()) != -1) {
+                        os.write(b);
+                    }
+                } catch (IOException ex) {
+                    System.out.println("");
+                }
+                JOptionPane.showMessageDialog(null, "En " + filtyp + " fil har laddats ner i din nedladdningsmapp");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_hmtaFilActionPerformed
 
     private void kollaOmInlaggetFarTasBort() { //Kollar om du har behörighet att ta bort ett inlägg
         try {
@@ -726,19 +808,21 @@ public class VisatInlagg extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHamtaFil;
     private javax.swing.JButton btnKommentera;
     private javax.swing.JButton btnRedigera;
     private javax.swing.JButton btnSpara;
     private javax.swing.JButton btnTaBortBekrafta;
     private javax.swing.JButton btnTaBortInlagg;
     private javax.swing.JButton btnTaBortKommentar;
+    private javax.swing.JButton hmtaFil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBild;
+    private javax.swing.JLabel lblBild2;
     private javax.swing.JLabel lblNR;
     private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblNotis2;
