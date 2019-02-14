@@ -267,7 +267,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
 
-        if(Validering.personnummer(txtPnr) && Validering.isTextFältTomt(txtFornamn) && Validering.isTextFältTomt(txtEfternamn) && Validering.isTextFältTomt(txtPnr) && Validering.isTextFältTomt(txtRumsnr) && Validering.isTextFältTomt(txtTlfnr) && Validering.isTextFältTomt(txtEpost)){
+        if(Validering.isTextFältTomt(txtFornamn) && Validering.isTextFältTomt(txtEfternamn) && Validering.isTextFältTomt(txtPnr) && Validering.isTextFältTomt(txtRumsnr) && Validering.isTextFältTomt(txtTlfnr) && Validering.isTextFältTomt(txtEpost)){
 
 
         String PNR = txtPnr.getText();
@@ -277,8 +277,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         String fornamn = txtFornamn.getText();
         String efternamn = txtEfternamn.getText();
         String status = "";
-        String losenord = "hej";
-        //String losenord = LosenordsGenerator.createPassword();
+        String losenord = LosenordsGenerator.createPassword();
 
         if (cmbStatus.getSelectedItem().toString().equals("Centraladministratör")) {
             status = "CA";
@@ -318,9 +317,12 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             ps.executeUpdate();
             SMSNotiser hej = new SMSNotiser();
             hej.skickaNotis("Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet: "+losenord+". \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
-            
-            SendMail.send(email, "Ditt konto har skapats", "Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet hej. \n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
-          
+            try{
+            SendMail.send(email, "Ditt konto har skapats", "Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet: "+losenord+". \nLogga in för att byta ditt lösenord. \n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
+            }
+            catch(RuntimeException e){
+            JOptionPane.showMessageDialog(null, "Den angivna epostadressen är inte giltig");
+            }
             
 
             //ResultSet rs3 = stmt.executeQuery("SELECT FIRST 1  * FROM FILER ORDER BY FILID DESC");

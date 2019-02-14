@@ -33,6 +33,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class AndraProfil extends javax.swing.JFrame {
 
     private Connection connection;
+    private String personnummer;
     private JFileChooser file;
     private File selectedFile;
     private String path;
@@ -43,6 +44,7 @@ public class AndraProfil extends javax.swing.JFrame {
     public AndraProfil(Connection connection, String personnummer) {
         initComponents();
         this.connection = connection;
+        this.personnummer = personnummer;
         txtPNR.setText(personnummer);
         txtPNR.setEditable(false);
         try {
@@ -153,6 +155,7 @@ public class AndraProfil extends javax.swing.JFrame {
         btnBytBild = new javax.swing.JButton();
         cmbStatus = new javax.swing.JComboBox();
         btnSpara = new javax.swing.JButton();
+        btnBytLosenord = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -193,6 +196,13 @@ public class AndraProfil extends javax.swing.JFrame {
             }
         });
 
+        btnBytLosenord.setText("Byt lösenord");
+        btnBytLosenord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBytLosenordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -219,11 +229,12 @@ public class AndraProfil extends javax.swing.JFrame {
                                                     .addComponent(txtRum, javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(txtTelefon))
                                                 .addGap(60, 60, 60)))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(lblAnvandarstatus)
                                             .addComponent(lblEpost)
                                             .addComponent(txtEpost, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnBytLosenord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblFornamn)
@@ -270,7 +281,9 @@ public class AndraProfil extends javax.swing.JFrame {
                                 .addComponent(lblAnvandarstatus)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(106, 106, 106))))
+                                .addGap(34, 34, 34)
+                                .addComponent(btnBytLosenord)
+                                .addGap(43, 43, 43))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -363,6 +376,13 @@ public class AndraProfil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBytBildActionPerformed
 
+    private void btnBytLosenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBytLosenordActionPerformed
+        
+        BytLosenord bytLosenord = new BytLosenord(connection, personnummer);
+        bytLosenord.setVisible(true);
+        
+    }//GEN-LAST:event_btnBytLosenordActionPerformed
+
     public ImageIcon ResizeImage(String ImagePath) {
 
         ImageIcon myImage = new ImageIcon(ImagePath);
@@ -377,6 +397,7 @@ public class AndraProfil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBytBild;
+    private javax.swing.JButton btnBytLosenord;
     private javax.swing.JButton btnSpara;
     private javax.swing.JComboBox cmbStatus;
     private javax.swing.JLabel lblAnvandarstatus;

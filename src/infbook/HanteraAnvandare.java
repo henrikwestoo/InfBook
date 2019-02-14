@@ -147,7 +147,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
     private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
-        if(Validering.isTextFältTomt(txtSokAnvandare)&& Validering.isString(txtSokAnvandare))
+       
         {
         lista.removeAllElements();
         String soktAnvandare = txtSokAnvandare.getText();

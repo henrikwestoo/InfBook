@@ -50,11 +50,12 @@
                                               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="lblAnvandarstatus" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblEpost" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtEpost" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                                           <Component id="cmbStatus" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+                                          <Component id="btnBytLosenord" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -118,7 +119,9 @@
                               <Component id="lblAnvandarstatus" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="cmbStatus" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                              <Component id="btnBytLosenord" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -256,6 +259,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSparaActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnBytLosenord">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Byt l&#xf6;senord"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBytLosenordActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
