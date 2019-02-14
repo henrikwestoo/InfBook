@@ -52,6 +52,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         btnAndraAnvandare = new javax.swing.JButton();
         lblResultat = new javax.swing.JLabel();
         btnRaderaAnvandare = new javax.swing.JButton();
+        lblNotis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -97,12 +98,14 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSkapaAnvandare)
+                    .addComponent(lblSokAnvandare)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtSokAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
-                        .addComponent(btnSok))
-                    .addComponent(lblSokAnvandare))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNotis, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                            .addComponent(btnSok))))
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnRaderaAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -127,9 +130,12 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                         .addComponent(btnSkapaAnvandare))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnAndraAnvandare)
-                .addGap(36, 36, 36)
-                .addComponent(btnRaderaAnvandare)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAndraAnvandare)
+                        .addGap(36, 36, 36)
+                        .addComponent(btnRaderaAnvandare))
+                    .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -141,7 +147,8 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
     private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
-
+        if(Validering.isTextFältTomt(txtSokAnvandare)&& Validering.isString(txtSokAnvandare))
+        {
         lista.removeAllElements();
         String soktAnvandare = txtSokAnvandare.getText();
 
@@ -177,21 +184,24 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        }
 
 
     }//GEN-LAST:event_btnSokActionPerformed
 
     private void btnAndraAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAndraAnvandareActionPerformed
-
+       if(Validering.isJListTomt(lstResultat))
+       {
         String information = lstResultat.getSelectedValue().toString();
         String personnummer = information.substring(0, information.indexOf(" "));
 
         new AndraProfil(connection, personnummer).setVisible(true);
-
+       }
     }//GEN-LAST:event_btnAndraAnvandareActionPerformed
 
     private void btnRaderaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRaderaAnvandareActionPerformed
-
+       if(Validering.isJListTomt(lstResultat))
+       {
         String information = lstResultat.getSelectedValue().toString();
         String personnummer = information.substring(0, information.indexOf(" "));
         System.out.println(personnummer);
@@ -256,13 +266,14 @@ public class HanteraAnvandare extends javax.swing.JFrame {
             }
 
             stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR =" + personnummer);
-
-            JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
+            lblNotis.setText("Användaren borttagen");
+            //JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
 
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(null, "Något gick fel, användaren kunde inte raderas");
         }
+       }
     }//GEN-LAST:event_btnRaderaAnvandareActionPerformed
 
 
@@ -272,6 +283,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
     private javax.swing.JButton btnSkapaAnvandare;
     private javax.swing.JButton btnSok;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblResultat;
     private javax.swing.JLabel lblSokAnvandare;
     private javax.swing.JList lstResultat;

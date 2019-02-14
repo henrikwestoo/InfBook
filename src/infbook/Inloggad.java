@@ -40,11 +40,13 @@ public class Inloggad extends javax.swing.JFrame {
     private String angivetAnv;
     private DefaultListModel lista;
     private DefaultListModel lista2;
+    private DefaultListModel lista3;
 
     public Inloggad(Connection connection, String status, String angivetAnv) {
 
         lista = new DefaultListModel();
         lista2 = new DefaultListModel();
+        lista3 = new DefaultListModel();
         this.connection = connection;
         initComponents();
         btnSkapaUnderkategori.setVisible(true);
@@ -68,32 +70,30 @@ public class Inloggad extends javax.swing.JFrame {
         String braStatus = KonverteraStatus.konverteraStatus(status);
         lblStatus.setText(braStatus);
 
-        
         kalender.addPropertyChangeListener("calendar", new PropertyChangeListener() {
 
             @Override
             public void propertyChange(PropertyChangeEvent e) {
-                
-                        txtArea.setText("");
-        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
-        String date1 = dFormat.format(kalender.getDate());
 
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT MOTE.INFO ||' - '|| MOTE.TID ||'  '|| MOTE.SAL AS INFORMATION FROM MOTE WHERE MOTE.DATUM='" + date1 + "'");
-            while (rs.next()) {
-                String info = rs.getString("INFORMATION");
-                txtArea.append(info + "\n\n");
-                
-            }
+                txtArea.setText("");
+                SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
+                String date1 = dFormat.format(kalender.getDate());
 
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Något blev fel");
-        } catch (NullPointerException e2) {
-            JOptionPane.showMessageDialog(null, "Det finns inga bokade möten den dagen");
-        }
+                try {
+                    Statement stmt = connection.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT MOTE.INFO ||' - '|| MOTE.TID ||'  '|| MOTE.SAL AS INFORMATION FROM MOTE WHERE MOTE.DATUM='" + date1 + "'");
+                    while (rs.next()) {
+                        String info = rs.getString("INFORMATION");
+                        txtArea.append(info + "\n\n");
 
-                
+                    }
+
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Något blev fel");
+                } catch (NullPointerException e2) {
+                    JOptionPane.showMessageDialog(null, "Det finns inga bokade möten den dagen");
+                }
+
             }
         });
 
@@ -114,6 +114,8 @@ public class Inloggad extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstInlaggForskning = new javax.swing.JList();
         pnlInformell = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lstInlaggInformell = new javax.swing.JList<>();
         pnlUtbildning = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstInlaggUtbildning = new javax.swing.JList();
@@ -160,22 +162,29 @@ public class Inloggad extends javax.swing.JFrame {
         );
         pnlForskningLayout.setVerticalGroup(
             pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Forskning", pnlForskning);
 
         pnlInformell.setPreferredSize(new java.awt.Dimension(500, 500));
 
+        lstInlaggInformell.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstInlaggInformellMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(lstInlaggInformell);
+
         javax.swing.GroupLayout pnlInformellLayout = new javax.swing.GroupLayout(pnlInformell);
         pnlInformell.setLayout(pnlInformellLayout);
         pnlInformellLayout.setHorizontalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 754, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
         );
         pnlInformellLayout.setVerticalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Informell", pnlInformell);
@@ -195,7 +204,7 @@ public class Inloggad extends javax.swing.JFrame {
         );
         pnlUtbildningLayout.setVerticalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Utbildning", pnlUtbildning);
@@ -309,7 +318,7 @@ public class Inloggad extends javax.swing.JFrame {
                                 .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
                             .addGap(35, 35, 35)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                                .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 161, Short.MAX_VALUE)
                                 .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -323,11 +332,11 @@ public class Inloggad extends javax.swing.JFrame {
                                 .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGap(39, 39, 39)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(34, 34, 34)
-                                    .addComponent(btnDoodle, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(btnDoodle, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -388,12 +397,12 @@ public class Inloggad extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSkapaSuperKategori)
-                            .addComponent(btnSkapaAnvandare))
+                            .addComponent(btnSkapaAnvandare)
+                            .addComponent(btnDoodle))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnHanteraAnvandare)
-                            .addComponent(btnHanteraMoten)
-                            .addComponent(btnDoodle))
+                            .addComponent(btnHanteraMoten))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sprLag, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14)
@@ -448,11 +457,13 @@ public class Inloggad extends javax.swing.JFrame {
         try {
             lstInlaggForskning = (JList) evt.getSource();
             if (evt.getClickCount() == 2) {
+                setCursor(WAIT_CURSOR);
                 int index = lstInlaggForskning.locationToIndex(evt.getPoint());
                 String valtInlagg = (String) lstInlaggForskning.getSelectedValue();
                 String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
 
                 new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+                setCursor(DEFAULT_CURSOR);
 
             }
         } catch (NullPointerException ex) {
@@ -464,11 +475,13 @@ public class Inloggad extends javax.swing.JFrame {
         try {
             lstInlaggUtbildning = (JList) evt.getSource();
             if (evt.getClickCount() == 2) {
+                setCursor(WAIT_CURSOR);
                 int index = lstInlaggUtbildning.locationToIndex(evt.getPoint());
                 String valtInlagg = (String) lstInlaggUtbildning.getSelectedValue();
                 String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
 
                 new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+                setCursor(DEFAULT_CURSOR);
             }
         } catch (NullPointerException ex) {
             System.out.println(ex.getMessage());
@@ -480,16 +493,32 @@ public class Inloggad extends javax.swing.JFrame {
         folj.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void lstInlaggInformellMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstInlaggInformellMouseClicked
+        try {
+            lstInlaggInformell = (JList) evt.getSource();
+            if (evt.getClickCount() == 2) {
+                setCursor(WAIT_CURSOR);
+                int index = lstInlaggInformell.locationToIndex(evt.getPoint());
+                String valtInlagg = (String) lstInlaggInformell.getSelectedValue();
+                String inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
+
+                new VisatInlagg(connection, inlaggsID, status, angivetAnv).setVisible(true);
+                setCursor(DEFAULT_CURSOR);
+            }
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_lstInlaggInformellMouseClicked
+
     private void btnDoodleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoodleActionPerformed
         Doodle hej = new Doodle(connection, angivetAnv);
         hej.setVisible(true);
+    }
+    //GEN-LAST:event_btnDoodleActionPerformed      
+private void kalenderMouseClicked(java.awt.event.MouseEvent evt) {
     }//GEN-LAST:event_btnDoodleActionPerformed
 
-    private void kalenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kalenderMouseClicked
-
-    }//GEN-LAST:event_kalenderMouseClicked
-
-    private void fyllFlodeMedInlagg() {
+private void fyllFlodeMedInlagg() {
 
         try {
             Statement stmt = connection.createStatement(); //utbildning
@@ -508,6 +537,14 @@ public class Inloggad extends javax.swing.JFrame {
                 lista2.addElement(rs2.getString("INFORMATION"));
                 lstInlaggForskning.setModel(lista2);
             }
+            Statement stmt3 = connection.createStatement(); //forskning
+            ResultSet rs3 = stmt3.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 3 ORDER BY INLAGGSID DESC");
+
+            while (rs3.next()) {
+                lista3.addElement(rs3.getString("INFORMATION"));
+                lstInlaggInformell.setModel(lista3);
+            }
+
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -530,11 +567,13 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private com.toedter.calendar.JCalendar kalender;
     private javax.swing.JLabel lblFloden;
     private javax.swing.JLabel lblInloggadSom;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JList lstInlaggForskning;
+    private javax.swing.JList<String> lstInlaggInformell;
     private javax.swing.JList lstInlaggUtbildning;
     private javax.swing.JPanel pnlForskning;
     private javax.swing.JPanel pnlInformell;

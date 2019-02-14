@@ -49,7 +49,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="269" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblNotis" min="-2" pref="138" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -80,7 +82,10 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-              <Component id="btnSkapaInlagg" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnSkapaInlagg" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblNotis" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -168,6 +173,8 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="lblBild">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNotis">
     </Component>
   </SubComponents>
 </Form>

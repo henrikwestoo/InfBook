@@ -256,10 +256,13 @@ public String getAnvandarStatus(String inlaggsID) { //Används för att kolla st
 
     }
     private void btnTaBortMoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortMoteActionPerformed
+        if(Validering.isJListTomt(listaMoten))
+        {
         String valtInlagg = (String) listaMoten.getSelectedValue();
         inlaggsID = valtInlagg.substring(0, valtInlagg.indexOf(" "));
         
         btnTaBortBekrafta.setVisible(true);
+        }
     }//GEN-LAST:event_btnTaBortMoteActionPerformed
 
 

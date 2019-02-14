@@ -134,8 +134,9 @@ public class SkapaInlagg extends javax.swing.JFrame {
         btnSkapaInlagg = new javax.swing.JButton();
         btnBifogaFiler = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<String>();
+        jList1 = new javax.swing.JList<>();
         lblBild = new javax.swing.JLabel();
+        lblNotis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -202,7 +203,9 @@ public class SkapaInlagg extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSkapaInlagg)
-                .addGap(269, 269, 269))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +231,9 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(btnSkapaInlagg)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSkapaInlagg)
+                    .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
 
@@ -361,8 +366,8 @@ public ImageIcon ResizeImage(String ImagePath) {
             ps2.setInt(4, subkategoriId);
             ps2.setString(5, txtTitel.getText());
             ps2.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Inlägget har skapats");
-
+            //JOptionPane.showMessageDialog(null, "Inlägget har skapats");
+            lblNotis.setText("Inlägget har skapats!");
             Statement stmt3 = connection.createStatement();
             ResultSet rs3 = stmt3.executeQuery("SELECT FIRST 1  * FROM FILER ORDER BY FILID DESC");
             rs3.next();
@@ -440,12 +445,14 @@ public ImageIcon ResizeImage(String ImagePath) {
 
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-
+        if(Validering.isTextFältTomt(txtTitel) && Validering.isTextAreaTomt(txaInlagg)&& Validering.isJListTomt(jList1))
+        {
         try {
             skapaEttInlagg();
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
@@ -476,6 +483,7 @@ public ImageIcon ResizeImage(String ImagePath) {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBild;
     private javax.swing.JLabel lblInlagg;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblSubkategori;
     private javax.swing.JLabel lblTitel;
     private javax.swing.JTextArea txaInlagg;
