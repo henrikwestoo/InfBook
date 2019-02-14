@@ -105,7 +105,7 @@ public class Inloggning extends javax.swing.JFrame {
                 .addGap(81, 81, 81))
         );
 
-        jPanel2.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
+        jPanel2.setBackground(new java.awt.Color(102, 102, 255));
 
         lblPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbookthin.png"))); // NOI18N
         lblPic.setMaximumSize(new java.awt.Dimension(200, 200));

@@ -148,7 +148,7 @@ public class Inloggad extends javax.swing.JFrame {
         setTitle("Infbook");
         setIconImage(Toolkit.getDefaultToolkit().getImage(Inloggning.class.getResource("/images/infbookIcon.png")));
 
-        jPanel1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
 
         lblInloggadSom.setText("Inloggad som:");
 
