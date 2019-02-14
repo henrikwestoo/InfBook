@@ -364,7 +364,8 @@ public class Profil extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRedigeraInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraInfoActionPerformed
-        // TODO add your handling code here:
+AndraProfil andraProfil = new AndraProfil(connection, angivetAnv);
+andraProfil.setVisible(true);
     }//GEN-LAST:event_btnRedigeraInfoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
