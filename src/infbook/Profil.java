@@ -24,6 +24,7 @@ public class Profil extends javax.swing.JFrame {
     private String angivetAnv;
     private Connection connection;
     private String smsNotis;
+    private String status;
 
     public Profil(Connection connection, String angivetAnv) {
         initComponents();
@@ -70,6 +71,7 @@ public class Profil extends javax.swing.JFrame {
             rs6.next();
             String status = rs6.getString("STATUS");
             lblAnvandarstatusDB.setText(status);
+            
 
             Statement stmt7 = connection.createStatement();
             ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR=" + angivetAnv);
@@ -366,7 +368,7 @@ public class Profil extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRedigeraInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedigeraInfoActionPerformed
-        AndraProfil andraProfil = new AndraProfil(connection, angivetAnv);
+        AndraProfil andraProfil = new AndraProfil(connection, angivetAnv, status);
         andraProfil.setVisible(true);
     }//GEN-LAST:event_btnRedigeraInfoActionPerformed
 

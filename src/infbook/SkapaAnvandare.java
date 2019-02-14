@@ -144,6 +144,12 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
         btnBifogaFil.setText("Bifoga profilbild");
 
+        cmbStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStatusActionPerformed(evt);
+            }
+        });
+
         lblAnvstatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAnvstatus.setText("Användarstatus");
 
@@ -369,6 +375,10 @@ public class SkapaAnvandare extends javax.swing.JFrame {
     private void txtEpostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEpostActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEpostActionPerformed
+
+    private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbStatusActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

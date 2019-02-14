@@ -197,7 +197,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
             String information = lstResultat.getSelectedValue().toString();
             String personnummer = information.substring(0, information.indexOf(" "));
 
-            new AndraProfil(connection, personnummer).setVisible(true);
+            new AndraProfil(connection, personnummer, status).setVisible(true);
         }
     }//GEN-LAST:event_btnAndraAnvandareActionPerformed
 

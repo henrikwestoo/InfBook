@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -43,7 +44,7 @@ public class AndraProfil extends javax.swing.JFrame {
     /**
      * Creates new form AndraProfil
      */
-    public AndraProfil(Connection connection, String personnummer) {
+    public AndraProfil(Connection connection, String personnummer, String status) {
         initComponents();
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
@@ -52,6 +53,27 @@ public class AndraProfil extends javax.swing.JFrame {
         this.personnummer = personnummer;
         txtPNR.setText(personnummer);
         txtPNR.setEditable(false);
+        
+        
+        String[] alternativCA = new String[]{"Centraladministratör", "Forskningsadministratör", "Utbildningsadministratör", "Forskningsanvändare", "Utbildningsanvändare", "Amanuens"};
+        String[] alternativUA = new String[]{"Utbildningsanvändare", "Amanuens"};
+        String[] alternativFA = new String[]{"Forskningsanvändare", "Amanuens"};
+
+        if (status.equals("UA")) {
+
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativUA)); //Om man är ua väljs denna array för att fylla boxen
+
+        } else if (status.equals("FA")) {
+
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativFA)); // etc etc
+
+        } else if (status.equals("CA")) {
+
+            cmbStatus.setModel(new DefaultComboBoxModel(alternativCA)); // etc etc
+
+        }
+        
+        
         try {
 
             Statement stmt = connection.createStatement();
@@ -84,10 +106,10 @@ public class AndraProfil extends javax.swing.JFrame {
             String rumsnmr = rs5.getString("RUMSNMR");
             txtRum.setText(rumsnmr);
 
-            Statement stmt6 = connection.createStatement();
-            ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + personnummer);
-            rs6.next();
-            String status = rs6.getString("STATUS");
+//            Statement stmt6 = connection.createStatement();
+//            ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + personnummer);
+//            rs6.next();
+//            String status = rs6.getString("STATUS");
 
             cmbStatus.setSelectedItem(KonverteraStatus.konverteraStatus(status));
 
