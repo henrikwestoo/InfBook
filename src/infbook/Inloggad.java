@@ -27,7 +27,9 @@ import java.beans.PropertyChangeListener;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimerTask;
 import javax.swing.JList;
+import javax.swing.Timer;
 
 /**
  *
@@ -43,6 +45,21 @@ public class Inloggad extends javax.swing.JFrame {
     private DefaultListModel lista3;
 
     public Inloggad(Connection connection, String status, String angivetAnv) {
+        
+new java.util.Timer().schedule(new TimerTask(){
+        @Override
+        public void run() {
+            
+            lista.removeAllElements();
+            lista2.removeAllElements();
+            lista3.removeAllElements();
+            fyllFlodeMedInlagg();
+            System.out.println("Refresh");
+            
+           //your code here 
+           //10005=5000 mlsec. i.e. 5 seconds. u can change accordngly 
+        }
+    },10005,1000*60);
 
         lista = new DefaultListModel();
         lista2 = new DefaultListModel();
@@ -441,6 +458,8 @@ public class Inloggad extends javax.swing.JFrame {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         lista.removeAllElements();
+        lista2.removeAllElements();
+        lista3.removeAllElements();
         fyllFlodeMedInlagg();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
@@ -510,16 +529,19 @@ public class Inloggad extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lstInlaggInformellMouseClicked
 
-    private void btnDoodleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoodleActionPerformed
+    private void btnDoodleActionPerformed(java.awt.event.ActionEvent evt) {                                          
         Doodle hej = new Doodle(connection, angivetAnv);
         hej.setVisible(true);
     }
-    //GEN-LAST:event_btnDoodleActionPerformed      
+                                                   
 private void kalenderMouseClicked(java.awt.event.MouseEvent evt) {
-    }//GEN-LAST:event_btnDoodleActionPerformed
+    }                                         
 
 private void fyllFlodeMedInlagg() {
 
+    
+    
+    
         try {
             Statement stmt = connection.createStatement(); //utbildning
             ResultSet rs = stmt.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 1 ORDER BY INLAGGSID DESC");
@@ -537,7 +559,7 @@ private void fyllFlodeMedInlagg() {
                 lista2.addElement(rs2.getString("INFORMATION"));
                 lstInlaggForskning.setModel(lista2);
             }
-            Statement stmt3 = connection.createStatement(); //forskning
+            Statement stmt3 = connection.createStatement(); //informella
             ResultSet rs3 = stmt3.executeQuery("SELECT INLAGGSID ||' - '|| TITEL ||' - '|| FORNAMN ||'  '|| EFTERNAMN AS INFORMATION FROM INLAGG  JOIN ANVANDARE ON ANVANDARE.PNR = INLAGG.ANVANDARE JOIN SUBKATEGORI ON INLAGG.SUBKATEGORI = SUBKATEGORI.SUBKATEGORIID JOIN SUPERKATEGORI ON SUBKATEGORI.SUPERKATEGORI = SUPERKATEGORI.SUPERKATEGORIID JOIN KATEGORI ON SUPERKATEGORI.KATEGORI = KATEGORI.KATEGORIID WHERE KATEGORIID = 3 ORDER BY INLAGGSID DESC");
 
             while (rs3.next()) {
