@@ -29,6 +29,7 @@ public class HanteraMoten extends javax.swing.JFrame {
 
     public HanteraMoten(Connection connection, String status, String angivetAnv) {
         initComponents();
+        this.setResizable(false);
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);

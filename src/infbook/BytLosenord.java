@@ -24,6 +24,7 @@ public class BytLosenord extends javax.swing.JFrame {
 
     public BytLosenord(Connection connection, String personnummer) {
         initComponents();
+        this.setResizable(false);
         this.connection = connection;
         this.personnummer = personnummer;
         lblConfirmation.setVisible(false);
