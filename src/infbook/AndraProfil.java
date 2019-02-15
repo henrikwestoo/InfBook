@@ -53,6 +53,8 @@ public class AndraProfil extends javax.swing.JFrame {
         this.personnummer = personnummer;
         txtPNR.setText(personnummer);
         txtPNR.setEditable(false);
+        cmbStatus.setVisible(false);
+        lblAnvandarstatus.setVisible(false);
         
         
         String[] alternativCA = new String[]{"Centraladministratör", "Forskningsadministratör", "Utbildningsadministratör", "Forskningsanvändare", "Utbildningsanvändare", "Amanuens"};
@@ -71,6 +73,11 @@ public class AndraProfil extends javax.swing.JFrame {
 
             cmbStatus.setModel(new DefaultComboBoxModel(alternativCA)); // etc etc
 
+        }
+        
+        if (status.equals("CA") || status.equals("UA") || status.equals("FA")) {
+            cmbStatus.setVisible(true);
+            lblAnvandarstatus.setVisible(true);
         }
         
         
