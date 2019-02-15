@@ -24,7 +24,10 @@ public class Doodle extends javax.swing.JFrame {
     private DefaultListModel lista2;
     private String kallelseID;
     private DefaultListModel lista3;
-    
+    private String datum1;
+    private String datum2;
+    private String datum3;
+  
 
     public Doodle(Connection connection, String angivetAnv) {
         initComponents();
@@ -49,6 +52,8 @@ public class Doodle extends javax.swing.JFrame {
         valt1.setVisible(false);
         valt2.setVisible(false);
         valt3.setVisible(false);
+        
+       
         
 
     }
@@ -201,7 +206,7 @@ public class Doodle extends javax.swing.JFrame {
                         .addGap(64, 64, 64)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
+                        .addGap(107, 107, 107)
                         .addComponent(btnSkicka, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(107, Short.MAX_VALUE))
         );
@@ -236,15 +241,15 @@ public class Doodle extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(btnSkicka)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(btnSkicka)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addComponent(jSeparator3)
         );
 
@@ -615,9 +620,9 @@ public class Doodle extends javax.swing.JFrame {
     private void btnSkickaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkickaActionPerformed
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        String datum1 = format.format(kalender1.getDate());
-        String datum2 = format.format(kalender2.getDate());
-        String datum3 = format.format(kalender3.getDate());
+        datum1 = format.format(kalender1.getDate());
+        datum2 = format.format(kalender2.getDate());
+        datum3 = format.format(kalender3.getDate());
         String tiden1 = tid1.getText();
         String tiden2 = tid2.getText();
         String tiden3 = tid3.getText();
@@ -653,8 +658,32 @@ public class Doodle extends javax.swing.JFrame {
                 ps4.setString(9, txtArea.getText());
                 ps4.executeUpdate();
 
+                
+        try{
+            Statement stmt102 = connection.createStatement();
+                String nyaVardet;
+                ResultSet rs102 = stmt102.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON ANVANDARE.PNR = MOTELSEKALLELSE_TILL_ANVANDARE.ANVANDARE WHERE MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = " + nyttTal + "");
+                while (rs102.next()) {
+                    String email = rs102.getString("EMAIL");
+                    System.out.println(email);
+                    SendMail.send(email, "Du har kallats till ett möte", "Du har fått en mötesförfrågan på följande datum: " + datum1+ ", " + datum2 + ", " + datum3 + "\n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
+                }
+            }
+                catch(SQLException e){
+                    System.out.println(e.getMessage());
+                    
+                    
+                    }
+                
+                
             }
 
+            
+                            
+            
+            
+            
+            
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
