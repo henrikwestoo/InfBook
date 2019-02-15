@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.tools.Tool;
 
 /**
@@ -21,21 +22,22 @@ import javax.tools.Tool;
 public class Inloggning extends javax.swing.JFrame {
 
     private Connection connection; //Fält för kopplingen
+
     /**
      * Creates new form Inloggning
      */
     public Inloggning(Connection connection) {
         initComponents();
-                 Toolkit toolkit = getToolkit();
+        Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         this.connection = connection;
         setJFrameIcon();
         getRootPane().setDefaultButton(btnLoggaIn);
         setResizable(false);
-        
+
     }
-    
+
     public void setJFrameIcon() {
         setTitle("Infbook");
         setIconImage(Toolkit.getDefaultToolkit().getImage(Inloggning.class.getResource("/images/infbookIcon.png")));
@@ -163,35 +165,30 @@ public class Inloggning extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoggaInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoggaInActionPerformed
-        
+
         //Hej
-        
         String angivetAnv = txtAnv.getText();
         String angivetLos = new String(pwLos.getPassword());
-        
+
         try {
 
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR=" + angivetAnv);
-            
+
             rs.next();
-            
+
             String losenord = rs.getString("LOSENORD");
-            
-            
 
             if (angivetLos.equals(losenord)) {
 
                 //inloggningen lyckas
-                
-                
                 Statement stmtStatus = connection.createStatement();
-                ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR="+angivetAnv);
-                
+                ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + angivetAnv);
+
                 rsStatus.next();
-                
+
                 String status = rsStatus.getString("STATUS");
-                
+
                 this.setVisible(false);
                 new Inloggad(connection, status, angivetAnv).setVisible(true);
 
@@ -205,8 +202,7 @@ public class Inloggning extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnLoggaInActionPerformed
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoggaIn;
     private javax.swing.JLabel jLabel1;

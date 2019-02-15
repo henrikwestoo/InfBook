@@ -6,8 +6,11 @@
 package infbook;
 
 import com.toedter.calendar.JCalendar;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import static java.awt.SystemColor.text;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,11 +29,17 @@ import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimerTask;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 
 /**
  *
@@ -45,6 +54,11 @@ public class Inloggad extends javax.swing.JFrame {
     private DefaultListModel lista2;
     private DefaultListModel lista3;
 
+    private static final int port = 1500;
+    private static final String server = "159.253.31.26";
+    private Client client;
+    private Boolean connected;
+
     public Inloggad(Connection connection, String status, String angivetAnv) {
 
         lista = new DefaultListModel();
@@ -58,6 +72,7 @@ public class Inloggad extends javax.swing.JFrame {
         btnSkapaUnderkategori.setVisible(true);
         this.status = status;
         this.angivetAnv = angivetAnv;
+        kalender();
 
         fyllFlodeMedInlagg();
 
@@ -96,6 +111,7 @@ public class Inloggad extends javax.swing.JFrame {
 
             @Override
             public void propertyChange(PropertyChangeEvent e) {
+                kalender();
 
                 txtArea.setText("");
                 SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
@@ -119,6 +135,17 @@ public class Inloggad extends javax.swing.JFrame {
             }
         });
 
+        ta.setEditable(false);
+        getRootPane().setDefaultButton(btnSend);
+
+        // Skapar ett nytt klientobjekt
+        client = new Client(server, port, angivetAnv, this);
+        // Kontrollerar om det går att starta klienten
+        if (!client.start()) {
+            return;
+        }
+
+        connected = true;
     }
 
     /**
@@ -145,12 +172,15 @@ public class Inloggad extends javax.swing.JFrame {
         lstInlaggForskning = new javax.swing.JList();
         pnlInformell = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        lstInlaggInformell = new javax.swing.JList<>();
+        lstInlaggInformell = new javax.swing.JList<String>();
         pnlUtbildning = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstInlaggUtbildning = new javax.swing.JList();
-        jLabel2 = new javax.swing.JLabel();
-        sprHog = new javax.swing.JSeparator();
+        pnlChatt = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        ta = new javax.swing.JTextArea();
+        tf = new javax.swing.JTextField();
+        btnSend = new javax.swing.JButton();
         btnSkapaInlagg = new javax.swing.JButton();
         btnSkapaUnderkategori = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -225,11 +255,13 @@ public class Inloggad extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblFloden)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnRefresh)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(23, 23, 23))
+                        .addComponent(lblFloden))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)))
+                .addGap(28, 28, 28))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -253,10 +285,7 @@ public class Inloggad extends javax.swing.JFrame {
         );
         pnlForskningLayout.setVerticalGroup(
             pnlForskningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlForskningLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Forskning", pnlForskning);
@@ -275,14 +304,13 @@ public class Inloggad extends javax.swing.JFrame {
         pnlInformell.setLayout(pnlInformellLayout);
         pnlInformellLayout.setHorizontalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInformellLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInformellLayout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlInformellLayout.setVerticalGroup(
             pnlInformellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Informell", pnlInformell);
@@ -304,12 +332,46 @@ public class Inloggad extends javax.swing.JFrame {
         );
         pnlUtbildningLayout.setVerticalGroup(
             pnlUtbildningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
         );
 
         tabFlode.addTab("Utbildning", pnlUtbildning);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbookIcon2small.png"))); // NOI18N
+        ta.setColumns(20);
+        ta.setLineWrap(true);
+        ta.setRows(5);
+        jScrollPane5.setViewportView(ta);
+
+        btnSend.setText("Skicka meddelande");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlChattLayout = new javax.swing.GroupLayout(pnlChatt);
+        pnlChatt.setLayout(pnlChattLayout);
+        pnlChattLayout.setHorizontalGroup(
+            pnlChattLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5)
+            .addGroup(pnlChattLayout.createSequentialGroup()
+                .addComponent(tf, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlChattLayout.setVerticalGroup(
+            pnlChattLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlChattLayout.createSequentialGroup()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlChattLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSend))
+                .addContainerGap())
+        );
+
+        tabFlode.addTab("Chatt", pnlChatt);
 
         btnSkapaInlagg.setText("Skapa inlägg");
         btnSkapaInlagg.addActionListener(new java.awt.event.ActionListener() {
@@ -396,58 +458,49 @@ public class Inloggad extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(sprMitten)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(sprHog)
-                                    .addGap(192, 192, 192))
-                                .addComponent(sprLag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(38, 38, 38)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                                        .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnLoggaUt, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnSkapaUnderkategori, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnDoodle, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(26, 26, 26)
+                                    .addGap(36, 36, 36)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(btnSkapaSuperKategori, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                                         .addComponent(btnHanteraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(31, 31, 31)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                                        .addComponent(btnHanteraMoten, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(151, 151, 151)))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(kalender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnHanteraMoten, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(5, 5, 5))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(kalender, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnSkapaInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                            .addComponent(btnMinProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSkapaUnderkategori)
-                            .addComponent(btnLoggaUt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnDoodle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)))
+                            .addComponent(sprMitten, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sprLag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
                 .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, 796, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(763, 763, 763)
-                    .addComponent(jLabel2)
-                    .addContainerGap(763, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(sprHog, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSkapaInlagg)
                     .addComponent(btnSkapaUnderkategori)
@@ -457,7 +510,7 @@ public class Inloggad extends javax.swing.JFrame {
                     .addComponent(btnMinProfil)
                     .addComponent(btnLoggaUt)
                     .addComponent(btnDoodle))
-                .addGap(59, 59, 59)
+                .addGap(18, 18, 18)
                 .addComponent(sprMitten, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -467,21 +520,16 @@ public class Inloggad extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHanteraAnvandare)
                     .addComponent(btnHanteraMoten))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(sprLag, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
+                .addGap(18, 18, 18)
                 .addComponent(kalender, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(tabFlode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(343, 343, 343)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(344, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -498,9 +546,9 @@ public class Inloggad extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -603,6 +651,15 @@ public class Inloggad extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lstInlaggInformellMouseClicked
 
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        // Skicka det skrivna meddelandet om klienten är ansluten
+        if (connected) {
+
+            client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, tf.getText()));
+            tf.setText("");
+        }
+    }//GEN-LAST:event_btnSendActionPerformed
+
     private void btnDoodleActionPerformed(java.awt.event.ActionEvent evt) {
         Doodle hej = new Doodle(connection, angivetAnv);
         hej.setVisible(true);
@@ -642,6 +699,91 @@ public class Inloggad extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
+
+    public void kalender() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        int offset = cal.get(Calendar.DAY_OF_WEEK);
+        int mon = kalender.getMonthChooser().getMonth() + 1;
+        int yr = kalender.getYearChooser().getYear();
+        JPanel jPanel = kalender.getDayChooser().getDayPanel();
+        Component component[] = jPanel.getComponents();
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String kalenderdatum = format.format(kalender.getDate());
+        System.out.println(kalenderdatum);
+
+        String sql2 = "SELECT DATUM FROM MOTE";
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql2);
+
+            while (rs.next()) {
+                String datumet = rs.getString("DATUM");
+
+                String aret = datumet.substring(0, 4);
+                int year = Integer.parseInt(aret);
+
+                String manaden = datumet.substring(5, 7);
+                int month = Integer.parseInt(manaden);
+
+                String dagen = datumet.substring(8, 10);
+                int day = Integer.parseInt(dagen);
+                int ctr = 0;
+                for (int i = 7; i < 14; i++) {
+
+                    if (component[i].isVisible() == false) {
+                        ctr++;
+                    }
+                }
+
+                if (yr == year && mon == month) {
+
+                    component[day + offset + ctr].setBackground(Color.green);
+                }
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            try {
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
+    // Metod för att hämta strängar från servern
+    public void append(String str) {
+
+        int count = ta.getText().length();
+        
+        ta.append(str);
+        ta.setCaretPosition(ta.getText().length() - 1);
+        
+        System.out.println(angivetAnv.length());
+
+        if (str.contains("@" + angivetAnv)) {
+            Highlighter highlighter = ta.getHighlighter();
+            HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
+            int p0 = count + str.indexOf("@");
+            int p1 = p0 + angivetAnv.length() + 1;
+            try {
+                highlighter.addHighlight(p0, p1, painter);
+            } catch (BadLocationException ex) {
+                Logger.getLogger(Inloggad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    // Metod som sätter anslutningen till false
+    public void connectionFailed() {
+        connected = false;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDoodle;
     private javax.swing.JButton btnHanteraAnvandare;
@@ -649,12 +791,12 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JButton btnLoggaUt;
     private javax.swing.JButton btnMinProfil;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSend;
     private javax.swing.JButton btnSkapaAnvandare;
     private javax.swing.JButton btnSkapaInlagg;
     private javax.swing.JButton btnSkapaSuperKategori;
     private javax.swing.JButton btnSkapaUnderkategori;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -663,6 +805,7 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private com.toedter.calendar.JCalendar kalender;
     private javax.swing.JLabel lblFloden;
     private javax.swing.JLabel lblInloggadSom;
@@ -671,13 +814,15 @@ public class Inloggad extends javax.swing.JFrame {
     private javax.swing.JList lstInlaggForskning;
     private javax.swing.JList<String> lstInlaggInformell;
     private javax.swing.JList lstInlaggUtbildning;
+    private javax.swing.JPanel pnlChatt;
     private javax.swing.JPanel pnlForskning;
     private javax.swing.JPanel pnlInformell;
     private javax.swing.JPanel pnlUtbildning;
-    private javax.swing.JSeparator sprHog;
     private javax.swing.JSeparator sprLag;
     private javax.swing.JSeparator sprMitten;
+    private javax.swing.JTextArea ta;
     private javax.swing.JTabbedPane tabFlode;
+    private javax.swing.JTextField tf;
     private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
 }
