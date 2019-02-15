@@ -338,6 +338,7 @@ public class Inloggad extends javax.swing.JFrame {
         tabFlode.addTab("Utbildning", pnlUtbildning);
 
         ta.setColumns(20);
+        ta.setLineWrap(true);
         ta.setRows(5);
         jScrollPane5.setViewportView(ta);
 
