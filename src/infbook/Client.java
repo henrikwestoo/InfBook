@@ -58,8 +58,8 @@ public class Client  {
 			return false;
 		}
 		
-		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
-		display(msg);
+		//String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+		//display(msg);
 	
 		/* Creating both Data Stream */
 		try
