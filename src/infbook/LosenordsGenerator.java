@@ -15,6 +15,7 @@ public class LosenordsGenerator {
 
     private static Random generator = new Random();
     private static String dictionary = "abcdefghijklmnopqrstuvwxyz0123456789"; //symboler som plockas ut
+    private static String numbers = "0123456789";
 
     public static String createPassword() {
 
@@ -30,6 +31,31 @@ public class LosenordsGenerator {
 
         return losenord;
 
+    }
+    
+    
+    public static String createUsername(String fornamn, String efternamn){  
+        
+    String username = "";
+    
+    String fornamnfirst3 = fornamn.substring(0,3);
+    String efternamnfirst3 = efternamn.substring(0,3);
+    
+    username+=fornamnfirst3;
+    username+=efternamnfirst3;
+    
+    int langd = 3;
+    
+    for(int i=0; i<langd; i++){
+    
+    int index = generator.nextInt(numbers.length());
+    username+=numbers.charAt(index);
+    
+    }
+    
+    return username;
+    
+    
     }
 
 }
