@@ -166,43 +166,44 @@ public class Inloggning extends javax.swing.JFrame {
 
     private void btnLoggaInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoggaInActionPerformed
 
-        //Hej
         String angivetAnv = txtAnv.getText();
         String angivetLos = new String(pwLos.getPassword());
 
-        try {
+        if (Validering.usernameFinns(connection, angivetAnv)) {
 
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            try {
 
-            rs.next();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR='" + angivetAnv + "'");
 
-            String losenord = rs.getString("LOSENORD");
+                rs.next();
 
-            if (angivetLos.equals(losenord)) {
+                String losenord = rs.getString("LOSENORD");
 
-                //inloggningen lyckas
-                Statement stmtStatus = connection.createStatement();
-                ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + angivetAnv);
+                if (angivetLos.equals(losenord)) {
 
-                rsStatus.next();
+                    //inloggningen lyckas
+                    Statement stmtStatus = connection.createStatement();
+                    ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR='" + angivetAnv + "'");
 
-                String status = rsStatus.getString("STATUS");
+                    rsStatus.next();
 
-                this.setVisible(false);
-                new Inloggad(connection, status, angivetAnv).setVisible(true);
+                    String status = rsStatus.getString("STATUS");
 
-            } else {
-                JOptionPane.showMessageDialog(null, "Fel lösenord");
+                    this.setVisible(false);
+                    new Inloggad(connection, status, angivetAnv).setVisible(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Fel lösenord");
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
 
-
     }//GEN-LAST:event_btnLoggaInActionPerformed
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoggaIn;
     private javax.swing.JLabel jLabel1;

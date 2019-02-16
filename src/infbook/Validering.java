@@ -6,6 +6,10 @@
 package infbook;
 
 import com.toedter.calendar.JDateChooser;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -107,7 +111,7 @@ public class Validering {
 
         int langd = personnummer.length();
 
-        if (!(langd ==10)) {
+        if (!(langd == 10)) {
 
             resultat = false;
             JOptionPane.showMessageDialog(null, "Personnummret måste skrivas med formatet ÅÅMMDDXXXX");
@@ -124,14 +128,14 @@ public class Validering {
         return resultat;
 
     }
-    
-    public static boolean isJListTomt (JList lista) { //Validering för JLists för att kolla att man anger ett värde.
+
+    public static boolean isJListTomt(JList lista) { //Validering för JLists för att kolla att man anger ett värde.
 
         boolean resultat = true;
 
         int index = lista.getSelectedIndex();
-    if (index < 0){
-        
+        if (index < 0) {
+
             resultat = false;
             JOptionPane.showMessageDialog(null, "Välj någonting i listan");
 
@@ -143,7 +147,6 @@ public class Validering {
 
         boolean resultat = true;
         Date datum = fält.getDate();
-        
 
         if (datum == null) {
 
@@ -153,4 +156,36 @@ public class Validering {
         }
         return resultat;
     }
+
+    public static boolean usernameFinns(Connection connection, String username) {
+
+        boolean finns = false;
+
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT PNR FROM ANVANDARE");
+
+            while (rs.next()) {
+
+                if (username.equals(rs.getString("PNR"))) {
+
+                    finns = true;
+                    break;
+
+                }
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (finns == false) {
+            JOptionPane.showMessageDialog(null, "Det angivna användarnamnet är inte giltigt");
+        }
+        return finns;
+
+    }
+
 }

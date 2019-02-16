@@ -1,5 +1,9 @@
 package infbook;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Random;
 
 /*
@@ -32,30 +36,27 @@ public class LosenordsGenerator {
         return losenord;
 
     }
-    
-    
-    public static String createUsername(String fornamn, String efternamn){  
-        
-    String username = "";
-    
-    String fornamnfirst3 = fornamn.substring(0,3);
-    String efternamnfirst3 = efternamn.substring(0,3);
-    
-    username+=fornamnfirst3;
-    username+=efternamnfirst3;
-    
-    int langd = 3;
-    
-    for(int i=0; i<langd; i++){
-    
-    int index = generator.nextInt(numbers.length());
-    username+=numbers.charAt(index);
-    
-    }
-    
-    return username;
-    
-    
+
+    public static String createUsername(String fornamn, String efternamn) {
+
+        String username = "";
+
+        String fornamnfirst3 = fornamn.substring(0, 3).toLowerCase();
+        String efternamnfirst3 = efternamn.substring(0, 3).toLowerCase();
+
+        username += fornamnfirst3;
+        username += efternamnfirst3;
+
+        int langd = 3;
+
+        for (int i = 0; i < langd; i++) {
+
+            int index = generator.nextInt(numbers.length());
+            username += numbers.charAt(index);
+
+        }
+
+        return username;
     }
 
 }

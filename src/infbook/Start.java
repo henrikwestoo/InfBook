@@ -25,8 +25,7 @@ public class Start {
             // Försöker ansluta till databasen
             connection = DriverManager.getConnection("jdbc:firebirdsql://159.253.31.26:3050/C:/db/INFBOOKDB.FDB", "sysdba", "masterkey");
             new Inloggning(connection).setVisible(true);
-            new username().setVisible(true);
-
+           
             // Fångar fel med databasen och printar ut felmeddelande
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Något gick fel med databasen!");

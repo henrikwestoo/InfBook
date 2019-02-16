@@ -113,7 +113,6 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         lblAnvstatus = new javax.swing.JLabel();
         txtTlfnr = new javax.swing.JTextField();
         lblTlfnr = new javax.swing.JLabel();
-        txtPnr = new javax.swing.JTextField();
         lblPnr = new javax.swing.JLabel();
         txtFornamn = new javax.swing.JTextField();
         lblFornamn = new javax.swing.JLabel();
@@ -125,6 +124,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         lblEpost = new javax.swing.JLabel();
         txtEpost = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        lblGenereratAnvandarnamn = new javax.swing.JLabel();
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Personnummer");
@@ -157,7 +157,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         lblTlfnr.setText("Telefonnummer");
 
         lblPnr.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblPnr.setText("Personnummer");
+        lblPnr.setText("Genererat användarnamn:");
 
         lblFornamn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFornamn.setText("Förnamn");
@@ -195,9 +195,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(txtFornamn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtPnr, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtFornamn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(43, 43, 43))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -207,7 +205,8 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                                             .addComponent(lblFornamn, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(cmbStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnBifogaFil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblGenereratAnvandarnamn, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -247,9 +246,9 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                     .addComponent(lblPnr)
                     .addComponent(lblRumsnr))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtRumsnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblGenereratAnvandarnamn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEpost)
@@ -301,14 +300,18 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
 
-        if (Validering.isTextFältTomt(txtFornamn) && Validering.isTextFältTomt(txtEfternamn) && Validering.isTextFältTomt(txtPnr) && Validering.isTextFältTomt(txtRumsnr) && Validering.isTextFältTomt(txtTlfnr) && Validering.isTextFältTomt(txtEpost)) {
+        if (Validering.isTextFältTomt(txtFornamn) && Validering.isTextFältTomt(txtEfternamn)
+                && Validering.isTextFältTomt(txtRumsnr)
+                && Validering.isTextFältTomt(txtTlfnr)
+                && Validering.isTextFältTomt(txtEpost)) {
 
-            String PNR = txtPnr.getText();
+            
             String Rumsnmr = txtRumsnr.getText();
             String mobilnmr = txtTlfnr.getText();
             String email = txtEpost.getText();
             String fornamn = txtFornamn.getText();
             String efternamn = txtEfternamn.getText();
+            String username = LosenordsGenerator.createUsername(fornamn, efternamn);
             String status = "";
             String losenord = LosenordsGenerator.createPassword();
 
@@ -338,7 +341,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                 path = selectedFile.getAbsolutePath();
 
                 Statement stmt = connection.createStatement();
-                ps.setString(1, PNR);
+                ps.setString(1, username);
                 ps.setString(2, losenord);
                 ps.setString(3, Rumsnmr);
                 ps.setString(4, mobilnmr);
@@ -349,9 +352,9 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                 ps.setString(9, status);
                 ps.executeUpdate();
                 SMSNotiser hej = new SMSNotiser();
-                hej.skickaNotis("Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet: " + losenord + ". \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
+                hej.skickaNotis("Ditt InfBook konto har skapats.\nDu kan logga in med användarnamnet: "+username+"\noch lösenordet: " + losenord + ". \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
                 try {
-                    SendMail.send(email, "Ditt konto har skapats", "Ditt InfBook konto har skapats.\nDu kan logga in med ditt personnummer och lösenordet: " + losenord + ". \nLogga in för att byta ditt lösenord. \n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
+                    SendMail.send(email, "Ditt konto har skapats", "Ditt InfBook konto har skapats.\nDu kan logga in med användarnamnet: "+username+"\noch lösenordet: " + losenord + ". \nLogga in för att byta ditt lösenord. \n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
                 } catch (RuntimeException e) {
                     JOptionPane.showMessageDialog(null, "Den angivna epostadressen är inte giltig");
                 }
@@ -369,6 +372,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(SkapaAnvandare.class.getName()).log(Level.SEVERE, null, ex);
             }
+            lblGenereratAnvandarnamn.setText(username);
         }
     }//GEN-LAST:event_btnSkapaAnvandareActionPerformed
 
@@ -393,6 +397,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
     private javax.swing.JLabel lblEfternamn;
     private javax.swing.JLabel lblEpost;
     private javax.swing.JLabel lblFornamn;
+    private javax.swing.JLabel lblGenereratAnvandarnamn;
     private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblNyAnvandare;
     private javax.swing.JLabel lblPnr;
@@ -401,7 +406,6 @@ public class SkapaAnvandare extends javax.swing.JFrame {
     private javax.swing.JTextField txtEfternamn;
     private javax.swing.JTextField txtEpost;
     private javax.swing.JTextField txtFornamn;
-    private javax.swing.JTextField txtPnr;
     private javax.swing.JTextField txtRumsnr;
     private javax.swing.JTextField txtTlfnr;
     // End of variables declaration//GEN-END:variables
