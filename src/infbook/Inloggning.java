@@ -34,6 +34,7 @@ public class Inloggning extends javax.swing.JFrame {
         setJFrameIcon();
         getRootPane().setDefaultButton(btnLoggaIn);
         setResizable(false);
+       
 
     }
 
@@ -70,6 +71,12 @@ public class Inloggning extends javax.swing.JFrame {
         btnLoggaIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoggaInActionPerformed(evt);
+            }
+        });
+
+        pwLos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwLosActionPerformed(evt);
             }
         });
 
@@ -164,7 +171,7 @@ public class Inloggning extends javax.swing.JFrame {
         String angivetAnv = txtAnv.getText();
         String angivetLos = new String(pwLos.getPassword());
 
-        if (Validering.usernameFinns(connection, angivetAnv)) {
+        if (Validering.usernameFinns(connection, angivetAnv)&& Validering.isTextFältTomt(pwLos)) {
 
             try {
 
@@ -198,6 +205,10 @@ public class Inloggning extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnLoggaInActionPerformed
+
+    private void pwLosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwLosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pwLosActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoggaIn;

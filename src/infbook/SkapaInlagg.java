@@ -45,6 +45,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
     private File selectedFile;
     private String path;
     private String extension;
+    private boolean skapatInlagg;
     JFileChooser file = new JFileChooser();
 
     /**
@@ -53,6 +54,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
     public SkapaInlagg(Connection connection, String angivetAnv) {
         this.connection = connection;
 
+        skapatInlagg = false;
         initComponents();
         this.setResizable(false);
         Toolkit toolkit = getToolkit();
@@ -140,7 +142,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
         cmbSuperkategori = new javax.swing.JComboBox();
         lblSubkategori = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<String>();
         btnSkapaInlagg = new javax.swing.JButton();
         lblNotis = new javax.swing.JLabel();
         lblBild = new javax.swing.JLabel();
@@ -187,8 +189,6 @@ public class SkapaInlagg extends javax.swing.JFrame {
                 btnSkapaInlaggActionPerformed(evt);
             }
         });
-
-        lblBild.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbook.png"))); // NOI18N
 
@@ -379,7 +379,7 @@ public ImageIcon ResizeImage(String ImagePath) {
 
                 if (matchning == false) {
                     System.out.println("Mailet skickades till: " + subEpost);
-                    //SendMail.send(subEpost, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
+                    SendMail.send(subEpost, "Ett nytt inlägg i InfBook", "Ett nytt inlägg har skapats i en kategori som du följer.", "mail@infbook.page", "Infbook2019");
                 }
 
             }
@@ -480,6 +480,10 @@ public ImageIcon ResizeImage(String ImagePath) {
         if (Validering.isTextFältTomt(txtTitel) && Validering.isTextAreaTomt(txaInlagg) && Validering.isJListTomt(jList1)) {
             try {
                 skapaEttInlagg();
+                this.setVisible(false);
+                
+                skapatInlagg = true;
+                
 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
@@ -504,7 +508,14 @@ public ImageIcon ResizeImage(String ImagePath) {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBifogaFilerActionPerformed
 
-
+    public boolean getSkapatInlagg() {
+        return skapatInlagg;
+    }
+    
+    public void setSkapatInlagg(boolean status) {
+        skapatInlagg = false;
+    }
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBifogaFiler;
     private javax.swing.JButton btnSkapaInlagg;

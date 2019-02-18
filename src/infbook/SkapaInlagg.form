@@ -205,13 +205,6 @@
         <Component class="javax.swing.JLabel" name="lblNotis">
         </Component>
         <Component class="javax.swing.JLabel" name="lblBild">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>

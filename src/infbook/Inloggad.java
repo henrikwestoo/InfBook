@@ -354,7 +354,7 @@ public class Inloggad extends javax.swing.JFrame {
                 .addComponent(tf, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlChattLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAnslutningar, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(btnAnslutningar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
@@ -581,7 +581,14 @@ public class Inloggad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-        new SkapaInlagg(connection, angivetAnv).setVisible(true);
+        SkapaInlagg ettInlagg = new SkapaInlagg(connection, angivetAnv);
+        ettInlagg.setVisible(true);
+        
+        while(ettInlagg.getSkapatInlagg()) {
+            this.fyllFlodeMedInlagg();
+            ettInlagg.setSkapatInlagg(false);
+        }
+        
     }//GEN-LAST:event_btnSkapaInlaggActionPerformed
 
     private void btnSkapaUnderkategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaUnderkategoriActionPerformed
