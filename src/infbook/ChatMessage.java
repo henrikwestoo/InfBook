@@ -2,35 +2,36 @@ package infbook;
 
 import java.io.*;
 /*
- * This class defines the different type of messages that will be exchanged between the
- * Clients and the Server. 
- * When talking from a Java Client to a Java Server a lot easier to pass Java objects, no 
- * need to count bytes or to wait for a line feed at the end of the frame
+ * Den här klassen definerar de typen av meddelanden som skickas mellan klient och server
+ * Meddelandena skickas i form av objekt som senare konverteras till strängar
+ * De olika meddelandetyperna avgör vad meddelandet faktiskt innebär
  */
+
 public class ChatMessage implements Serializable {
 
-	protected static final long serialVersionUID = 1112122200L;
+    // De olika typerna:
+    // WHOISIN används för att skicka klienten en lista på alla anslutna till chatten
+    // MESSAGE skickar ett vanligt chattmeddelande
+    // LOGOUT kopplar bort klienten från servern
+    // Fält
+    protected static final long serialVersionUID = 1112122200L;
+    static final int WHOISIN = 0, MESSAGE = 1, LOGOUT = 2;
+    private int type;
+    private String message;
 
-	// The different types of message sent by the Client
-	// WHOISIN to receive the list of the users connected
-	// MESSAGE an ordinary message
-	// LOGOUT to disconnect from the Server
-	static final int WHOISIN = 0, MESSAGE = 1, LOGOUT = 2;
-	private int type;
-	private String message;
-	
-	// constructor
-	ChatMessage(int type, String message) {
-		this.type = type;
-		this.message = message;
-	}
-	
-	// getters
-	int getType() {
-		return type;
-	}
-	String getMessage() {
-		return message;
-	}
+    // Konstruktor
+    ChatMessage(int type, String message) {
+        this.type = type;
+        this.message = message;
+    }
+
+    // Getters nedanför
+    
+    int getType() {
+        return type;
+    }
+
+    String getMessage() {
+        return message;
+    }
 }
-
