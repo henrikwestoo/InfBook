@@ -25,15 +25,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblConfirmation" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="pwfNyttL" max="32767" attributes="0"/>
-                      <Component id="lblGammaltLosenord" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblNyttLosenord" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="pwfGammaltL" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btnBytLosenord" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="lblConfirmation" max="32767" attributes="0"/>
+                  <Component id="lblGammaltLosenord" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                  <Component id="lblNyttLosenord" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="pwfGammaltL" alignment="0" max="32767" attributes="0"/>
+                  <Component id="pwfNyttL" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnBytLosenord" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="170" max="32767" attributes="0"/>
           </Group>
@@ -50,9 +48,9 @@
               <Component id="lblNyttLosenord" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pwfNyttL" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="btnBytLosenord" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Component id="lblConfirmation" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
           </Group>

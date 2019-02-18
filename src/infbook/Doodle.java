@@ -27,12 +27,11 @@ public class Doodle extends javax.swing.JFrame {
     private String datum1;
     private String datum2;
     private String datum3;
-  
 
     public Doodle(Connection connection, String angivetAnv) {
         initComponents();
         this.setResizable(false);
-         Toolkit toolkit = getToolkit();
+        Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         this.connection = connection;
@@ -53,9 +52,6 @@ public class Doodle extends javax.swing.JFrame {
         valt1.setVisible(false);
         valt2.setVisible(false);
         valt3.setVisible(false);
-        
-       
-        
 
     }
 
@@ -63,6 +59,8 @@ public class Doodle extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         kalender1 = new com.toedter.calendar.JDateChooser();
@@ -132,6 +130,14 @@ public class Doodle extends javax.swing.JFrame {
         amount3 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+
+        buttonGroup1.add(val1);
+        buttonGroup1.add(val2);
+        buttonGroup1.add(val3);
+
+        buttonGroup2.add(valt1);
+        buttonGroup2.add(valt2);
+        buttonGroup2.add(valt3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -346,7 +352,7 @@ public class Doodle extends javax.swing.JFrame {
                                         .addComponent(jLabel10)
                                         .addGap(18, 18, 18)
                                         .addComponent(antal3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 56, Short.MAX_VALUE))
+                                        .addGap(0, 78, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(val1)
                                         .addGap(18, 18, 18)
@@ -442,7 +448,7 @@ public class Doodle extends javax.swing.JFrame {
                                     .addComponent(val3))))
                         .addGap(31, 31, 31)
                         .addComponent(btnSkickaVal)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jLabel17)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -555,9 +561,8 @@ public class Doodle extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel15)
-                        .addGap(7, 7, 7)
+                        .addGap(20, 20, 20)
                         .addComponent(jLabel14)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -615,73 +620,71 @@ public class Doodle extends javax.swing.JFrame {
 
     private void btnSkickaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkickaActionPerformed
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (Validering.isDateChooserTomt(kalender1)
+                && Validering.isDateChooserTomt(kalender2)
+                && Validering.isDateChooserTomt(kalender3)
+                && Validering.isTextAreaTomt(txtArea)
+                && Validering.isJListTomt(listAnstallda)
+                && Validering.isTextFältTomt(tid1)
+                && Validering.isTextFältTomt(tid2)
+                && Validering.isTextFältTomt(tid3)) {
+            datum1 = format.format(kalender1.getDate());
+            datum2 = format.format(kalender2.getDate());
+            datum3 = format.format(kalender3.getDate());
+            String tiden1 = tid1.getText();
+            String tiden2 = tid2.getText();
+            String tiden3 = tid3.getText();
+            String pnr = "";
+            try {
+                Statement stmtTal = connection.createStatement();
 
-        datum1 = format.format(kalender1.getDate());
-        datum2 = format.format(kalender2.getDate());
-        datum3 = format.format(kalender3.getDate());
-        String tiden1 = tid1.getText();
-        String tiden2 = tid2.getText();
-        String tiden3 = tid3.getText();
-        String pnr = "";
-        try {
-            Statement stmtTal = connection.createStatement();
+                stmtTal.execute("SELECT MAX (KALLELSEID) FROM MOTELSEKALLELSE");
+                ResultSet rsTal = stmtTal.getResultSet();
+                rsTal.next();
+                int tal = rsTal.getInt(1);
+                int nyttTal = tal + 1;
+                System.out.println(nyttTal);
 
-            stmtTal.execute("SELECT MAX (KALLELSEID) FROM MOTELSEKALLELSE");
-            ResultSet rsTal = stmtTal.getResultSet();
-            rsTal.next();
-            int tal = rsTal.getInt(1);
-            int nyttTal = tal + 1;
-            System.out.println(nyttTal);
+                PreparedStatement ps5 = connection.prepareStatement("INSERT INTO MOTELSEKALLELSE (KALLELSEID, PNR) VALUES(?,?)");
+                ps5.setInt(1, nyttTal);
+                ps5.setString(2, angivetAnv);
+                ps5.executeUpdate();
 
-            PreparedStatement ps5 = connection.prepareStatement("INSERT INTO MOTELSEKALLELSE (KALLELSEID, PNR) VALUES(?,?)");
-            ps5.setInt(1, nyttTal);
-            ps5.setString(2, angivetAnv);
-            ps5.executeUpdate();
+                Object[] valda = listAnstallda.getSelectedValues();
+                for (Object anvandare : valda) {
 
-            Object[] valda = listAnstallda.getSelectedValues();
-            for (Object anvandare : valda) {
+                    pnr = anvandare.toString().substring(0, anvandare.toString().indexOf(" "));
+                    PreparedStatement ps4 = connection.prepareStatement("INSERT INTO MOTELSEKALLELSE_TILL_ANVANDARE (ANVANDARE,MOTELSEKALLELSE,DATUM1,TID1,DATUM2,TID2,DATUM3,TID3,BESKRIVNING) values(?,?,?,?,?,?,?,?,?)");
+                    ps4.setString(1, pnr);
+                    ps4.setInt(2, nyttTal);
+                    ps4.setString(3, datum1);
+                    ps4.setString(4, tiden1);
+                    ps4.setString(5, datum2);
+                    ps4.setString(6, tiden2);
+                    ps4.setString(7, datum3);
+                    ps4.setString(8, tiden3);
+                    ps4.setString(9, txtArea.getText());
+                    ps4.executeUpdate();
 
-                pnr = anvandare.toString().substring(0, anvandare.toString().indexOf(" "));
-                PreparedStatement ps4 = connection.prepareStatement("INSERT INTO MOTELSEKALLELSE_TILL_ANVANDARE (ANVANDARE,MOTELSEKALLELSE,DATUM1,TID1,DATUM2,TID2,DATUM3,TID3,BESKRIVNING) values(?,?,?,?,?,?,?,?,?)");
-                ps4.setString(1, pnr);
-                ps4.setInt(2, nyttTal);
-                ps4.setString(3, datum1);
-                ps4.setString(4, tiden1);
-                ps4.setString(5, datum2);
-                ps4.setString(6, tiden2);
-                ps4.setString(7, datum3);
-                ps4.setString(8, tiden3);
-                ps4.setString(9, txtArea.getText());
-                ps4.executeUpdate();
+                    try {
+                        Statement stmt102 = connection.createStatement();
+                        String nyaVardet;
+                        ResultSet rs102 = stmt102.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON ANVANDARE.PNR = MOTELSEKALLELSE_TILL_ANVANDARE.ANVANDARE WHERE MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = " + nyttTal + "");
+                        while (rs102.next()) {
+                            String email = rs102.getString("EMAIL");
+                            System.out.println(email);
+                            SendMail.send(email, "Du har kallats till ett möte", "Du har fått en mötesförfrågan på följande datum: " + datum1 + ", " + datum2 + ", " + datum3 + "\n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
 
-                
-        try{
-            Statement stmt102 = connection.createStatement();
-                String nyaVardet;
-                ResultSet rs102 = stmt102.executeQuery("SELECT EMAIL FROM ANVANDARE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON ANVANDARE.PNR = MOTELSEKALLELSE_TILL_ANVANDARE.ANVANDARE WHERE MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = " + nyttTal + "");
-                while (rs102.next()) {
-                    String email = rs102.getString("EMAIL");
-                    System.out.println(email);
-                    SendMail.send(email, "Du har kallats till ett möte", "Du har fått en mötesförfrågan på följande datum: " + datum1+ ", " + datum2 + ", " + datum3 + "\n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
-                }
-            }
-                catch(SQLException e){
-                    System.out.println(e.getMessage());
-                    
-                    
                     }
-                
-                
-            }
 
-            
-                            
-            
-            
-            
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnSkickaActionPerformed
 
@@ -725,30 +728,27 @@ public class Doodle extends javax.swing.JFrame {
             rs6.next();
             String tid3 = rs6.getString("TID3");
             lblTid3.setText(tid3);
-            
-            
+
             Statement stmt7 = connection.createStatement();
-            ResultSet rs7 = stmt7.executeQuery("SELECT COUNT (*) AS INFORMATION1 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='"+datumet+"' AND TID ='"+tid+"' AND KALLELSEID ='"+kallelseID+"'");
+            ResultSet rs7 = stmt7.executeQuery("SELECT COUNT (*) AS INFORMATION1 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='" + datumet + "' AND TID ='" + tid + "' AND KALLELSEID ='" + kallelseID + "'");
             rs7.next();
             int antalet1 = rs7.getInt("INFORMATION1");
             antal1.setText(Integer.toString(antalet1));
             System.out.println(antalet1);
-            
-             Statement stmt8 = connection.createStatement();
-            ResultSet rs8 = stmt8.executeQuery("SELECT COUNT (*) AS INFORMATION2 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='"+datumet2+"' AND TID ='"+tid2+"' AND KALLELSEID ='"+kallelseID+"'");
+
+            Statement stmt8 = connection.createStatement();
+            ResultSet rs8 = stmt8.executeQuery("SELECT COUNT (*) AS INFORMATION2 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='" + datumet2 + "' AND TID ='" + tid2 + "' AND KALLELSEID ='" + kallelseID + "'");
             rs8.next();
             int antalet2 = rs8.getInt("INFORMATION2");
             antal2.setText(Integer.toString(antalet2));
             System.out.println(antalet2);
-            
-             Statement stmt9 = connection.createStatement();
-            ResultSet rs9 = stmt9.executeQuery("SELECT COUNT (*) AS INFORMATION3 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='"+datumet3+"' AND TID ='"+tid3+"' AND KALLELSEID ='"+kallelseID+"'");
+
+            Statement stmt9 = connection.createStatement();
+            ResultSet rs9 = stmt9.executeQuery("SELECT COUNT (*) AS INFORMATION3 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='" + datumet3 + "' AND TID ='" + tid3 + "' AND KALLELSEID ='" + kallelseID + "'");
             rs9.next();
             int antalet3 = rs9.getInt("INFORMATION3");
             antal3.setText(Integer.toString(antalet3));
             System.out.println(antalet3);
-            
-            
 
         } catch (SQLException e2) {
 
@@ -779,57 +779,54 @@ public class Doodle extends javax.swing.JFrame {
     }//GEN-LAST:event_val3ActionPerformed
 
     private void btnSkickaValActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkickaValActionPerformed
-        String datum = "";
-        String tid = "";
-        if (val1.isSelected()) {
-            datum = lblDatum1.getText();
-            tid = lblTid1.getText();
-        } else if (val2.isSelected()) {
-            datum = lblDatum2.getText();
-            tid = lblTid2.getText();
-        } else if (val3.isSelected()) {
-            datum = lblDatum3.getText();
-            tid = lblTid3.getText();
-        }
-        
-        try{
-         PreparedStatement ps5 = connection.prepareStatement("INSERT INTO MOTELSEKALLELSE_SVAR2 (ANVANDARE, KALLELSEID, DATUM, TID) VALUES(?,?,?,?)");
-            ps5.setString(1, angivetAnv);
-            ps5.setInt(2,Integer.parseInt(kallelseID));
-            ps5.setString(3,datum);
-            ps5.setString(4,tid);
-            ps5.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Ditt svar har registrerats");
-        }
-        
-        catch (SQLException e)
-            
-        {
-            System.out.println(e.getMessage()); 
-        }
+        if (Validering.isJListTomt(jList100)) {
 
+            String datum = "";
+            String tid = "";
+            if (val1.isSelected()) {
+                datum = lblDatum1.getText();
+                tid = lblTid1.getText();
+            } else if (val2.isSelected()) {
+                datum = lblDatum2.getText();
+                tid = lblTid2.getText();
+            } else if (val3.isSelected()) {
+                datum = lblDatum3.getText();
+                tid = lblTid3.getText();
+            }
+
+            try {
+                PreparedStatement ps5 = connection.prepareStatement("INSERT INTO MOTELSEKALLELSE_SVAR2 (ANVANDARE, KALLELSEID, DATUM, TID) VALUES(?,?,?,?)");
+                ps5.setString(1, angivetAnv);
+                ps5.setInt(2, Integer.parseInt(kallelseID));
+                ps5.setString(3, datum);
+                ps5.setString(4, tid);
+                ps5.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Ditt svar har registrerats");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }//GEN-LAST:event_btnSkickaValActionPerformed
 
     private void jList101MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList101MouseClicked
-       lblDate1.setText(null);
-       lblDate2.setText(null);
-       lblDate3.setText(null);
-       lblTime1.setText(null);
-       lblTime2.setText(null);
-       lblTime3.setText(null);
-       
-       jLabel11.setVisible(true);
+        lblDate1.setText(null);
+        lblDate2.setText(null);
+        lblDate3.setText(null);
+        lblTime1.setText(null);
+        lblTime2.setText(null);
+        lblTime3.setText(null);
+
+        jLabel11.setVisible(true);
         jLabel12.setVisible(true);
         jLabel13.setVisible(true);
         valt1.setVisible(true);
         valt2.setVisible(true);
         valt3.setVisible(true);
-        
-        
+
         String information = (String) jList101.getSelectedValue();
         String kallelseID2 = information.substring(0, information.indexOf(" "));
         try {
-              Statement stmt = connection.createStatement();
+            Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT DATUM1 FROM MOTELSEKALLELSE_TILL_ANVANDARE WHERE MOTELSEKALLELSE='" + kallelseID2 + "'");
             rs.next();
             String datumet = rs.getString("DATUM1");
@@ -864,92 +861,80 @@ public class Doodle extends javax.swing.JFrame {
             rs6.next();
             String tid3 = rs6.getString("TID3");
             lblTime3.setText(tid3);
-            
-            
-            
+
             Statement stmt7 = connection.createStatement();
-            ResultSet rs7 = stmt7.executeQuery("SELECT COUNT (*) AS INFORMATION1 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='"+datumet+"' AND TID ='"+tid+"' AND KALLELSEID ='"+kallelseID2+"'");
+            ResultSet rs7 = stmt7.executeQuery("SELECT COUNT (*) AS INFORMATION1 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='" + datumet + "' AND TID ='" + tid + "' AND KALLELSEID ='" + kallelseID2 + "'");
             rs7.next();
             int antalet1 = rs7.getInt("INFORMATION1");
             amount1.setText(Integer.toString(antalet1));
             System.out.println(antalet1);
-            
-             Statement stmt8 = connection.createStatement();
-            ResultSet rs8 = stmt8.executeQuery("SELECT COUNT (*) AS INFORMATION2 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='"+datumet2+"' AND TID ='"+tid2+"' AND KALLELSEID ='"+kallelseID2+"'");
+
+            Statement stmt8 = connection.createStatement();
+            ResultSet rs8 = stmt8.executeQuery("SELECT COUNT (*) AS INFORMATION2 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='" + datumet2 + "' AND TID ='" + tid2 + "' AND KALLELSEID ='" + kallelseID2 + "'");
             rs8.next();
             int antalet2 = rs8.getInt("INFORMATION2");
             amount2.setText(Integer.toString(antalet2));
             System.out.println(antalet2);
-            
-             Statement stmt9 = connection.createStatement();
-            ResultSet rs9 = stmt9.executeQuery("SELECT COUNT (*) AS INFORMATION3 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='"+datumet3+"' AND TID ='"+tid3+"' AND KALLELSEID ='"+kallelseID2+"'");
+
+            Statement stmt9 = connection.createStatement();
+            ResultSet rs9 = stmt9.executeQuery("SELECT COUNT (*) AS INFORMATION3 FROM MOTELSEKALLELSE_SVAR2 WHERE DATUM ='" + datumet3 + "' AND TID ='" + tid3 + "' AND KALLELSEID ='" + kallelseID2 + "'");
             rs9.next();
             int antalet3 = rs9.getInt("INFORMATION3");
             amount3.setText(Integer.toString(antalet3));
             System.out.println(antalet3);
-            
-            
-            
-            
 
         } catch (SQLException e2) {
             System.out.println(e2.getMessage());
         }
 
-        
 
     }//GEN-LAST:event_jList101MouseClicked
 
     private void btnSkickaVal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkickaVal1ActionPerformed
-        String datumet = "";
-        String tiden = "";
-        if(valt1.isSelected())
-        {
-            datumet = lblDate1.getText();
-            tiden = lblTime1.getText();
+        if (Validering.isJListTomt(jList101)) {
+            String datumet = "";
+            String tiden = "";
+            if (valt1.isSelected()) {
+                datumet = lblDate1.getText();
+                tiden = lblTime1.getText();
+            }
+
+            if (valt2.isSelected()) {
+                datumet = lblDate2.getText();
+                tiden = lblTime2.getText();
+            }
+
+            if (valt3.isSelected()) {
+                datumet = lblDate3.getText();
+                tiden = lblTime3.getText();
+            }
+            SkapaMoten mote;
+            mote = new SkapaMoten(connection, angivetAnv, datumet, tiden);
+            mote.setVisible(true);
+            this.setVisible(false);
+
         }
-        
-        if(valt2.isSelected())
-        {
-            datumet = lblDate2.getText();
-            tiden = lblTime2.getText();
-        }
-        
-        if(valt3.isSelected())
-        {
-            datumet = lblDate3.getText();
-            tiden = lblTime3.getText();
-        }
-        SkapaMoten mote;
-        mote = new SkapaMoten(connection,angivetAnv,datumet,tiden);
-        mote.setVisible(true);
-        this.setVisible(false);
-       
-        
     }//GEN-LAST:event_btnSkickaVal1ActionPerformed
 
     private void valt2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valt2ActionPerformed
-        if(valt2.isSelected())
-{
-    valt1.setSelected(false);
-    valt3.setSelected(false);
-}
+        if (valt2.isSelected()) {
+            valt1.setSelected(false);
+            valt3.setSelected(false);
+        }
     }//GEN-LAST:event_valt2ActionPerformed
 
     private void valt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valt1ActionPerformed
-    if(valt1.isSelected())
-{
-    valt2.setSelected(false);
-    valt3.setSelected(false);
-}
+        if (valt1.isSelected()) {
+            valt2.setSelected(false);
+            valt3.setSelected(false);
+        }
     }//GEN-LAST:event_valt1ActionPerformed
 
     private void valt3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valt3ActionPerformed
-      if(valt3.isSelected())
-{
-    valt2.setSelected(false);
-    valt1.setSelected(false);
-}
+        if (valt3.isSelected()) {
+            valt2.setSelected(false);
+            valt1.setSelected(false);
+        }
     }//GEN-LAST:event_valt3ActionPerformed
 
     private void fyllListaAnvandare() {
@@ -992,14 +977,13 @@ public class Doodle extends javax.swing.JFrame {
         jList100.setModel(lista2);
 
     }
-    
-    
+
     private void fyllListaKallelser() {
         Statement stmt;
         try {
             stmt = connection.createStatement();
 
-            ResultSet rs2 = stmt.executeQuery("SELECT MOTELSEKALLELSE.KALLELSEID ||' - '|| MOTELSEKALLELSE_TILL_ANVANDARE.BESKRIVNING AS INFORMATION FROM MOTELSEKALLELSE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = MOTELSEKALLELSE.KALLELSEID WHERE MOTELSEKALLELSE.PNR ='"+angivetAnv+"'");
+            ResultSet rs2 = stmt.executeQuery("SELECT MOTELSEKALLELSE.KALLELSEID ||' - '|| MOTELSEKALLELSE_TILL_ANVANDARE.BESKRIVNING AS INFORMATION FROM MOTELSEKALLELSE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = MOTELSEKALLELSE.KALLELSEID WHERE MOTELSEKALLELSE.PNR ='" + angivetAnv + "'");
             rs2.next();
 
             while (rs2.next()) {
@@ -1016,7 +1000,6 @@ public class Doodle extends javax.swing.JFrame {
     }
 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel amount1;
     private javax.swing.JLabel amount2;
@@ -1028,6 +1011,8 @@ public class Doodle extends javax.swing.JFrame {
     private javax.swing.JButton btnSkicka;
     private javax.swing.JButton btnSkickaVal;
     private javax.swing.JButton btnSkickaVal1;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
