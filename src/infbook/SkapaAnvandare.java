@@ -304,7 +304,9 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         if (Validering.isTextFältTomt(txtFornamn) && Validering.isTextFältTomt(txtEfternamn)
                 && Validering.isTextFältTomt(txtRumsnr)
                 && Validering.isTextFältTomt(txtTlfnr)
-                && Validering.isTextFältTomt(txtEpost)) {
+                && Validering.isTextFältTomt(txtEpost)
+                && Validering.isTelefonNummer(txtTlfnr)
+                && Validering.isValidEmailAddress(txtEpost)) {
 
             
             String Rumsnmr = txtRumsnr.getText();
@@ -337,6 +339,8 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
             try {
                 PreparedStatement ps = connection.prepareStatement("insert into ANVANDARE(PNR, LOSENORD, RUMSNMR, MOBILNMR, EMAIL, PROFILBILD, FORNAMN, EFTERNAMN, STATUS) values(?,?,?,?,?,?,?,?,?)");
+                
+                
                 InputStream is = new FileInputStream(new File(s));
                 selectedFile = file.getSelectedFile();
                 path = selectedFile.getAbsolutePath();
@@ -369,9 +373,13 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                 lblNotis.setText("Användare skapad!");
                 // this.dispose();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(SkapaAnvandare.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             } catch (SQLException ex) {
-                Logger.getLogger(SkapaAnvandare.class.getName()).log(Level.SEVERE, null, ex);
+              
+            }
+            catch(NullPointerException eee)
+            {
+                
             }
             lblGenereratAnvandarnamn.setText(username);
         }

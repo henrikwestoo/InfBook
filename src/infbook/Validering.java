@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -188,4 +190,31 @@ public class Validering {
 
     }
 
+    public static boolean isTelefonNummer(JTextField fält) {
+
+        boolean resultat = true;
+
+        String nummer = fält.getText();
+        String nummer1 = nummer.substring(0, 2);
+        if (!nummer1.equals("46")) {
+            resultat = false;
+            JOptionPane.showMessageDialog(null, "Telefonnummret måste börja med '46'");
+        }
+        return resultat;
+
+    }
+
+    public static boolean isValidEmailAddress(JTextField fält) {
+        boolean result = true;
+        try {
+            String email = fält.getText();
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            result = false;
+            JOptionPane.showMessageDialog(null, "Ange en giltig E-mail adress");
+        }
+        
+        return result;
+    }
 }
