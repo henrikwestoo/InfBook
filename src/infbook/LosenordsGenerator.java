@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Random;
 
 /*
@@ -37,26 +38,73 @@ public class LosenordsGenerator {
 
     }
 
-    public static String createUsername(String fornamn, String efternamn) {
+    public static String createUsername(Connection connection, String fornamn, String efternamn) {
 
         String username = "";
+        boolean abc = true;
+        ArrayList<String> usernames = new ArrayList<String>();
 
-        String fornamnfirst3 = fornamn.substring(0, 3).toLowerCase();
-        String efternamnfirst3 = efternamn.substring(0, 3).toLowerCase();
+        try {
 
-        username += fornamnfirst3;
-        username += efternamnfirst3;
+            Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
-        int langd = 3;
+            ResultSet rs = stmt.executeQuery("SELECT PNR FROM ANVANDARE");
 
-        for (int i = 0; i < langd; i++) {
+            while (abc) {
 
-            int index = generator.nextInt(numbers.length());
-            username += numbers.charAt(index);
+                username = "";
 
+                String fornamnfirst3 = fornamn.substring(0, 3).toLowerCase();
+                String efternamnfirst3 = efternamn.substring(0, 3).toLowerCase();
+
+                username += fornamnfirst3;
+                username += efternamnfirst3;
+
+                int langd = 3;
+
+                for (int i = 0; i < langd; i++) {
+
+                    int index = generator.nextInt(numbers.length());
+                    username += numbers.charAt(index);
+
+                }
+
+                boolean hittad = false;
+
+                while (rs.next()) {
+
+                    usernames.add(rs.getString("PNR"));
+                }
+
+                for (String usernamee : usernames) {
+
+                    System.out.println(usernamee);
+                    System.out.println(username);
+
+                    if (username.equals(usernamee)) {
+
+                        System.out.println("hittad!");
+                        hittad = true;
+                        break;
+
+                    }
+
+                }
+
+                if (hittad == false) {
+                    abc = false; //loopen stängs
+
+                }
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
         return username;
+
     }
 
 }
