@@ -59,6 +59,8 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         lblResultat = new javax.swing.JLabel();
         btnRaderaAnvandare = new javax.swing.JButton();
         lblNotis = new javax.swing.JLabel();
+        btnAktivera = new javax.swing.JButton();
+        btnInaktivera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -96,27 +98,56 @@ public class HanteraAnvandare extends javax.swing.JFrame {
             }
         });
 
+        btnAktivera.setText("Återaktivera markerad användare");
+        btnAktivera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAktiveraActionPerformed(evt);
+            }
+        });
+
+        btnInaktivera.setText("Inaktivera markerad användare");
+        btnInaktivera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInaktiveraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSkapaAnvandare)
-                    .addComponent(lblSokAnvandare)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtSokAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNotis, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-                            .addComponent(btnSok))))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRaderaAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(lblResultat)
-                    .addComponent(btnAndraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnSkapaAnvandare)
+                            .addComponent(lblSokAnvandare)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtSokAnvandare, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
+                                .addComponent(btnSok)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblNotis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(lblResultat)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnInaktivera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAndraAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAktivera)
+                                .addGap(0, 6, Short.MAX_VALUE))
+                            .addComponent(btnRaderaAnvandare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jScrollPane1)))
                 .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
@@ -135,14 +166,17 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addComponent(btnSkapaAnvandare))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAndraAnvandare)
-                        .addGap(36, 36, 36)
-                        .addComponent(btnRaderaAnvandare))
+                .addGap(35, 35, 35)
+                .addComponent(btnAndraAnvandare)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnInaktivera)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRaderaAnvandare)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAktivera)
                     .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -278,9 +312,49 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRaderaAnvandareActionPerformed
 
+    private void btnInaktiveraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInaktiveraActionPerformed
+        if (Validering.isJListTomt(lstResultat)) {
+            String information = lstResultat.getSelectedValue().toString();
+            String personnummer = information.substring(0, information.indexOf(" "));
+            
+            try{
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("UPDATE ANVANDARE SET INAKTIVERAD ='JA' WHERE PNR='"+personnummer+"'");
+            lblNotis.setText("Användarkontot är nu inaktiverat");
+            
+            }
+            
+            catch(SQLException e){System.out.println(e.getMessage());}
+            
+        }
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInaktiveraActionPerformed
+
+    private void btnAktiveraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAktiveraActionPerformed
+                if (Validering.isJListTomt(lstResultat)) {
+            String information = lstResultat.getSelectedValue().toString();
+            String personnummer = information.substring(0, information.indexOf(" "));
+            
+            try{
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("UPDATE ANVANDARE SET INAKTIVERAD =null WHERE PNR='"+personnummer+"'");
+            lblNotis.setText("Användarkontot är nu återaktiverat");
+            
+            }
+            
+            catch(SQLException e){System.out.println(e.getMessage());}
+            
+        }
+
+    }//GEN-LAST:event_btnAktiveraActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAktivera;
     private javax.swing.JButton btnAndraAnvandare;
+    private javax.swing.JButton btnInaktivera;
     private javax.swing.JButton btnRaderaAnvandare;
     private javax.swing.JButton btnSkapaAnvandare;
     private javax.swing.JButton btnSok;

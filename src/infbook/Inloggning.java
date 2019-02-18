@@ -26,7 +26,7 @@ public class Inloggning extends javax.swing.JFrame {
      */
     public Inloggning(Connection connection) {
         initComponents();
-        
+
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
@@ -57,6 +57,7 @@ public class Inloggning extends javax.swing.JFrame {
         lblLos = new javax.swing.JLabel();
         txtAnv = new javax.swing.JTextField();
         lblAnv = new javax.swing.JLabel();
+        lblNotis = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblPic = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -85,6 +86,7 @@ public class Inloggning extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNotis)
                     .addComponent(lblAnv)
                     .addComponent(txtAnv, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblLos)
@@ -104,9 +106,11 @@ public class Inloggning extends javax.swing.JFrame {
                 .addComponent(lblLos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pwLos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(btnLoggaIn)
-                .addGap(80, 80, 80))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNotis)
+                .addGap(44, 44, 44))
         );
 
         jPanel2.setBackground(new java.awt.Color(46, 120, 186));
@@ -164,32 +168,48 @@ public class Inloggning extends javax.swing.JFrame {
         String angivetAnv = txtAnv.getText();
         String angivetLos = new String(pwLos.getPassword());
 
-        if (Validering.usernameFinns(connection, angivetAnv)) {
+        if (Validering.usernameFinns(connection, angivetAnv)
+                && Validering.isTextFältTomt(pwLos)) {
 
             try {
 
-                Statement stmt = connection.createStatement();
+                Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY,
+                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
                 ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR='" + angivetAnv + "'");
 
                 rs.next();
 
                 String losenord = rs.getString("LOSENORD");
 
-                if (angivetLos.equals(losenord)) {
+                Statement stmt2 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY,
+                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                ResultSet rs2 = stmt2.executeQuery("SELECT INAKTIVERAD FROM ANVANDARE WHERE PNR ='" + angivetAnv + "'");
 
-                    //inloggningen lyckas
-                    Statement stmtStatus = connection.createStatement();
-                    ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR='" + angivetAnv + "'");
+                rs2.next();
 
-                    rsStatus.next();
+                if (rs2.getString("INAKTIVERAD") == null) {
 
-                    String status = rsStatus.getString("STATUS");
+                    if (angivetLos.equals(losenord)) {
 
-                    this.setVisible(false);
-                    new Inloggad(connection, status, angivetAnv).setVisible(true);
+                        //inloggningen lyckas
+                        Statement stmtStatus = connection.createStatement();
+                        ResultSet rsStatus = stmtStatus.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR='" + angivetAnv + "'");
+
+                        rsStatus.next();
+
+                        String status = rsStatus.getString("STATUS");
+
+                        this.setVisible(false);
+                        new Inloggad(connection, status, angivetAnv).setVisible(true);
+                    } else {
+                        lblNotis.setText("Fel lösenord");
+                    }
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Fel lösenord");
+                    
+                    lblNotis.setText("Kontot är inaktiverat");
                 }
 
             } catch (SQLException e) {
@@ -206,6 +226,7 @@ public class Inloggning extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAnv;
     private javax.swing.JLabel lblLos;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblPic;
     private javax.swing.JPasswordField pwLos;
     private javax.swing.JTextField txtAnv;

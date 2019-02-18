@@ -54,6 +54,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblNotis" min="-2" max="-2" attributes="0"/>
                       <Component id="lblAnv" min="-2" max="-2" attributes="0"/>
                       <Component id="txtAnv" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
                       <Component id="lblLos" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -77,9 +78,11 @@
                   <Component id="lblLos" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="pwLos" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                  <EmptySpace pref="76" max="32767" attributes="0"/>
                   <Component id="btnLoggaIn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="lblNotis" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -109,6 +112,8 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Anv&#xe4;ndarnamn"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblNotis">
         </Component>
       </SubComponents>
     </Container>
