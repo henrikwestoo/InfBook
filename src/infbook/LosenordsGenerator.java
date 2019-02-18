@@ -80,12 +80,11 @@ public class LosenordsGenerator {
 
                 for (String usernamee : usernames) {
 
-                    System.out.println(usernamee);
-                    System.out.println(username);
+                   
 
                     if (username.equals(usernamee)) {
 
-                        System.out.println("hittad!");
+                        
                         hittad = true;
                         break;
 

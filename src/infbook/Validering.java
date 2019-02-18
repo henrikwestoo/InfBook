@@ -214,7 +214,15 @@ public class Validering {
             result = false;
             JOptionPane.showMessageDialog(null, "Ange en giltig E-mail adress");
         }
-        
+
         return result;
+    }
+
+    public static String makeFirstLetterUpperCase(String text) { //Används för att göra den första bokstaven i en String till en versal.
+//Kodraden nedan plockar ut den första bokstaven ur värdet som angivits
+//Vi använder metoden .toUpperCase() för att göra den bokstaven till en versal
+//Vi lägger ihop bokstaven med resten av strängen, dvs hela strängen förutom första bokstaven (text.substring(1);
+        String nyText = text.substring(0, 1).toUpperCase() + text.substring(1);
+        return nyText;
     }
 }
