@@ -46,6 +46,7 @@ public class AndraProfil extends javax.swing.JFrame {
      */
     public AndraProfil(Connection connection, String personnummer, String status) {
         initComponents();
+        this.setResizable(false);
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);

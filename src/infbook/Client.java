@@ -2,250 +2,170 @@ package infbook;
 
 import java.net.*;
 import java.io.*;
-import java.util.*;
 
 /*
- * The Client that can be run both as a console or a GUI
+ * Klientklassen som dessutom innehåller en trådklass vars syfte är att lyssna på servern (se längre ner)
  */
-public class Client  {
+public class Client {
 
-	// for I/O
-	private ObjectInputStream sInput;		// to read from the socket
-	private ObjectOutputStream sOutput;		// to write on the socket
-	private Socket socket;
+    // Fält
+    private ObjectInputStream sInput;
+    private ObjectOutputStream sOutput;
+    private Socket socket;
+    private Inloggad cg;
+    private String server, username;
+    private int port;
 
-	// if I use a GUI or not
-	private Inloggad cg;
-	
-	// the server, the port and the username
-	private String server, username;
-	private int port;
 
-	/*
-	 *  Constructor called by console mode
-	 *  server: the server address
-	 *  port: the port number
-	 *  username: the username
-	 */
-	Client(String server, int port, String username) {
-		// which calls the common constructor with the GUI set to null
-		this(server, port, username, null);
-	}
+    /*
+     * Konstruktorn för klientklassen
+     * Den tar in anropsparametrarna server (IP:en), port, användarnamn och GUI-klass
+     */
+    Client(String server, int port, String username, Inloggad cg) {
+        this.server = server;
+        this.port = port;
+        this.username = username;
+        this.cg = cg;
+    }
 
-	/*
-	 * Constructor call when used from a GUI
-	 * in console mode the ClienGUI parameter is null
-	 */
-	Client(String server, int port, String username, Inloggad cg) {
-		this.server = server;
-		this.port = port;
-		this.username = username;
-		// save if we are in GUI mode or not
-		this.cg = cg;
-	}
-	
-	/*
-	 * To start the dialog
-	 */
-	public boolean start() {
-		// try to connect to the server
-		try {
-			socket = new Socket(server, port);
-		} 
-		// if it failed not much I can so
-		catch(Exception ec) {
-			display("Error connectiong to server:" + ec);
-			return false;
-		}
-		
-		//String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
-		//display(msg);
-	
-		/* Creating both Data Stream */
-		try
-		{
-			sInput  = new ObjectInputStream(socket.getInputStream());
-			sOutput = new ObjectOutputStream(socket.getOutputStream());
-		}
-		catch (IOException eIO) {
-			display("Exception creating new Input/output Streams: " + eIO);
-			return false;
-		}
+    /*
+     * Metod som startar klienten
+     * Den instanserar en klientsocket som försöker ansluta till den angivna servern
+     * Därefter försöker den skapa input- och outputstreams för kommunikationen samt en tråd som lyssnar på servern
+     */
+    public boolean start() {
 
-		// creates the Thread to listen from the server 
-		new ListenFromServer().start();
-		// Send our username to the server this is the only message that we
-		// will send as a String. All other messages will be ChatMessage objects
-		try
-		{
-			sOutput.writeObject(username);
-		}
-		catch (IOException eIO) {
-			display("Exception doing login : " + eIO);
-			disconnect();
-			return false;
-		}
-		// success we inform the caller that it worked
-		return true;
-	}
+        // Försöker ansluta till servern genom att instansera en klientsocket
+        try {
+            socket = new Socket(server, port);
+        } catch (Exception ec) {
+            sendMeddelandeTillKlient("Klienten kunde inte ansluta till servern");
+            return false;
+        }
 
-	/*
-	 * To send a message to the console or the GUI
-	 */
-	private void display(String msg) {
-		if(cg == null)
-			System.out.println(msg);      // println in console mode
-		else
-			cg.append(msg + "\n");		// append to the ClientGUI JTextArea (or whatever)
-	}
-	
-	/*
-	 * To send a message to the server
-	 */
-	void sendMessage(ChatMessage msg) {
-		try {
-			sOutput.writeObject(msg);
-		}
-		catch(IOException e) {
-			display("Exception writing to server: " + e);
-		}
-	}
+        try {
+            // Försöker skapa en objectinputstream
+            sInput = new ObjectInputStream(socket.getInputStream());
 
-	/*
-	 * When something goes wrong
-	 * Close the Input/Output streams and disconnect not much to do in the catch clause
-	 */
-	private void disconnect() {
-		try { 
-			if(sInput != null) sInput.close();
-		}
-		catch(Exception e) {} // not much else I can do
-		try {
-			if(sOutput != null) sOutput.close();
-		}
-		catch(Exception e) {} // not much else I can do
-        try{
-			if(socket != null) socket.close();
-		}
-		catch(Exception e) {} // not much else I can do
-		
-		// inform the GUI
-		if(cg != null)
-			cg.connectionFailed();
-			
-	}
-	/*
-	 * To start the Client in console mode use one of the following command
-	 * > java Client
-	 * > java Client username
-	 * > java Client username portNumber
-	 * > java Client username portNumber serverAddress
-	 * at the console prompt
-	 * If the portNumber is not specified 1500 is used
-	 * If the serverAddress is not specified "localHost" is used
-	 * If the username is not specified "Anonymous" is used
-	 * > java Client 
-	 * is equivalent to
-	 * > java Client Anonymous 1500 localhost 
-	 * are eqquivalent
-	 * 
-	 * In console mode, if an error occurs the program simply stops
-	 * when a GUI id used, the GUI is informed of the disconnection
-	 */
-	public static void main(String[] args) {
-		// default values
-		int portNumber = 1500;
-		String serverAddress = "localhost";
-		String userName = "Anonymous";
+            // Försöker skapa en objectoutputstream
+            sOutput = new ObjectOutputStream(socket.getOutputStream());
+        } catch (IOException eIO) {
+            sendMeddelandeTillKlient("Ett fel uppstod");
+            return false;
+        }
 
-		// depending of the number of arguments provided we fall through
-		switch(args.length) {
-			// > javac Client username portNumber serverAddr
-			case 3:
-				serverAddress = args[2];
-			// > javac Client username portNumber
-			case 2:
-				try {
-					portNumber = Integer.parseInt(args[1]);
-				}
-				catch(Exception e) {
-					System.out.println("Invalid port number.");
-					System.out.println("Usage is: > java Client [username] [portNumber] [serverAddress]");
-					return;
-				}
-			// > javac Client username
-			case 1: 
-				userName = args[0];
-			// > java Client
-			case 0:
-				break;
-			// invalid number of arguments
-			default:
-				System.out.println("Usage is: > java Client [username] [portNumber] {serverAddress]");
-			return;
-		}
-		// create the Client object
-		Client client = new Client(serverAddress, portNumber, userName);
-		// test if we can start the connection to the Server
-		// if it failed nothing we can do
-		if(!client.start())
-			return;
-		
-		// wait for messages from user
-		Scanner scan = new Scanner(System.in);
-		// loop forever for message from the user
-		while(true) {
-			System.out.print("> ");
-			// read message from user
-			String msg = scan.nextLine();
-			// logout if message is LOGOUT
-			if(msg.equalsIgnoreCase("LOGOUT")) {
-				client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, ""));
-				// break to do the disconnect
-				break;
-			}
-			// message WhoIsIn
-			else if(msg.equalsIgnoreCase("WHOISIN")) {
-				client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, ""));				
-			}
-			else {				// default to ordinary message
-				client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg));
-			}
-		}
-		// done disconnect
-		client.disconnect();	
-	}
+        // Skapar en ny tråd vars syfte är att lyssna på servern
+        new LyssnaPaServerTrad().start();
 
-	/*
-	 * a class that waits for the message from the server and append them to the JTextArea
-	 * if we have a GUI or simply System.out.println() it in console mode
-	 */
-	class ListenFromServer extends Thread {
+        /*
+         * Försöker skicka ut användarnamnet till servern
+         * Det här är den enda gången något skickas till servern direkt genom en sträng. I alla andra fall skickar vi det i form av objekt.
+         */
+        try {
+            sOutput.writeObject(username);
+            
+            sendMeddelandeTillKlient("Klienten är nu ansluten till chattservern");
+        } catch (IOException eIO) {
+            sendMeddelandeTillKlient("Ett fel uppstod när ditt användarnamnet skulle skickas till servern");
+            disconnect();
+            return false;
+        }
+        return true;
+    }
 
-		public void run() {
-			while(true) {
-				try {
-					String msg = (String) sInput.readObject();
-					// if console mode print the message and add back the prompt
-					if(cg == null) {
-						System.out.println(msg);
-						System.out.print("> ");
-					}
-					else {
-						cg.append(msg);
-					}
-				}
-				catch(IOException e) {
-					display("Server has close the connection: " + e);
-					if(cg != null) 
-						cg.connectionFailed();
-					break;
-				}
-				// can't happen with a String object but need the catch anyhow
-				catch(ClassNotFoundException e2) {
-				}
-			}
-		}
-	}
+    /*
+     * Metod som visar upp ett meddelande (oftast felmeddelande) i chattfönstret
+     */
+    private void sendMeddelandeTillKlient(String meddelande) {
+
+        cg.append(meddelande + "\n");
+    }
+
+    /*
+     * Metod som skickar ett meddelande till servern
+     * Strängen som ska skickas görs först om till ett objekt
+     */
+    void sendMessage(ChatMessage msg) {
+        try {
+            sOutput.writeObject(msg);
+        } catch (IOException e) {
+            sendMeddelandeTillKlient("Ditt meddelande kunde inte skickas");
+        }
+    }
+
+    /*
+     * Metod som kopplar ifrån klienten från servern
+     * Denna metod körs främst när något går fel och ett undantag fångas
+     */
+    private void disconnect() {
+
+        // Försöker stänga ner inputstreamen
+        try {
+            if (sInput != null) {
+                sInput.close();
+            }
+        } catch (Exception e) {
+        }
+
+        // Försöker stänga ner outputstreamen
+        try {
+            if (sOutput != null) {
+                sOutput.close();
+            }
+        } catch (Exception e) {
+        }
+
+        // Försöker stänga ner klientsocketen
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (Exception e) {
+        }
+
+        // Informerar användargränssnittet att anslutning har avbrutits
+        if (cg != null) {
+            cg.connectionFailed();
+        }
+
+    }
+
+    /*
+     * En trådklass som avlyssnar servern och skickar ut det till chattfönstret
+     */
+    class LyssnaPaServerTrad extends Thread {
+
+        /*
+         * Trådens run-metod
+         * Den innehåller en while loop som avläser det servern skickar ut
+         * OBS: Eftersom detta är en trådklass körs run när man kallar på trådmetoden start
+         */
+        public void run() {
+
+            // En while loop som körs kontinuerligt tills något går fel
+            while (true) {
+                try {
+
+                    // Deklarar en lokalvariabel som används för att hämta strängar från servern
+                    String meddelande;
+                    try {
+
+                        // Hämtar objektet från servern och gör om det till en sträng
+                        meddelande = (String) sInput.readObject();
+
+                        // Skickar vidare strängen till GUI
+                        cg.append(meddelande);
+
+                    } catch (ClassNotFoundException ex) {
+                        break;
+                    }
+                } catch (IOException e) {
+                    sendMeddelandeTillKlient("Servern har stängts ner");
+                    cg.connectionFailed();
+
+                    break;
+                }
+            }
+        }
+    }
 }
-

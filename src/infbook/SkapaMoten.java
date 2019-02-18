@@ -36,6 +36,7 @@ public class SkapaMoten extends javax.swing.JFrame {
 
     public SkapaMoten(Connection connection, String angivetAnv, String datumet, String tiden) {
         initComponents();
+        this.setResizable(false);
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);

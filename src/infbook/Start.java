@@ -5,22 +5,26 @@
  */
 package infbook;
 
-/**
- *
- * @author Tomasz
- */
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * @author Tomasz Baslyk
  */
 public class Start {
 
-    private static Connection connection; //hej
+    private static Connection connection;
 
     public static void main(String[] args) {
 
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            System.out.println("Programmet kunde inte läsa in temat för gränssnittet: " + ex.getMessage());
+        }
+        
         try {
             // Försöker ansluta till databasen
             connection = DriverManager.getConnection("jdbc:firebirdsql://159.253.31.26:3050/C:/db/INFBOOKDB.FDB", "sysdba", "masterkey");
