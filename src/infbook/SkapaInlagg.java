@@ -477,7 +477,10 @@ public ImageIcon ResizeImage(String ImagePath) {
 
 
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
-        if (Validering.isTextFältTomt(txtTitel) && Validering.isTextAreaTomt(txaInlagg) && Validering.isJListTomt(jList1)) {
+        if (Validering.isTextFältTomt(txtTitel)
+                && Validering.isTextAreaTomt(txaInlagg)
+                && Validering.isJListTomt(jList1)
+                && Validering.isString(txtTitel)) {
             try {
                 skapaEttInlagg();
                 this.setVisible(false);

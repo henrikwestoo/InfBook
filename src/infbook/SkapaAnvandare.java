@@ -301,7 +301,8 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
     private void btnSkapaAnvandareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaAnvandareActionPerformed
 
-        if (Validering.isTextFältTomt(txtFornamn) && Validering.isTextFältTomt(txtEfternamn)
+        if (Validering.isTextFältTomt(txtFornamn) 
+                && Validering.isTextFältTomt(txtEfternamn)
                 && Validering.isTextFältTomt(txtRumsnr)
                 && Validering.isTextFältTomt(txtTlfnr)
                 && Validering.isTextFältTomt(txtEpost)
