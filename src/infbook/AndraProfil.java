@@ -88,31 +88,31 @@ public class AndraProfil extends javax.swing.JFrame {
         try {
 
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FORNAMN FROM ANVANDARE WHERE PNR=" + personnummer);
+            ResultSet rs = stmt.executeQuery("SELECT FORNAMN FROM ANVANDARE WHERE PNR='" + personnummer+"'");
             rs.next();
             String fornamn = rs.getString("FORNAMN");
             txtFornamn.setText(fornamn);
 
             Statement stmt2 = connection.createStatement();
-            ResultSet rs2 = stmt2.executeQuery("SELECT EFTERNAMN FROM ANVANDARE WHERE PNR=" + personnummer);
+            ResultSet rs2 = stmt2.executeQuery("SELECT EFTERNAMN FROM ANVANDARE WHERE PNR='" + personnummer+"'");
             rs2.next();
             String efternamn = rs2.getString("EFTERNAMN");
             txtEfternamn.setText(efternamn);
 
             Statement stmt3 = connection.createStatement();
-            ResultSet rs3 = stmt3.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR=" + personnummer);
+            ResultSet rs3 = stmt3.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR='" + personnummer+"'");
             rs3.next();
             String email = rs3.getString("EMAIL");
             txtEpost.setText(email);
 
             Statement stmt4 = connection.createStatement();
-            ResultSet rs4 = stmt4.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR=" + personnummer);
+            ResultSet rs4 = stmt4.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR='" + personnummer+"'");
             rs4.next();
             String mobilnmr = rs4.getString("MOBILNMR");
             txtTelefon.setText(mobilnmr);
 
             Statement stmt5 = connection.createStatement();
-            ResultSet rs5 = stmt5.executeQuery("SELECT RUMSNMR FROM ANVANDARE WHERE PNR=" + personnummer);
+            ResultSet rs5 = stmt5.executeQuery("SELECT RUMSNMR FROM ANVANDARE WHERE PNR='" + personnummer+"'");
             rs5.next();
             String rumsnmr = rs5.getString("RUMSNMR");
             txtRum.setText(rumsnmr);
@@ -125,7 +125,7 @@ public class AndraProfil extends javax.swing.JFrame {
             cmbStatus.setSelectedItem(KonverteraStatus.konverteraStatus(status));
 
             Statement stmt7 = connection.createStatement();
-            ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR=" + personnummer);
+            ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR='" + personnummer+"'");
             rs7.next();
 
             byte[] img = rs7.getBytes("PROFILBILD");

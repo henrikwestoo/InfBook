@@ -38,44 +38,44 @@ public class Profil extends javax.swing.JFrame {
         try {
 
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT FORNAMN FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            ResultSet rs = stmt.executeQuery("SELECT FORNAMN FROM ANVANDARE WHERE PNR='" + angivetAnv+"'");
             rs.next();
             String fornamn = rs.getString("FORNAMN");
             lblFornamnDB.setText(fornamn);
 
             Statement stmt2 = connection.createStatement();
-            ResultSet rs2 = stmt2.executeQuery("SELECT EFTERNAMN FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            ResultSet rs2 = stmt2.executeQuery("SELECT EFTERNAMN FROM ANVANDARE WHERE PNR'=" + angivetAnv+"'");
             rs2.next();
             String efternamn = rs2.getString("EFTERNAMN");
             lblEfternamnDB.setText(efternamn);
 
             Statement stmt3 = connection.createStatement();
-            ResultSet rs3 = stmt3.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            ResultSet rs3 = stmt3.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR='" + angivetAnv+"'");
             rs3.next();
             String email = rs3.getString("EMAIL");
             lblEpostDB.setText(email);
 
             Statement stmt4 = connection.createStatement();
-            ResultSet rs4 = stmt4.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            ResultSet rs4 = stmt4.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR='" + angivetAnv+"'");
             rs4.next();
             String mobilnmr = rs4.getString("MOBILNMR");
             lblTlfnrDB.setText(mobilnmr);
 
             Statement stmt5 = connection.createStatement();
-            ResultSet rs5 = stmt5.executeQuery("SELECT RUMSNMR FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            ResultSet rs5 = stmt5.executeQuery("SELECT RUMSNMR FROM ANVANDARE WHERE PNR='" + angivetAnv+"'");
             rs5.next();
             String rumsnmr = rs5.getString("RUMSNMR");
             lblRumsnrDB.setText(rumsnmr);
 
             Statement stmt6 = connection.createStatement();
-            ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR='" + angivetAnv+"'");
             rs6.next();
             status = rs6.getString("STATUS");
             lblAnvandarstatusDB.setText(status);
             
 
             Statement stmt7 = connection.createStatement();
-            ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR=" + angivetAnv);
+            ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR='" + angivetAnv+"'");
             rs7.next();
 
             byte[] img = rs7.getBytes("PROFILBILD");

@@ -107,7 +107,7 @@ public class BytLosenord extends javax.swing.JFrame {
 
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR =" + personnummer);
+            ResultSet rs = stmt.executeQuery("SELECT LOSENORD FROM ANVANDARE WHERE PNR ='" + personnummer+"'");
             rs.next();
             String gammaltLosenord = rs.getString("LOSENORD");
 //
@@ -118,7 +118,7 @@ public class BytLosenord extends javax.swing.JFrame {
 //            else if (angivetGammaltLosenord.equals(gammaltLosenord)) {
 
                 Statement stmt2 = connection.createStatement();
-                stmt2.executeUpdate("UPDATE ANVANDARE SET LOSENORD ='" + angivetNyttLosenord + "' WHERE PNR =" + personnummer);
+                stmt2.executeUpdate("UPDATE ANVANDARE SET LOSENORD ='" + angivetNyttLosenord + "' WHERE PNR ='" + personnummer+"'");
                 lblConfirmation.setVisible(true);
 
 //            } else {

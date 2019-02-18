@@ -467,7 +467,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                 Statement stmt103 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY,
                         ResultSet.HOLD_CURSORS_OVER_COMMIT);
-                ResultSet rs103 = stmt103.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR =" + angivetAnv);
+                ResultSet rs103 = stmt103.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR ='" + angivetAnv+"'");
 
                 rs103.next();
 
@@ -497,7 +497,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                 Statement stmt104 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY,
                         ResultSet.HOLD_CURSORS_OVER_COMMIT);
-                ResultSet rs104 = stmt104.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR =" + angivetAnv);
+                ResultSet rs104 = stmt104.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR ='" + angivetAnv+"'");
 
                 rs104.next();
 

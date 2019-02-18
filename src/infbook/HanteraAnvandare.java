@@ -247,7 +247,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
                 try { //1
 
-                    stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE WHERE PNR =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE WHERE PNR ='" + personnummer+"'");
 
                 } catch (SQLException e) {
                 }
@@ -301,7 +301,7 @@ public class HanteraAnvandare extends javax.swing.JFrame {
                 } catch (SQLException e) {
                 }
 
-                stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR =" + personnummer);
+                stmt.executeUpdate("DELETE FROM ANVANDARE WHERE PNR ='" + personnummer+"'");
                 lblNotis.setText("Användaren borttagen");
                 //JOptionPane.showMessageDialog(null, "Användaren har tagits bort");
 
