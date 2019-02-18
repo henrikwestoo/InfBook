@@ -431,7 +431,7 @@
                           <Component id="tf" min="-2" pref="579" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnAnslutningar" pref="164" max="32767" attributes="0"/>
+                              <Component id="btnAnslutningar" pref="0" max="32767" attributes="0"/>
                               <Component id="btnSend" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>

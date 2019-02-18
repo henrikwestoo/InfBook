@@ -38,6 +38,7 @@ public class Inloggad extends javax.swing.JFrame {
     private Connection connection;
     private String status;
     private String angivetAnv;
+    private String namn;
     private DefaultListModel lista;
     private DefaultListModel lista2;
     private DefaultListModel lista3;
@@ -138,13 +139,14 @@ public class Inloggad extends javax.swing.JFrame {
             String fornamn = rs2.getString("FORNAMN");
             String efternamn = rs2.getString("EFTERNAMN");
 
-            lblNamn.setText("Välkommen " + fornamn + " " + efternamn);
+            namn = fornamn + " " + efternamn;
+            lblNamn.setText("Välkommen " + namn);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         
         // Skapar ett nytt klientobjekt
-        client = new Client(server, port, angivetAnv, this);
+        client = new Client(server, port, namn, this);
         // Kontrollerar om det går att starta klienten
         if (!client.start()) {
             return;
