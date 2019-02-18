@@ -70,7 +70,7 @@ public class Profil extends javax.swing.JFrame {
             Statement stmt6 = connection.createStatement();
             ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + angivetAnv);
             rs6.next();
-            String status = rs6.getString("STATUS");
+            status = rs6.getString("STATUS");
             lblAnvandarstatusDB.setText(status);
             
 

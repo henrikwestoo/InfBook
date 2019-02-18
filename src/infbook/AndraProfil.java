@@ -40,6 +40,7 @@ public class AndraProfil extends javax.swing.JFrame {
     private JFileChooser file;
     private File selectedFile;
     private String path;
+    private String status;
 
     /**
      * Creates new form AndraProfil
@@ -52,10 +53,12 @@ public class AndraProfil extends javax.swing.JFrame {
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         this.connection = connection;
         this.personnummer = personnummer;
+        this.status = status;
         txtPNR.setText(personnummer);
         txtPNR.setEditable(false);
         cmbStatus.setVisible(false);
         lblAnvandarstatus.setVisible(false);
+        System.out.println(status);
         
         
         String[] alternativCA = new String[]{"Centraladministratör", "Forskningsadministratör", "Utbildningsadministratör", "Forskningsanvändare", "Utbildningsanvändare", "Amanuens"};
