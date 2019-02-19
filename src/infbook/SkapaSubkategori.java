@@ -163,8 +163,7 @@ public class SkapaSubkategori extends javax.swing.JFrame {
     }//GEN-LAST:event_txtfaltActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (Validering.isTextFältTomt(txtfalt)
-                && Validering.isString(txtfalt)) {
+        if (Validering.isTextFältTomt(txtfalt)) {
             String valdsuperkat = String.valueOf(cmbValjSupKat.getSelectedItem());
             String skapaSubkategori = txtfalt.getText();
 

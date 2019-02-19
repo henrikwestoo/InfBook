@@ -406,13 +406,15 @@ public class HanteraFoljningar extends javax.swing.JFrame {
 
     private void uppdatera3() {
 
+        try {
+        
         lista3.removeAllElements();
         Object valdSakObject = cmbSuperkategori.getSelectedItem();
         String superKategoriNamn = valdSakObject.toString();
 
         System.out.println(superKategoriNamn);
 
-        try {
+        
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT SUPERKATEGORIID FROM SUPERKATEGORI WHERE SKNAMN ='" + superKategoriNamn + "'");
 
@@ -444,6 +446,8 @@ public class HanteraFoljningar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
 
         }
+        
+        catch(NullPointerException ex){}
 
     }
 

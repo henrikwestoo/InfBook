@@ -44,7 +44,7 @@ public class Profil extends javax.swing.JFrame {
             lblFornamnDB.setText(fornamn);
 
             Statement stmt2 = connection.createStatement();
-            ResultSet rs2 = stmt2.executeQuery("SELECT EFTERNAMN FROM ANVANDARE WHERE PNR'=" + angivetAnv+"'");
+            ResultSet rs2 = stmt2.executeQuery("SELECT EFTERNAMN FROM ANVANDARE WHERE PNR='" + angivetAnv+"'");
             rs2.next();
             String efternamn = rs2.getString("EFTERNAMN");
             lblEfternamnDB.setText(efternamn);

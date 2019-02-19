@@ -338,7 +338,7 @@ public ImageIcon ResizeImage(String ImagePath) {
                     System.out.println("Meddelande skickas till " + mobilnmr);
 
                     SMSNotiser hej = new SMSNotiser();
-                    //hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
+                    hej.skickaNotis("Ett nytt inlägg har skapats i en kategori som du följer - InfBook", mobilnmr);
                 }
 
             }
@@ -479,8 +479,8 @@ public ImageIcon ResizeImage(String ImagePath) {
     private void btnSkapaInlaggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaInlaggActionPerformed
         if (Validering.isTextFältTomt(txtTitel)
                 && Validering.isTextAreaTomt(txaInlagg)
-                && Validering.isJListTomt(jList1)
-                && Validering.isString(txtTitel)) {
+                && Validering.isJListTomt(jList1)){
+                //&& Validering.isString(txtTitel)) {
             try {
                 skapaEttInlagg();
                 this.setVisible(false);
