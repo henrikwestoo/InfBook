@@ -8,11 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 
 public class HanteraFoljningar extends javax.swing.JFrame {
 
@@ -399,7 +396,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
                 stmt2.executeUpdate("DELETE FROM ANVANDARE_SUBKATEGORI WHERE ANVANDARE ='" + angivetAnv +"' AND SUBKATEGORI =" + subKID);
 
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
+                System.out.println(e.getMessage());
             }
 
             uppdatera3();
@@ -420,12 +417,12 @@ public class HanteraFoljningar extends javax.swing.JFrame {
     private void uppdatera3() {
 
         
-        
+        try{
         lista3.removeAllElements();
         Object valdSakObject = cmbSuperkategori.getSelectedItem();
         String superKategoriNamn = valdSakObject.toString();
 
-        try{
+        
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT SUPERKATEGORIID FROM SUPERKATEGORI WHERE SKNAMN ='" + superKategoriNamn + "'");
 
@@ -454,11 +451,11 @@ public class HanteraFoljningar extends javax.swing.JFrame {
 
         } catch (SQLException e) {
 
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
 
         }
         
-        //catch(NullPointerException ex){}
+        catch(NullPointerException ex){}
 
     }
 

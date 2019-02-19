@@ -35,6 +35,16 @@ public class Profil extends javax.swing.JFrame {
         this.connection = connection;
         this.angivetAnv = angivetAnv;
         jlabelPnr.setText(angivetAnv);
+        
+        
+        radSmsJa.setVisible(false);
+        radSmsNej.setVisible(false);
+        jLabel2.setVisible(false);
+        jLabel3.setVisible(false);
+        radEpostJa.setVisible(false);
+        radEpostNej.setVisible(false);
+        
+        
         try {
 
             Statement stmt = connection.createStatement();
@@ -100,6 +110,19 @@ public class Profil extends javax.swing.JFrame {
             ResultSet rs9 = stmt9.executeQuery("SELECT FIRST 1 EMAILNOTISER FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE='" + angivetAnv + "'");
             rs9.next();
             String emailSvar = rs9.getString("EMAILNOTISER");
+            
+            if(emailSvar !=null){
+            
+        radSmsJa.setVisible(true);
+        radSmsNej.setVisible(true);
+        jLabel2.setVisible(true);
+        jLabel3.setVisible(true);
+        radEpostJa.setVisible(true);
+        radEpostNej.setVisible(true);
+            
+            }
+            
+            
             if (emailSvar.equals("JA")) {
                 radEpostJa.setSelected(true);
             } else {
