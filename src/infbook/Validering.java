@@ -31,7 +31,7 @@ public class Validering {
         if (fält.getText().isEmpty()) { // Liknande ovan
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "En eller flera obligatoriska fält är inte ifyllda");
+            JOptionPane.showMessageDialog(null, "En eller flera obligatoriska fält är inte ifyllda", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
 
         }
         return resultat;
@@ -44,7 +44,7 @@ public class Validering {
         if (fält.getText().isEmpty()) { // Liknande ovan
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Textrutan är tom");
+            JOptionPane.showMessageDialog(null, "Textrutan är tom", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
 
         }
         return resultat;
@@ -67,7 +67,7 @@ public class Validering {
 
             } catch (NumberFormatException e) { // och här fångar vi det undantaget och ger användaren ett lämpligt meddelande
 
-                JOptionPane.showMessageDialog(null, "Ett eller flera fält måste fyllas i med heltal");
+                JOptionPane.showMessageDialog(null, "Ett eller flera fält måste fyllas i med heltal", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
                 resultat = false;
             }
 
@@ -85,7 +85,7 @@ public class Validering {
         } //Kontrollerar ifall strängen är tom. Stringvalideringen behöver inte ske ifall värdet är null
         else if (!text.matches(regex)) { // själva valideringen, kollar ifall det hämtade värdet inte stämmer överens med de tecken som vi tillät
 
-            JOptionPane.showMessageDialog(null, "Ett eller flera fält måste fyllas i med bokstäver");
+            JOptionPane.showMessageDialog(null, "Ett eller flera fält måste fyllas i med bokstäver", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
             resultat = false;
 
         }
@@ -102,13 +102,16 @@ public class Validering {
         
         if(!text.matches(regexnmr))
         {
-            JOptionPane.showMessageDialog(null, "Tiden ska skrivas i formatet HH:mm");
+            JOptionPane.showMessageDialog(null, "Tiden ska skrivas i formatet HH:mm", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
             resultat = false;
         }
         
         return resultat;
     }
 
+    /*
+    * Personnummer har ersatts av användarnamn
+    */
     public static boolean personnummer(JTextField pnr) {
 
         boolean resultat = true;
@@ -131,14 +134,14 @@ public class Validering {
         if (!(langd == 10)) {
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Personnummret måste skrivas med formatet ÅÅMMDDXXXX");
+            JOptionPane.showMessageDialog(null, "Personnummret måste skrivas med formatet ÅÅMMDDXXXX", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
 
         }
 
         if (heltal == false) {
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Personnummret måste skrivas med formatet ÅÅMMDDXXXX");
+            JOptionPane.showMessageDialog(null, "Personnummret måste skrivas med formatet ÅÅMMDDXXXX", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
 
         }
 
@@ -154,7 +157,7 @@ public class Validering {
         if (index < 0) {
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Välj någonting i listan");
+            JOptionPane.showMessageDialog(null, "Välj någonting i listan", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
 
         }
         return resultat;
@@ -168,7 +171,7 @@ public class Validering {
         if (datum == null) {
 
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Ett eller flera obligatoriska textfält är inte ifyllda.");
+            JOptionPane.showMessageDialog(null, "Ett eller flera obligatoriska textfält är inte ifyllda", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
 
         }
         return resultat;
@@ -199,7 +202,7 @@ public class Validering {
         }
 
         if (finns == false) {
-            JOptionPane.showMessageDialog(null, "Det angivna användarnamnet är inte giltigt");
+            JOptionPane.showMessageDialog(null, "Det angivna användarnamnet är inte giltigt", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
         }
         return finns;
 
@@ -217,7 +220,7 @@ public class Validering {
         
         if (nummerlangd < 11 || !(nummer1.equals("46"))) {
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Telefonnummret måste börja med '46' och vara minst 11 siffror långt");
+            JOptionPane.showMessageDialog(null, "Telefonnummret måste börja med '46' och vara minst 11 siffror långt", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
         }
         
         return resultat;
@@ -232,7 +235,7 @@ public class Validering {
             emailAddr.validate();
         } catch (AddressException ex) {
             result = false;
-            JOptionPane.showMessageDialog(null, "Ange en giltig E-mail adress");
+            JOptionPane.showMessageDialog(null, "Ange en giltig E-mail adress", "Felmeddelande", JOptionPane.INFORMATION_MESSAGE);
         }
 
         return result;
