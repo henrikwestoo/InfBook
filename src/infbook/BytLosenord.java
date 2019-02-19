@@ -1,5 +1,7 @@
 package infbook;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +32,9 @@ public class BytLosenord extends javax.swing.JFrame {
         lblConfirmation.setVisible(false);
         lblGammaltLosenord.setVisible(false);
         pwfGammaltL.setVisible(false);
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
     }
 
     /**
@@ -61,22 +66,21 @@ public class BytLosenord extends javax.swing.JFrame {
 
         lblNyttLosenord.setText("Nytt losenord");
 
-        lblConfirmation.setText("Lösenordet har ändrats");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(159, 159, 159)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblConfirmation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblGammaltLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNyttLosenord)
-                    .addComponent(pwfGammaltL)
-                    .addComponent(pwfNyttL)
-                    .addComponent(btnBytLosenord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblGammaltLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblNyttLosenord)
+                        .addComponent(pwfGammaltL)
+                        .addComponent(pwfNyttL)
+                        .addComponent(btnBytLosenord, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+                    .addComponent(lblConfirmation, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,8 +96,8 @@ public class BytLosenord extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(btnBytLosenord)
                 .addGap(30, 30, 30)
-                .addComponent(lblConfirmation)
-                .addGap(50, 50, 50))
+                .addComponent(lblConfirmation, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
 
         pack();
@@ -118,6 +122,7 @@ public class BytLosenord extends javax.swing.JFrame {
 
                 Statement stmt2 = connection.createStatement();
                 stmt2.executeUpdate("UPDATE ANVANDARE SET LOSENORD ='" + angivetNyttLosenord + "' WHERE PNR ='" + personnummer+"'");
+                lblConfirmation.setText("Lösenordet har ändrats");
                 lblConfirmation.setVisible(true);
 
 //            } else {

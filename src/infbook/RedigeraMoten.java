@@ -224,7 +224,10 @@ public class RedigeraMoten extends javax.swing.JFrame {
 
     }
     private void btnÄndraMotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnÄndraMotenActionPerformed
-        if (Validering.isTextFältTomt(txtAndraSal) && Validering.isTextFältTomt(txtAndraTid) && Validering.isTextAreaTomt(txtAndraInfo) && Validering.isDateChooserTomt(valjDatum)) {
+        if (Validering.isTextFältTomt(txtAndraSal)
+                && Validering.validTimeFormat(txtAndraTid) &&
+                Validering.isTextAreaTomt(txtAndraInfo) &&
+                Validering.isDateChooserTomt(valjDatum)) {
             try {
                 SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //Omformaterar datumet som väljs i DateChoosern så det matchar formatet som datum lagras i databasen.
                 String date1 = dFormat.format(valjDatum.getDate());
