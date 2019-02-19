@@ -218,10 +218,11 @@ public class SkapaMoten extends javax.swing.JFrame {
 
     private void btnSkapaMotetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkapaMotetActionPerformed
         if (Validering.isTextFältTomt(txtSal)
-                && Validering.isTextFältTomt(txtTid)
+                
                 && Validering.isTextAreaTomt(txtInfoMote)
                 && Validering.isJListTomt(listAnstallda)
-                && Validering.isDateChooserTomt(dagValjare)) {
+                && Validering.isDateChooserTomt(dagValjare)
+                && Validering.validTimeFormat(txtTid)) {
             try {
 
                 Statement stmt2 = connection.createStatement();

@@ -43,6 +43,7 @@ public class Doodle extends javax.swing.JFrame {
         fyllListaAnvandare();
         fyllListaMote();
         fyllListaKallelser();
+
         txtArea.setLineWrap(true);
         val1.setSelected(true);
         valt1.setSelected(true);
@@ -81,6 +82,7 @@ public class Doodle extends javax.swing.JFrame {
         txtArea = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        lblNotis13 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList100 = new javax.swing.JList();
@@ -108,6 +110,8 @@ public class Doodle extends javax.swing.JFrame {
         antal3 = new javax.swing.JLabel();
         antal2 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        lblNotis12 = new javax.swing.JLabel();
+        btnRefresh = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jList101 = new javax.swing.JList();
@@ -130,6 +134,7 @@ public class Doodle extends javax.swing.JFrame {
         amount3 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        btnRefresh1 = new javax.swing.JButton();
 
         buttonGroup1.add(val1);
         buttonGroup1.add(val2);
@@ -151,7 +156,7 @@ public class Doodle extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(listAnstallda);
 
-        btnSkicka.setText("Skicka mötesföslag");
+        btnSkicka.setText("Skicka mötesförslag");
         btnSkicka.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSkickaActionPerformed(evt);
@@ -181,7 +186,7 @@ public class Doodle extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                                     .addComponent(jSeparator2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
@@ -214,8 +219,10 @@ public class Doodle extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(107, 107, 107)
-                        .addComponent(btnSkicka, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(107, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnSkicka, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                            .addComponent(lblNotis13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,11 +263,13 @@ public class Doodle extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(btnSkicka)
+                        .addGap(27, 27, 27)
+                        .addComponent(lblNotis13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addComponent(jSeparator3)
         );
 
-        jTabbedPane1.addTab("Skicka mötelsekallelser", jPanel2);
+        jTabbedPane1.addTab("Skicka möteskallelser", jPanel2);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -310,13 +319,22 @@ public class Doodle extends javax.swing.JFrame {
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbook.png"))); // NOI18N
 
+        btnRefresh.setText("↻");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRefresh))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
@@ -370,7 +388,10 @@ public class Doodle extends javax.swing.JFrame {
                                 .addGap(27, 27, 27))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(160, 160, 160)
-                        .addComponent(btnSkickaVal, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblNotis12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSkickaVal, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel17)
@@ -385,9 +406,6 @@ public class Doodle extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -418,9 +436,8 @@ public class Doodle extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(antal2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel9)
+                                .addComponent(antal2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(val2)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -447,8 +464,15 @@ public class Doodle extends javax.swing.JFrame {
                                         .addComponent(antal3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(val3))))
                         .addGap(31, 31, 31)
-                        .addComponent(btnSkickaVal)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addComponent(btnSkickaVal)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblNotis12, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRefresh)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jLabel17)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,7 +482,7 @@ public class Doodle extends javax.swing.JFrame {
                     .addContainerGap(280, Short.MAX_VALUE)))
         );
 
-        jTabbedPane1.addTab("Mina mötelsekallelser", jPanel1);
+        jTabbedPane1.addTab("Mina möteskallelser", jPanel1);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -504,13 +528,32 @@ public class Doodle extends javax.swing.JFrame {
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbook.png"))); // NOI18N
 
+        btnRefresh1.setText("↻");
+        btnRefresh1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefresh1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel15)
+                .addContainerGap(946, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(jLabel14)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnRefresh1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSkickaVal1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(valt1)
@@ -535,7 +578,7 @@ public class Doodle extends javax.swing.JFrame {
                     .addComponent(jLabel11)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(antal6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,18 +586,7 @@ public class Doodle extends javax.swing.JFrame {
                         .addComponent(amount3, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                         .addComponent(amount2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(amount1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(btnSkickaVal1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel15))
-                .addContainerGap(767, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(jLabel14)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -597,9 +629,11 @@ public class Doodle extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(165, 165, 165)
                         .addComponent(antal6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(btnSkickaVal1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSkickaVal1)
+                    .addComponent(btnRefresh1))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Skapa mötet utifrån svar på kallelsen", jPanel3);
@@ -625,9 +659,9 @@ public class Doodle extends javax.swing.JFrame {
                 && Validering.isDateChooserTomt(kalender3)
                 && Validering.isTextAreaTomt(txtArea)
                 && Validering.isJListTomt(listAnstallda)
-                && Validering.isTextFältTomt(tid1)
-                && Validering.isTextFältTomt(tid2)
-                && Validering.isTextFältTomt(tid3)) {
+                && Validering.validTimeFormat(tid1)
+                && Validering.validTimeFormat(tid2)
+                && Validering.validTimeFormat(tid3)) {
             datum1 = format.format(kalender1.getDate());
             datum2 = format.format(kalender2.getDate());
             datum3 = format.format(kalender3.getDate());
@@ -674,6 +708,7 @@ public class Doodle extends javax.swing.JFrame {
                             String email = rs102.getString("EMAIL");
                             System.out.println(email);
                             SendMail.send(email, "Du har kallats till ett möte", "Du har fått en mötesförfrågan på följande datum: " + datum1 + ", " + datum2 + ", " + datum3 + "\n\n Med vänliga hälsningar, \n InfBook", "mail@infbook.page", "Infbook2019");
+                            lblNotis13.setText("Möteskallelsen har skickats");
                         }
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
@@ -801,7 +836,8 @@ public class Doodle extends javax.swing.JFrame {
                 ps5.setString(3, datum);
                 ps5.setString(4, tid);
                 ps5.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Ditt svar har registrerats");
+                //JOptionPane.showMessageDialog(null, "Ditt svar har registrerats");
+                lblNotis12.setText("Valet har registrerats");
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -937,6 +973,15 @@ public class Doodle extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_valt3ActionPerformed
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+
+        fyllListaKallelser();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnRefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefresh1ActionPerformed
+        fyllListaMote();
+    }//GEN-LAST:event_btnRefresh1ActionPerformed
+
     private void fyllListaAnvandare() {
         Statement stmt;
         try {
@@ -959,43 +1004,43 @@ public class Doodle extends javax.swing.JFrame {
     }
 
     private void fyllListaMote() {
+        lista2.removeAllElements();
         Statement stmt;
         try {
             stmt = connection.createStatement();
 
-            ResultSet rs2 = stmt.executeQuery("SELECT KALLELSEID ||' - '|| BESKRIVNING AS INFORMATION FROM MOTELSEKALLELSE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = MOTELSEKALLELSE.KALLELSEID WHERE MOTELSEKALLELSE_TILL_ANVANDARE.ANVANDARE ='" + angivetAnv + "'");
+            ResultSet rs2 = stmt.executeQuery("SELECT DISTINCT KALLELSEID ||' - '|| BESKRIVNING AS INFORMATION FROM MOTELSEKALLELSE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = MOTELSEKALLELSE.KALLELSEID WHERE MOTELSEKALLELSE.PNR ='" + angivetAnv + "'");
 
             while (rs2.next()) {
                 String hej = rs2.getString("INFORMATION");
                 lista2.addElement(hej);
-
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        jList100.setModel(lista2);
+        jList101.setModel(lista2);
 
     }
 
     private void fyllListaKallelser() {
+        lista3.removeAllElements();
         Statement stmt;
         try {
             stmt = connection.createStatement();
 
-            ResultSet rs2 = stmt.executeQuery("SELECT MOTELSEKALLELSE.KALLELSEID ||' - '|| MOTELSEKALLELSE_TILL_ANVANDARE.BESKRIVNING AS INFORMATION FROM MOTELSEKALLELSE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = MOTELSEKALLELSE.KALLELSEID WHERE MOTELSEKALLELSE.PNR ='" + angivetAnv + "'");
-            rs2.next();
+            ResultSet rs100 = stmt.executeQuery("SELECT DISTINCT MOTELSEKALLELSE.KALLELSEID ||' - '|| MOTELSEKALLELSE_TILL_ANVANDARE.BESKRIVNING AS INFORMATION FROM MOTELSEKALLELSE JOIN MOTELSEKALLELSE_TILL_ANVANDARE ON MOTELSEKALLELSE_TILL_ANVANDARE.MOTELSEKALLELSE = MOTELSEKALLELSE.KALLELSEID WHERE MOTELSEKALLELSE_TILL_ANVANDARE.ANVANDARE ='" + angivetAnv + "'");
+            while (rs100.next()) {
 
-            while (rs2.next()) {
-
-                lista3.addElement(rs2.getString("INFORMATION"));
+                lista3.addElement(rs100.getString("INFORMATION"));
 
             }
         } catch (SQLException ex) {
             Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        jList101.setModel(lista3);
+        jList100.setModel(lista3);
 
     }
 
@@ -1008,6 +1053,8 @@ public class Doodle extends javax.swing.JFrame {
     private javax.swing.JLabel antal2;
     private javax.swing.JLabel antal3;
     private javax.swing.JLabel antal6;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnRefresh1;
     private javax.swing.JButton btnSkicka;
     private javax.swing.JButton btnSkickaVal;
     private javax.swing.JButton btnSkickaVal1;
@@ -1055,6 +1102,8 @@ public class Doodle extends javax.swing.JFrame {
     private javax.swing.JLabel lblDatum1;
     private javax.swing.JLabel lblDatum2;
     private javax.swing.JLabel lblDatum3;
+    private javax.swing.JLabel lblNotis12;
+    private javax.swing.JLabel lblNotis13;
     private javax.swing.JLabel lblTid1;
     private javax.swing.JLabel lblTid2;
     private javax.swing.JLabel lblTid3;

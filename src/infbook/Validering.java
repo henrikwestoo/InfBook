@@ -93,6 +93,21 @@ public class Validering {
         return resultat;
 
     }
+    
+    public static boolean validTimeFormat(JTextField fält)
+    {
+        boolean resultat = true;
+        String text = fält.getText();
+        String regexnmr = "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$";
+        
+        if(!text.matches(regexnmr))
+        {
+            JOptionPane.showMessageDialog(null, "Tiden ska skrivas i formatet HH:mm");
+            resultat = false;
+        }
+        
+        return resultat;
+    }
 
     public static boolean personnummer(JTextField pnr) {
 
@@ -225,4 +240,7 @@ public class Validering {
         String nyText = text.substring(0, 1).toUpperCase() + text.substring(1);
         return nyText;
     }
+    
+ 
+    
 }
