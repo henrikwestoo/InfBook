@@ -54,31 +54,29 @@
                                   <Component id="txtEpost" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                                   <Component id="cmbStatus" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
                                   <Component id="btnBytLosenord" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblNotis" max="32767" attributes="0"/>
+                                  <Component id="btnSpara" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="lblPNR" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtPNR" min="-2" pref="122" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="lblPNR" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtPNR" min="-2" pref="122" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblFornamn" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblEfternamn" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblFornamn" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblEfternamn" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtEfternamn" pref="122" max="32767" attributes="0"/>
-                                  <Component id="txtFornamn" max="32767" attributes="0"/>
-                              </Group>
+                          <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="txtEfternamn" pref="122" max="32767" attributes="0"/>
+                              <Component id="txtFornamn" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
-                      <Component id="btnSpara" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="0" pref="28" max="32767" attributes="0"/>
@@ -120,7 +118,9 @@
                               <Component id="cmbStatus" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Component id="btnBytLosenord" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="lblNotis" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -199,7 +199,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Personnummer"/>
+        <Property name="text" type="java.lang.String" value="Anv&#xe4;ndarnamn"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblRumsnummer">
@@ -225,6 +225,9 @@
     <Component class="javax.swing.JTextField" name="txtPNR">
     </Component>
     <Component class="javax.swing.JTextField" name="txtTelefon">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTelefonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtRum">
     </Component>
@@ -267,6 +270,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBytLosenordActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNotis">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Profilen har &#xe4;ndrats!"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

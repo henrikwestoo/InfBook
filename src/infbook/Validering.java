@@ -196,10 +196,15 @@ public class Validering {
 
         String nummer = fält.getText();
         String nummer1 = nummer.substring(0, 2);
-        if (!nummer1.equals("46")) {
+        
+        int nummerlangd = nummer.length();
+        System.out.println(nummerlangd);
+        
+        if (nummerlangd < 11 || !(nummer1.equals("46"))) {
             resultat = false;
-            JOptionPane.showMessageDialog(null, "Telefonnummret måste börja med '46'");
+            JOptionPane.showMessageDialog(null, "Telefonnummret måste börja med '46' och vara minst 11 siffror långt");
         }
+        
         return resultat;
 
     }

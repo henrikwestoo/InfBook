@@ -58,6 +58,7 @@ public class AndraProfil extends javax.swing.JFrame {
         txtPNR.setEditable(false);
         cmbStatus.setVisible(false);
         lblAnvandarstatus.setVisible(false);
+        lblNotis.setVisible(false);
         System.out.println(status);
         
         
@@ -194,6 +195,7 @@ public class AndraProfil extends javax.swing.JFrame {
         cmbStatus = new javax.swing.JComboBox();
         btnSpara = new javax.swing.JButton();
         btnBytLosenord = new javax.swing.JButton();
+        lblNotis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -210,13 +212,19 @@ public class AndraProfil extends javax.swing.JFrame {
         lblAnvandarstatus.setText("Användarstatus");
 
         lblPNR.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblPNR.setText("Personnummer");
+        lblPNR.setText("Användarnamn");
 
         lblRumsnummer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRumsnummer.setText("Rumsnummer");
 
         lblMobil.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMobil.setText("Telefonnummer");
+
+        txtTelefon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonActionPerformed(evt);
+            }
+        });
 
         btnBytBild.setText("Byt profilbild");
         btnBytBild.addActionListener(new java.awt.event.ActionListener() {
@@ -240,6 +248,8 @@ public class AndraProfil extends javax.swing.JFrame {
                 btnBytLosenordActionPerformed(evt);
             }
         });
+
+        lblNotis.setText("Profilen har ändrats!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -270,23 +280,22 @@ public class AndraProfil extends javax.swing.JFrame {
                                     .addComponent(lblEpost)
                                     .addComponent(txtEpost, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBytLosenord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblPNR)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPNR, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblFornamn)
-                                    .addComponent(lblEfternamn))
-                                .addGap(46, 46, 46)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtEfternamn, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                                    .addComponent(txtFornamn))))
-                        .addGap(156, 156, 156)
-                        .addComponent(btnSpara)))
+                                    .addComponent(btnBytLosenord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNotis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSpara, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblPNR)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtPNR, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblFornamn)
+                                .addComponent(lblEfternamn))
+                            .addGap(46, 46, 46)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtEfternamn, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                                .addComponent(txtFornamn)))))
                 .addGap(0, 28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -320,7 +329,9 @@ public class AndraProfil extends javax.swing.JFrame {
                                 .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(34, 34, 34)
                                 .addComponent(btnBytLosenord)
-                                .addGap(43, 43, 43))))
+                                .addGap(18, 18, 18)
+                                .addComponent(lblNotis)
+                                .addGap(5, 5, 5))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -350,14 +361,14 @@ public class AndraProfil extends javax.swing.JFrame {
 
     private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
 
-        if (Validering.isHeltal(txtTelefon)
-                && Validering.isString(txtFornamn)
+        if (Validering.isString(txtFornamn)
                 && Validering.isString(txtEfternamn)
                 && Validering.isTextFältTomt(txtTelefon)
                 && Validering.isTextFältTomt(txtRum)
                 && Validering.isTextFältTomt(txtEpost)
                 && Validering.isTextFältTomt(txtFornamn)
-                && Validering.isTextFältTomt(txtEfternamn)) {
+                && Validering.isTextFältTomt(txtEfternamn)
+                && Validering.isTelefonNummer(txtTelefon)) {
 
             String PNR = txtPNR.getText();
             String rumsnmr = txtRum.getText();
@@ -389,7 +400,7 @@ public class AndraProfil extends javax.swing.JFrame {
             try {
                 Statement stmt = connection.createStatement();
                 stmt.executeUpdate("UPDATE ANVANDARE SET RUMSNMR='" + rumsnmr + "', MOBILNMR='" + mobilnmr + "', EMAIL='" + email + "', FORNAMN='" + fornamn + "', EFTERNAMN='" + efternamn + "', STATUS='" + status + "' WHERE PNR='" + PNR + "'");
-                JOptionPane.showMessageDialog(null, "Informationen har ändrats");
+                lblNotis.setVisible(true);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -403,8 +414,8 @@ public class AndraProfil extends javax.swing.JFrame {
                 ps.executeUpdate();
             } catch (SQLException e) {
 
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(AndraProfil.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException | NullPointerException ex) {
+                System.out.println(ex.getMessage());
             }
         }
     }//GEN-LAST:event_btnSparaActionPerformed
@@ -419,6 +430,10 @@ public class AndraProfil extends javax.swing.JFrame {
         bytLosenord.setVisible(true);
 
     }//GEN-LAST:event_btnBytLosenordActionPerformed
+
+    private void txtTelefonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonActionPerformed
 
     public ImageIcon ResizeImage(String ImagePath) {
 
@@ -442,6 +457,7 @@ public class AndraProfil extends javax.swing.JFrame {
     private javax.swing.JLabel lblEpost;
     private javax.swing.JLabel lblFornamn;
     private javax.swing.JLabel lblMobil;
+    private javax.swing.JLabel lblNotis;
     private javax.swing.JLabel lblPNR;
     private javax.swing.JLabel lblProfilBildDB;
     private javax.swing.JLabel lblRumsnummer;
