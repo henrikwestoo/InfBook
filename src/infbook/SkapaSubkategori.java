@@ -82,7 +82,7 @@ public class SkapaSubkategori extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Välj superkategori");
+        jLabel1.setText("Välj överkategori");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,6 +166,9 @@ public class SkapaSubkategori extends javax.swing.JFrame {
         if (Validering.isTextFältTomt(txtfalt)) {
             String valdsuperkat = String.valueOf(cmbValjSupKat.getSelectedItem());
             String skapaSubkategori = txtfalt.getText();
+            
+             skapaSubkategori = Validering.makeFirstLetterUpperCase(txtfalt.getText());
+            
 
             try {
                 Statement stmt = connection.createStatement();

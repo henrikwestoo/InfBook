@@ -119,13 +119,13 @@ public class SkapaAnvandare extends javax.swing.JFrame {
         lblFornamn = new javax.swing.JLabel();
         lblEfternamn = new javax.swing.JLabel();
         lblNyAnvandare = new javax.swing.JLabel();
-        txtEfternamn = new javax.swing.JTextField();
         lblRumsnr = new javax.swing.JLabel();
         txtRumsnr = new javax.swing.JTextField();
         lblEpost = new javax.swing.JLabel();
         txtEpost = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         lblGenereratAnvandarnamn = new javax.swing.JLabel();
+        txtEfternamn = new javax.swing.JTextField();
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Personnummer");
@@ -159,6 +159,12 @@ public class SkapaAnvandare extends javax.swing.JFrame {
 
         lblPnr.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblPnr.setText("Genererat användarnamn:");
+
+        txtFornamn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFornamnActionPerformed(evt);
+            }
+        });
 
         lblFornamn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFornamn.setText("Förnamn");
@@ -200,36 +206,35 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                             .addComponent(lblNotis, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(txtFornamn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(43, 43, 43))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(txtTlfnr, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lblTlfnr, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lblPnr, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lblFornamn, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lblGenereratAnvandarnamn, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(cmbStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btnBifogaFil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtTlfnr, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblTlfnr, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblPnr, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblFornamn, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblGenereratAnvandarnamn, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cmbStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnBifogaFil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnSkapaAnvandare, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lblAnvstatus)
-                                        .addGap(84, 84, 84)))
+                                        .addGap(84, 84, 84))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtFornamn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(50, 50, 50)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtEfternamn, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtRumsnr, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtEpost, javax.swing.GroupLayout.Alignment.LEADING))
                                     .addComponent(lblEpost)
-                                    .addComponent(lblRumsnr)
                                     .addComponent(lblEfternamn)
+                                    .addComponent(lblRumsnr)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtEfternamn, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtRumsnr, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                                        .addComponent(txtEpost, javax.swing.GroupLayout.Alignment.LEADING))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(32, 32, 32)
                                         .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,7 +341,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                 status = "FA";
             }
             if (cmbStatus.getSelectedItem().toString().equals("Amanuens")) {
-                status = "A";
+                status = "AS";
             }
             if (cmbStatus.getSelectedItem().toString().equals("Forskningsanvändare")) {
                 status = "F";
@@ -401,6 +406,10 @@ public class SkapaAnvandare extends javax.swing.JFrame {
     private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbStatusActionPerformed
+
+    private void txtFornamnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFornamnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFornamnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

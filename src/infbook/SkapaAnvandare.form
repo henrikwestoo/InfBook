@@ -70,39 +70,37 @@
                               <Component id="lblNotis" alignment="0" min="-2" pref="332" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="txtFornamn" min="-2" pref="125" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="txtTlfnr" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                                              <Component id="lblTlfnr" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblPnr" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblFornamn" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblGenereratAnvandarnamn" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cmbStatus" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="btnBifogaFil" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="btnSkapaAnvandare" alignment="0" pref="167" max="32767" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="txtTlfnr" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                                  <Component id="lblTlfnr" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblPnr" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblFornamn" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblGenereratAnvandarnamn" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cmbStatus" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="btnBifogaFil" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="btnSkapaAnvandare" alignment="0" pref="167" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="lblAnvstatus" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                                       </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="txtFornamn" min="-2" pref="125" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblEpost" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblEfternamn" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblRumsnr" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="txtEfternamn" alignment="1" min="-2" pref="125" max="-2" attributes="0"/>
-                                          <Component id="txtRumsnr" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="txtEfternamn" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="txtRumsnr" alignment="0" pref="125" max="32767" attributes="0"/>
                                           <Component id="txtEpost" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="lblEpost" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblRumsnr" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblEfternamn" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                           <Component id="lblBild" min="-2" pref="195" max="-2" attributes="0"/>
@@ -112,7 +110,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="53" max="32767" attributes="0"/>
+                  <EmptySpace pref="79" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -167,7 +165,7 @@
                           <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                           <Component id="btnSkapaAnvandare" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="lblBild" min="-2" pref="195" max="-2" attributes="0"/>
                       </Group>
@@ -241,6 +239,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtFornamn">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFornamnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblFornamn">
           <Properties>
@@ -265,8 +266,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Skapa ny anv&#xe4;ndare"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtEfternamn">
         </Component>
         <Component class="javax.swing.JLabel" name="lblRumsnr">
           <Properties>
@@ -299,6 +298,8 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblGenereratAnvandarnamn">
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtEfternamn">
         </Component>
       </SubComponents>
     </Container>

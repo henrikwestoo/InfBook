@@ -67,7 +67,7 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
             }
         });
 
-        cmbOmrade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Utbildning", "Forskning" }));
+        cmbOmrade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Utbildning", "Forskning", "Informell" }));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/infbook.png"))); // NOI18N
 
@@ -134,6 +134,9 @@ public class SkapaSuperKategori extends javax.swing.JFrame {
         if (Validering.isTextFältTomt(txtKategoriNamn)) {
             String valtOmrade = String.valueOf(cmbOmrade.getSelectedItem());
             String kategoriNamn = txtKategoriNamn.getText();
+            
+            kategoriNamn = Validering.makeFirstLetterUpperCase(txtKategoriNamn.getText());
+            
 
             try {
                 Statement stmt = connection.createStatement();

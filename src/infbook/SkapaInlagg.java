@@ -142,7 +142,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
         cmbSuperkategori = new javax.swing.JComboBox();
         lblSubkategori = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<String>();
+        jList1 = new javax.swing.JList<>();
         btnSkapaInlagg = new javax.swing.JButton();
         lblNotis = new javax.swing.JLabel();
         lblBild = new javax.swing.JLabel();
@@ -167,7 +167,7 @@ public class SkapaInlagg extends javax.swing.JFrame {
             }
         });
 
-        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Välj Superkategori" }));
+        cmbSuperkategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Välj Överkategori" }));
         cmbSuperkategori.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbSuperkategoriItemStateChanged(evt);
