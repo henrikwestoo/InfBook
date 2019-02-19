@@ -290,6 +290,19 @@ public class HanteraFoljningar extends javax.swing.JFrame {
                     ps.setString(1, angivetAnv);
                     ps.setInt(2, id);
                     ps.executeUpdate();
+                    
+                    Statement SMSnotiserCheck = connection.createStatement();
+                    ResultSet SMSnotiserCheckRS = SMSnotiserCheck.executeQuery("SELECT SMSNOTISER FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE='"+angivetAnv+"'");
+                    SMSnotiserCheckRS.next();
+                    String smsStatus = SMSnotiserCheckRS.getString("SMSNOTISER");
+                    
+                    Statement EmailnotiserCheck = connection.createStatement();
+                    ResultSet EmailnotiserCheckRS = EmailnotiserCheck.executeQuery("SELECT EMAILNOTISER FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE='"+angivetAnv+"'");
+                    EmailnotiserCheckRS.next();
+                    String emailStatus = EmailnotiserCheckRS.getString("EMAILNOTISER");
+                    
+                    Statement notiserUpdate = connection.createStatement();
+                    notiserUpdate.executeUpdate("UPDATE ANVANDARE_SUPERKATEGORI SET SMSNOTISER='"+smsStatus+"', EMAILNOTISER='"+emailStatus+"' WHERE ANVANDARE='"+angivetAnv+"' AND SUPERKATEGORIID="+id);
 
                 } catch (SQLException ex) {
                     System.out.println(ex.getMessage());
