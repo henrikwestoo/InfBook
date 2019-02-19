@@ -822,7 +822,7 @@ public class Inloggad extends javax.swing.JFrame {
 
         System.out.println(angivetAnv.length());
         
-        Color oruBlue = new Color(46,120,186);
+        Color oruBlue = new Color(0,172,230);
 
         if (str.contains("@" + angivetAnv)) {
             Highlighter highlighter = ta.getHighlighter();
