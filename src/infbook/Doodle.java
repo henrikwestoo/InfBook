@@ -970,6 +970,7 @@ public class Doodle extends javax.swing.JFrame {
         if (valt3.isSelected()) {
             valt2.setSelected(false);
             valt1.setSelected(false);
+            //hejja
         }
     }//GEN-LAST:event_valt3ActionPerformed
 
