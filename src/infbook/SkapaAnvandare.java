@@ -362,6 +362,7 @@ public class SkapaAnvandare extends javax.swing.JFrame {
                 ps.setString(8, efternamn);
                 ps.setString(9, status);
                 ps.executeUpdate();
+                
                 SMSNotiser hej = new SMSNotiser();
                 hej.skickaNotis("Ditt InfBook konto har skapats.\nDu kan logga in med användarnamnet: "+username+"\noch lösenordet: " + losenord + ". \n\n Med vänliga hälsningar, \n InfBook", mobilnmr);
                 try {
