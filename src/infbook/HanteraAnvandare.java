@@ -254,49 +254,49 @@ public class HanteraAnvandare extends javax.swing.JFrame {
 
                 try {//2
 
-                    stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE ANVANDARE =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM ANVANDARE_KOMMENTERA_INLAGG WHERE ANVANDARE ='" + personnummer+"'");
 
                 } catch (SQLException e) {
                 }
 
                 try {//3
 
-                    stmt.executeUpdate("DELETE FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM ANVANDARE_SUPERKATEGORI WHERE ANVANDARE ='" + personnummer+"'");
 
                 } catch (SQLException e) {
                 }
 
                 try {//4
 
-                    stmt.executeUpdate("DELETE FROM INLAGG WHERE ANVANDARE =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM INLAGG WHERE ANVANDARE ='" + personnummer+"'");
 
                 } catch (SQLException e) {
                 }
 
                 try {//5
 
-                    stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE_ANV_SVAR WHERE ANVANDARE =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM MOTELSEKALLELSE_ANV_SVAR WHERE ANVANDARE ='" + personnummer+"'");
 
                 } catch (SQLException e) {
                 }
 
                 try { //6
 
-                    stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE =" + personnummer);
+                    stmt.executeUpdate("DELETE FROM MOTE_ANVANDARE WHERE ANVANDARE ='" + personnummer+"'");
 
                 } catch (SQLException e) {
                 }
 
                 try { //7
 
-                    stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE =" + personnummer + ")");
+                    stmt.executeUpdate("DELETE FROM FILER WHERE INLAGG =(SELECT INLAGGSID FROM INLAGG WHERE ANVANDARE ='" + personnummer + "')");
 
                 } catch (SQLException e) {
                 }
 
                 try { //8
-                    stmt.executeUpdate("UPDATE KOMMENTAR SET INLAGG = NULL WHERE ANVANDARE =" + personnummer);
-                    stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE ANVANDARE=" + personnummer);
+                    stmt.executeUpdate("UPDATE KOMMENTAR SET INLAGG = NULL WHERE ANVANDARE ='" + personnummer+"'");
+                    stmt.executeUpdate("DELETE FROM KOMMENTAR WHERE ANVANDARE='" + personnummer+"'");
 
                 } catch (SQLException e) {
                 }

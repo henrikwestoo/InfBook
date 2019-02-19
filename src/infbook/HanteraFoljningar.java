@@ -279,7 +279,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
 
             for (Object ettVal : valt) {
                 String enSuperkategori = ettVal.toString();
-                System.out.println(enSuperkategori);
+                
 
                 try {
                     Statement stmt = connection.createStatement();
@@ -313,7 +313,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
 
             for (Object ettVal : valt) {
                 String enSuperkategori = ettVal.toString();
-                System.out.println(enSuperkategori);
+                
 
                 try {
                     Statement stmt = connection.createStatement();
@@ -338,7 +338,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
 
         if (Validering.isJListTomt(jList3)) {
             String subK = (String) jList3.getSelectedValue();
-            System.out.println(subK);
+            
             try {
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT SUBKATEGORIID FROM SUBKATEGORI WHERE SKNAMN='" + subK + "'");
@@ -383,7 +383,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
                 String subKID = rs.getString("SUBKATEGORIID"); //denna
 
                 Statement stmt2 = connection.createStatement();
-                stmt2.executeUpdate("DELETE FROM ANVANDARE_SUBKATEGORI WHERE ANVANDARE =" + angivetAnv + " AND SUBKATEGORI =" + subKID);
+                stmt2.executeUpdate("DELETE FROM ANVANDARE_SUBKATEGORI WHERE ANVANDARE ='" + angivetAnv +"' AND SUBKATEGORI =" + subKID);
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -406,15 +406,13 @@ public class HanteraFoljningar extends javax.swing.JFrame {
 
     private void uppdatera3() {
 
-        try {
+        
         
         lista3.removeAllElements();
         Object valdSakObject = cmbSuperkategori.getSelectedItem();
         String superKategoriNamn = valdSakObject.toString();
 
-        System.out.println(superKategoriNamn);
-
-        
+        try{
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT SUPERKATEGORIID FROM SUPERKATEGORI WHERE SKNAMN ='" + superKategoriNamn + "'");
 
@@ -427,16 +425,16 @@ public class HanteraFoljningar extends javax.swing.JFrame {
             while (rs2.next()) {
 
                 lista3.addElement(rs2.getString("SKNAMN"));
-                System.out.println("första listan: " + rs2.getString("SKNAMN"));
+                
             }
 
             Statement stmt2 = connection.createStatement();
-            ResultSet rs3 = stmt2.executeQuery("SELECT SKNAMN FROM SUBKATEGORI JOIN ANVANDARE_SUBKATEGORI ON SUBKATEGORI.SUBKATEGORIID=ANVANDARE_SUBKATEGORI.SUBKATEGORI WHERE ANVANDARE =" + angivetAnv + " AND SUPERKATEGORI=" + superKategoriID);
+            ResultSet rs3 = stmt2.executeQuery("SELECT SKNAMN FROM SUBKATEGORI JOIN ANVANDARE_SUBKATEGORI ON SUBKATEGORI.SUBKATEGORIID=ANVANDARE_SUBKATEGORI.SUBKATEGORI WHERE ANVANDARE ='" + angivetAnv + "' AND SUPERKATEGORI=" + superKategoriID);
 
             while (rs3.next()) {
 
                 lista3.removeElement(rs3.getString("SKNAMN"));
-                System.out.println("andra listan: " + rs3.getString("SKNAMN"));
+                
 
             }
             jList3.setModel(lista3);
@@ -447,7 +445,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
 
         }
         
-        catch(NullPointerException ex){}
+        //catch(NullPointerException ex){}
 
     }
 
@@ -510,12 +508,12 @@ public class HanteraFoljningar extends javax.swing.JFrame {
         try {
 
             Statement stmt2 = connection.createStatement();
-            ResultSet rs2 = stmt2.executeQuery("SELECT SKNAMN FROM SUBKATEGORI JOIN ANVANDARE_SUBKATEGORI ON ANVANDARE_SUBKATEGORI.SUBKATEGORI=SUBKATEGORI.SUBKATEGORIID WHERE ANVANDARE=" + angivetAnv);
+            ResultSet rs2 = stmt2.executeQuery("SELECT SKNAMN FROM SUBKATEGORI JOIN ANVANDARE_SUBKATEGORI ON ANVANDARE_SUBKATEGORI.SUBKATEGORI=SUBKATEGORI.SUBKATEGORIID WHERE ANVANDARE='" + angivetAnv+"'");
 
             while (rs2.next()) {
 
                 lista5.addElement(rs2.getString("SKNAMN"));
-                System.out.println(rs2.getString("SKNAMN"));
+                
 
             }
 
@@ -535,7 +533,7 @@ public class HanteraFoljningar extends javax.swing.JFrame {
         try {
 
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT SKNAMN FROM SUPERKATEGORI JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.SUPERKATEGORIID=SUPERKATEGORI.SUPERKATEGORIID WHERE ANVANDARE =" + angivetAnv);
+            ResultSet rs = stmt.executeQuery("SELECT SKNAMN FROM SUPERKATEGORI JOIN ANVANDARE_SUPERKATEGORI ON ANVANDARE_SUPERKATEGORI.SUPERKATEGORIID=SUPERKATEGORI.SUPERKATEGORIID WHERE ANVANDARE ='" + angivetAnv+"'");
 
             while (rs.next()) {
 
