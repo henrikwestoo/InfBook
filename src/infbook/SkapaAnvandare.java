@@ -318,8 +318,8 @@ public class SkapaAnvandare extends javax.swing.JFrame {
             String Rumsnmr = txtRumsnr.getText();
             String mobilnmr = txtTlfnr.getText();
             String email = txtEpost.getText();
-            String fornamn = txtFornamn.getText();
-            String efternamn = txtEfternamn.getText();
+            String fornamn = Validering.makeFirstLetterUpperCase(txtFornamn.getText());
+            String efternamn = Validering.makeFirstLetterUpperCase(txtEfternamn.getText());
             String username = LosenordsGenerator.createUsername(connection, fornamn, efternamn);
             String status = "";
             String losenord = LosenordsGenerator.createPassword();
