@@ -131,8 +131,8 @@ public class BytLosenord extends javax.swing.JFrame {
 //
 //            }
 
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
     }//GEN-LAST:event_btnBytLosenordActionPerformed

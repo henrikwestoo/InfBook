@@ -137,7 +137,7 @@ public class AndraProfil extends javax.swing.JFrame {
             lblProfilBildDB.setIcon(newImage);
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         } catch (NullPointerException e) {
 
         }
@@ -413,6 +413,7 @@ public class AndraProfil extends javax.swing.JFrame {
                 ps.setBlob(1, is);
                 ps.executeUpdate();
             } catch (SQLException e) {
+                System.out.println(e.getMessage());
 
             } catch (FileNotFoundException | NullPointerException ex) {
                 System.out.println(ex.getMessage());

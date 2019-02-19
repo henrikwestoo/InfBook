@@ -58,7 +58,7 @@ public class TaBortMoten extends javax.swing.JFrame {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
         listaMoten.setModel(lista);
@@ -215,7 +215,7 @@ public class TaBortMoten extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Mötet har tagits bort");
         } catch (SQLException e) {
 
-            JOptionPane.showMessageDialog(null, e.getMessage());
+           System.out.println(e.getMessage());
 
         }
 
@@ -233,7 +233,7 @@ public class TaBortMoten extends javax.swing.JFrame {
             status = rs.getString("STATUS"); //
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Något gick fel i databasen");
+            System.out.println(e.getMessage());
         }
 
         return status;

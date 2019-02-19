@@ -443,7 +443,7 @@ public ImageIcon ResizeImage(String ImagePath) {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
     }
@@ -468,7 +468,7 @@ public ImageIcon ResizeImage(String ImagePath) {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
         jList1.setModel(lista);

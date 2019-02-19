@@ -217,7 +217,7 @@ public class RedigeraMoten extends javax.swing.JFrame {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
         listaMoten.setModel(lista);
@@ -303,7 +303,7 @@ public class RedigeraMoten extends javax.swing.JFrame {
             valjDatum.setDate(datum);
 
         } catch (SQLException ex) {
-            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
         // TODO add your handling code here:
@@ -339,7 +339,7 @@ public class RedigeraMoten extends javax.swing.JFrame {
                 valjDatum.setDate(datum);
 
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, ex);
+                System.out.println(ex.getMessage());
             }
         }// TODO add your handling code here:
     }//GEN-LAST:event_btnValjMoteActionPerformed
@@ -356,7 +356,7 @@ public class RedigeraMoten extends javax.swing.JFrame {
             status = rs.getString("STATUS"); //
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Något gick fel i databasen");
+            System.out.println(e.getMessage());
         }
 
         return status;

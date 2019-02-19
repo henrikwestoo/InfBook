@@ -208,7 +208,7 @@ public class SkapaMoten extends javax.swing.JFrame {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
         listAnstallda.setModel(lista);
@@ -277,7 +277,7 @@ public class SkapaMoten extends javax.swing.JFrame {
                 }
 
             } catch (SQLException ex) {
-                Logger.getLogger(SkapaInlagg.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         }
     }//GEN-LAST:event_btnSkapaMotetActionPerformed

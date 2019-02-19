@@ -121,7 +121,7 @@ public class Inloggad extends javax.swing.JFrame {
                     }
 
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Något blev fel");
+                   System.out.println(ex.getMessage());
                 } catch (NullPointerException e2) {
                     JOptionPane.showMessageDialog(null, "Det finns inga bokade möten den dagen");
                 }
@@ -751,7 +751,7 @@ public class Inloggad extends javax.swing.JFrame {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -801,12 +801,12 @@ public class Inloggad extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            System.out.println(e.getMessage());
         } finally {
             try {
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
+               System.out.println(e.getMessage());
             }
         }
     }
