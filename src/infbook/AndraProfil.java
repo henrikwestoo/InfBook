@@ -14,19 +14,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -129,7 +124,7 @@ public class AndraProfil extends javax.swing.JFrame {
             ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR='" + personnummer+"'");
             rs7.next();
 
-            byte[] img = rs7.getBytes("PROFILBILD");
+            byte[] img = rs7.getBytes("PROFILBILD"); //Hämtar profilbilden från databasen och omformaterar den så det passar jlabels storlek.
             ImageIcon image = new ImageIcon(img);
             Image im = image.getImage();
             Image myImg = im.getScaledInstance(lblProfilBildDB.getWidth(), lblProfilBildDB.getHeight(), Image.SCALE_SMOOTH);
@@ -406,6 +401,7 @@ public class AndraProfil extends javax.swing.JFrame {
             }
 
             try {
+                //Stoppar in den valda filen i databasen
                 PreparedStatement ps = connection.prepareStatement("UPDATE ANVANDARE SET PROFILBILD =? WHERE PNR='" + PNR + "'");
                 InputStream is = new FileInputStream(new File(path));
                 selectedFile = file.getSelectedFile();

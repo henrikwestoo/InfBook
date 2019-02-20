@@ -82,9 +82,9 @@ public class Inloggad extends javax.swing.JFrame {
                 fyllFlodeMedInlagg();
                 System.out.println("Refresh");
                 
-                //10005=5000 mlsec. i.e. 5 seconds. u can change accordngly 
+                
             }
-        }, 10005, 1000 * 60);
+        }, 1000, 1000 * 60);
 
         btnSkapaSuperKategori.setVisible(false);
         btnSkapaAnvandare.setVisible(false);
