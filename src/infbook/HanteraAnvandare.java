@@ -193,8 +193,15 @@ public class HanteraAnvandare extends javax.swing.JFrame {
         {
             lista.removeAllElements();
             String soktAnvandare = txtSokAnvandare.getText();
+            
+            if(!txtSokAnvandare.getText().isEmpty()){
+            
             soktAnvandare = Validering.makeFirstLetterUpperCase(txtSokAnvandare.getText());
 
+            }
+            
+            else{soktAnvandare = txtSokAnvandare.getText();}
+            
             try {
 
                 Statement placeholder = connection.createStatement();
