@@ -989,7 +989,7 @@ public class Doodle extends javax.swing.JFrame {
             stmt = connection.createStatement();
 
             ResultSet rs2 = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE");
-            rs2.next();
+            
 
             while (rs2.next()) {
 
