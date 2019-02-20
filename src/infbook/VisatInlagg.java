@@ -617,9 +617,11 @@ public class VisatInlagg extends javax.swing.JFrame {
 
                 is = enBlob.getBinaryStream();
                 b = 0;
+                
+                String sokvagen = LosenordsGenerator.createPassword();
 
                 String home = System.getProperty("user.home");
-                file = new File(home + "/Downloads/test" + filtyp);
+                file = new File(home + "/Downloads/"+ sokvagen + filtyp);
 
                 FileOutputStream os = null;
                 try {
@@ -664,9 +666,9 @@ public class VisatInlagg extends javax.swing.JFrame {
 
                 is = enBlob.getBinaryStream();
                 b = 0;
-
+                String sokvagen = LosenordsGenerator.createPassword();
                 String home = System.getProperty("user.home");
-                file = new File(home + "/Downloads/test" + filtyp);
+                file = new File(home + "/Downloads/"+sokvagen + filtyp);
 
                 FileOutputStream os = null;
                 try {
