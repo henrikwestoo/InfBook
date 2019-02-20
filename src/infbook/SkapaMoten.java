@@ -199,8 +199,6 @@ public class SkapaMoten extends javax.swing.JFrame {
             stmt = connection.createStatement();
 
             ResultSet rs2 = stmt.executeQuery("SELECT PNR, FORNAMN, EFTERNAMN FROM ANVANDARE");
-            rs2.next();
-            String pnr = rs2.getString("PNR") + " " + rs2.getString("FORNAMN") + " " + rs2.getString("EFTERNAMN");
 
             while (rs2.next()) {
 

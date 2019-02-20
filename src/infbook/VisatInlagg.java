@@ -66,36 +66,35 @@ public class VisatInlagg extends javax.swing.JFrame {
         txtKommentar.setLineWrap(true);
         txtAreaKommentar.setLineWrap(true);
 
-        kollaOmInlaggetFarTasBort();
-        kollaOmInlaggetFarRedigeras();
         jLabel3.setVisible(false);
         txtNR.setVisible(false);//Swingen för att ta bort en kommentar
         lblNR.setVisible(false);
         btnTaBortBekrafta.setVisible(false);
         hmtaFil.setVisible(false);
+        kollaOmInlaggetFarTasBort();
+        kollaOmInlaggetFarRedigeras();
 
         try {
 
             Statement stmt23 = connection.createStatement();
             ResultSet rsFiltyp23 = stmt23.executeQuery("SELECT TYP FROM FILER WHERE INLAGG='" + inlaggsID + "'");
-            if(rsFiltyp23.next())
-            {
-            String typ = rsFiltyp23.getString("TYP");
-            if (typ.contains(".jpg")) {
-                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/jpg.png")));
-                jLabel3.setVisible(true);
-            } else if (typ.contains(".png")) {
-                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/png.png")));
-                jLabel3.setVisible(true);
-            } else if (typ.contains(".pdf")) {
-                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
-                jLabel3.setVisible(true);
-            } else if (typ.contains(".doc")) {
-                lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/docx.png")));
-                jLabel3.setVisible(true);
-            } else {
-                hmtaFil.setVisible(true);
-            }
+            if (rsFiltyp23.next()) {
+                String typ = rsFiltyp23.getString("TYP");
+                if (typ.contains(".jpg")) {
+                    lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/jpg.png")));
+                    jLabel3.setVisible(true);
+                } else if (typ.contains(".png")) {
+                    lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/png.png")));
+                    jLabel3.setVisible(true);
+                } else if (typ.contains(".pdf")) {
+                    lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/pdf.png")));
+                    jLabel3.setVisible(true);
+                } else if (typ.contains(".doc")) {
+                    lblBild2.setIcon(new ImageIcon(getClass().getResource("/images/docx.png")));
+                    jLabel3.setVisible(true);
+                } else {
+                    hmtaFil.setVisible(true);
+                }
             }
             Statement stmt20 = connection.createStatement();
             ResultSet rs20 = stmt20.executeQuery("SELECT PNR FROM ANVANDARE JOIN INLAGG ON INLAGG.ANVANDARE = ANVANDARE.PNR WHERE INLAGGSID ='" + inlaggsID + "'");
@@ -115,20 +114,18 @@ public class VisatInlagg extends javax.swing.JFrame {
 
             Statement stmt7 = connection.createStatement();
             ResultSet rs7 = stmt7.executeQuery("SELECT FIL FROM FILER JOIN INLAGG ON INLAGG.INLAGGSID = FILER.INLAGG WHERE INLAGGSID ='" + inlaggsID + "'");
-            if(rs7.next())
-            {
-            byte[] img = rs7.getBytes("FIL");
+            if (rs7.next()) {
+                byte[] img = rs7.getBytes("FIL");
 
-            ImageIcon image = new ImageIcon(img);
-            Image im = image.getImage();
-            Image myImg = im.getScaledInstance(lblBild.getWidth(), lblBild.getHeight(), Image.SCALE_SMOOTH);
-            ImageIcon newImage = new ImageIcon(myImg);
-            lblBild.setIcon(newImage);
+                ImageIcon image = new ImageIcon(img);
+                Image im = image.getImage();
+                Image myImg = im.getScaledInstance(lblBild.getWidth(), lblBild.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon newImage = new ImageIcon(myImg);
+                lblBild.setIcon(newImage);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
 
         fyllKommentarer();
 
@@ -256,7 +253,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnRedigera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSpara, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                            .addComponent(btnSpara, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnTaBortInlagg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblBild, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -467,7 +464,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                 Statement stmt103 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY,
                         ResultSet.HOLD_CURSORS_OVER_COMMIT);
-                ResultSet rs103 = stmt103.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR ='" + angivetAnv+"'");
+                ResultSet rs103 = stmt103.executeQuery("SELECT MOBILNMR FROM ANVANDARE WHERE PNR ='" + angivetAnv + "'");
 
                 rs103.next();
 
@@ -497,7 +494,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                 Statement stmt104 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY,
                         ResultSet.HOLD_CURSORS_OVER_COMMIT);
-                ResultSet rs104 = stmt104.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR ='" + angivetAnv+"'");
+                ResultSet rs104 = stmt104.executeQuery("SELECT EMAIL FROM ANVANDARE WHERE PNR ='" + angivetAnv + "'");
 
                 rs104.next();
 
@@ -617,11 +614,11 @@ public class VisatInlagg extends javax.swing.JFrame {
 
                 is = enBlob.getBinaryStream();
                 b = 0;
-                
+
                 String sokvagen = LosenordsGenerator.createPassword();
 
                 String home = System.getProperty("user.home");
-                file = new File(home + "/Downloads/"+ sokvagen + filtyp);
+                file = new File(home + "/Downloads/" + sokvagen + filtyp);
 
                 FileOutputStream os = null;
                 try {
@@ -668,7 +665,7 @@ public class VisatInlagg extends javax.swing.JFrame {
                 b = 0;
                 String sokvagen = LosenordsGenerator.createPassword();
                 String home = System.getProperty("user.home");
-                file = new File(home + "/Downloads/"+sokvagen + filtyp);
+                file = new File(home + "/Downloads/" + sokvagen + filtyp);
 
                 FileOutputStream os = null;
                 try {
@@ -710,6 +707,18 @@ public class VisatInlagg extends javax.swing.JFrame {
                     btnTaBortInlagg.setVisible(false);
 
                 }
+            } else if (getAnvandarStatus(inlaggsID).equals("CA")) {
+                if (status.equals("CA")) {
+                    btnTaBortInlagg.setVisible(true);
+                }
+
+            } else if (getAnvandarStatus(inlaggsID).equals("A")) {
+
+                if (status.equals("CA") || status.equals("FA") || status.equals("UA")) {
+                    btnTaBortInlagg.setVisible(true);
+
+                }
+
             }
 
         } catch (SQLException e) {
@@ -758,6 +767,18 @@ public class VisatInlagg extends javax.swing.JFrame {
                     btnRedigera.setVisible(false);
 
                 }
+            } else if (getAnvandarStatus(inlaggsID).equals("CA")) {
+                if (status.equals("CA")) {
+                    btnRedigera.setVisible(true);
+                }
+
+            } else if (getAnvandarStatus(inlaggsID).equals("A")) {
+
+                if (status.equals("CA") || status.equals("FA") || status.equals("UA")) {
+                    btnRedigera.setVisible(true);
+
+                }
+
             }
 
         } catch (SQLException e) {
