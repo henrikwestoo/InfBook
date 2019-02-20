@@ -118,12 +118,12 @@ public class AndraProfil extends javax.swing.JFrame {
             String rumsnmr = rs5.getString("RUMSNMR");
             txtRum.setText(rumsnmr);
 
-//            Statement stmt6 = connection.createStatement();
-//            ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR=" + personnummer);
-//            rs6.next();
-//            String status = rs6.getString("STATUS");
+            Statement stmt6 = connection.createStatement();
+            ResultSet rs6 = stmt6.executeQuery("SELECT STATUS FROM ANVANDARE WHERE PNR='" + personnummer+"'");
+            rs6.next();
+            String anvStatus = rs6.getString("STATUS");
 
-            cmbStatus.setSelectedItem(KonverteraStatus.konverteraStatus(status));
+            cmbStatus.setSelectedItem(KonverteraStatus.konverteraStatus(anvStatus));
 
             Statement stmt7 = connection.createStatement();
             ResultSet rs7 = stmt7.executeQuery("SELECT PROFILBILD FROM ANVANDARE WHERE PNR='" + personnummer+"'");
