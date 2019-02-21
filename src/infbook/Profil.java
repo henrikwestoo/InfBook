@@ -218,7 +218,7 @@ public class Profil extends javax.swing.JFrame {
         lblRumsnrDB.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("Personnummer");
+        jLabel1.setText("Användarnamn");
 
         jlabelPnr.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
 
